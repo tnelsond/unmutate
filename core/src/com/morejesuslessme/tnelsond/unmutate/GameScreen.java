@@ -43,7 +43,7 @@ public class GameScreen implements Screen {
 	public GameScreen(final Unmutate game) {
 		this.game = game;
 	
-		backgroundColor = new Color(0.2f, 0.1f, .0f, 1);
+		backgroundColor = new Color(0.4f, 0.8f, 1f, 1);
 		currentlevel = new Level(game.atlas, "levels/1.txt");
 		shapeRenderer = new ShapeRenderer();
 		creatures = new Creature[8];
@@ -56,28 +56,30 @@ public class GameScreen implements Screen {
 		Genome g1 = new Genome(
 				new Allele[][][] {
 						{ { Allele.DOM, Allele.DOM },
-								{ Allele.MUT, Allele.REC },
-								{ Allele.DOM, Allele.REC },
-								{ Allele.DOM, Allele.REC }, },
+							{ Allele.MUT, Allele.REC },
+							{ Allele.REC, Allele.REC },
+							{ Allele.DOM, Allele.REC },
+							{ Allele.DOM, Allele.REC }, },
 						{ { Allele.DOM, Allele.REC },
-								{ Allele.DOM, Allele.DOM },
-								{ Allele.MUT, Allele.DOM }, },
+							{ Allele.DOM, Allele.DOM },
+							{ Allele.MUT, Allele.DOM }, },
 						{ { Allele.MUT, Allele.DOM },
-								{ Allele.DOM, Allele.REC },
-								{ Allele.MUT, Allele.MUT }, } });
+							{ Allele.DOM, Allele.REC },
+							{ Allele.MUT, Allele.MUT }, } });
 
 		Genome g2 = new Genome(
 				new Allele[][][] {
 						{ { Allele.REC, Allele.REC },
-								{ Allele.REC, Allele.MUT },
-								{ Allele.DOM, Allele.REC },
-								{ Allele.DOM, Allele.MUT }, },
+							{ Allele.REC, Allele.MUT },
+							{ Allele.DOM, Allele.REC },
+							{ Allele.DOM, Allele.REC },
+							{ Allele.DOM, Allele.MUT }, },
 						{ { Allele.REC, Allele.DOM },
-								{ Allele.REC, Allele.MUT },
-								{ Allele.REC, Allele.DOM }, },
+							{ Allele.DOM, Allele.REC },
+							{ Allele.REC, Allele.DOM }, },
 						{ { Allele.REC, Allele.REC },
-								{ Allele.DOM, Allele.REC },
-								{ Allele.MUT, Allele.DOM }, } });
+							{ Allele.DOM, Allele.REC },
+							{ Allele.DOM, Allele.DOM }, } });
 
 		creatures[0] = new Creature(290, 100, g1, game.atlas);
 		creatures[1] = new Creature(250, 100, g2, game.atlas);
@@ -147,6 +149,7 @@ public class GameScreen implements Screen {
 		
 		shapeRenderer.end();
 	*/
+		control.stage.draw();
 	}
 
 	@Override

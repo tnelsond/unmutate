@@ -3,44 +3,71 @@ gamegdx.png
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
+bonefoot
+  rotate: false
+  xy: 2, 166
+  size: 193, 67
+  orig: 193, 67
+  offset: 0, 0
+  index: -1
 button
   rotate: false
-  xy: 132, 141
-  size: 30, 30
-  orig: 30, 30
+  xy: 2, 2
+  size: 32, 32
+  split: 15, 16, 15, 16
+  pad: 14, 14, 13, 13
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+button_normal
+  rotate: false
+  xy: 380, 208
+  size: 25, 25
+  split: 12, 12, 10, 11
+  pad: 10, 10, 12, 12
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+button_pressed
+  rotate: false
+  xy: 132, 57
+  size: 25, 25
+  split: 12, 12, 12, 12
+  pad: 11, 11, 11, 11
+  orig: 25, 25
   offset: 0, 0
   index: -1
 circlebody
   rotate: false
-  xy: 2, 125
+  xy: 2, 36
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 dirt
   rotate: false
-  xy: 2, 2
+  xy: 214, 112
   size: 72, 72
   orig: 72, 72
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 76, 19
+  xy: 288, 129
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 eyewhite
   rotate: false
-  xy: 132, 173
+  xy: 132, 84
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 roundrectfoot
   rotate: false
-  xy: 2, 76
+  xy: 197, 186
   size: 181, 47
   orig: 181, 47
   offset: 0, 0

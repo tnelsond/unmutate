@@ -38,7 +38,8 @@ public class Creature extends Rectangle {
 	
 	public Color color;
 	public Color eyeColor;
-	public boolean albino;
+	public boolean albino = false;
+	public boolean legConcave = false;
 	
 	public float accel = 0.3f;
 	public float speed = 1;
@@ -92,7 +93,7 @@ public class Creature extends Rectangle {
 		regions[Creature.BODY] = atlas.findRegion("circlebody");
 		regions[Creature.EYE] = atlas.findRegion("eye");
 		regions[Creature.EYEWHITE] = atlas.findRegion("eyewhite");
-		regions[Creature.LEG] = atlas.findRegion("roundrectfoot");
+		regions[Creature.LEG] = atlas.findRegion((legConcave) ? "bonefoot" : "roundrectfoot");
 	}
 	
 	public void express(){
@@ -108,7 +109,10 @@ public class Creature extends Rectangle {
 		j = 1;
 		legThick = ((g.chromosomes[i].a[j] == Allele.DOM) ? 5 : ((g.chromosomes[i].a[j] == Allele.REC) ? 4 : 2)) + ((g.chromosomes[i].b[j] == Allele.DOM) ? 5 : ((g.chromosomes[i].b[j] == Allele.REC) ? 4 : 2));
 		j = 2;
+		legConcave = g.chromosomes[i].a[j] != Allele.DOM && g.chromosomes[i].b[j] != Allele.DOM;
+		j = 3;
 		speed *= ((g.chromosomes[i].a[j] == Allele.DOM) ? 3 : ((g.chromosomes[i].a[j] == Allele.REC) ? 1 : .1)) + ((g.chromosomes[i].b[j] == Allele.DOM) ? 3 : ((g.chromosomes[i].b[j] == Allele.REC) ? 1 : .1));
+		j = 4;
 		eyeColor.b = Math.max((g.chromosomes[i].a[j] == Allele.DOM) ? .9f : ((g.chromosomes[i].a[j] == Allele.REC) ? .4f : 0), ((g.chromosomes[i].b[j] == Allele.DOM) ? .9f : ((g.chromosomes[i].b[j] == Allele.REC) ? .4f : 0)));
 		
 		// ---- Chromosome 2
@@ -308,7 +312,7 @@ public class Creature extends Rectangle {
 		float righta = angle > 180 ? 180 - (angle) : angle - 180;
 		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25 + legLength/4.25);//width/2;
 		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25) + legLength - width/3 - legThick;//height - width;
-		float tempy = (float) (y + (Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + legLength - legLength/3.2f - legThick);
+		float tempy = (float) (y + (Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + legLength - legLength/3.2f - legThick) - 3;
 		float lefta = 180 - righta;
 		float yleg = width * .3f + tempy;
 		

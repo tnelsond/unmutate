@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Input.Keys;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.lang.Math;
@@ -36,8 +38,12 @@ public class TInput implements InputProcessor {
 		table.align(Align.right);
 		table.setFillParent(true);
 		stage.addActor(table);
-		//ButtonStyle bs = new ButtonStyle((Drawable)new TextureRegionDrawable(), (Drawable)new TextureRegionDrawable(game.currentlevel.yellowRegion), (Drawable)new TextureRegionDrawable(game.currentlevel.grassRegion));
-		//table.addActor(new Button(bs));
+		Drawable button_normal = (Drawable) new NinePatchDrawable(game.game.atlas.createPatch("button_normal"));
+		Drawable button_pressed = (Drawable) new NinePatchDrawable(game.game.atlas.createPatch("button_pressed"));
+		TextButtonStyle bs = new TextButtonStyle(button_normal, button_pressed, button_normal, game.game.font);
+		TextButton b = new TextButton("Deselect", bs);
+		b.setColor(0.5f, 0, 1, 1);
+		table.addActor(b);
 	}
 
 	public void update(){

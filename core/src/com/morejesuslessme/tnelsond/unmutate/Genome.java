@@ -6,7 +6,7 @@ public class Genome {
 	}
 	public ChromosomePair[] chromosomes;
 	static public int[] LOCUS = {
-		4,
+		5,
 		3,
 		3,
 	};

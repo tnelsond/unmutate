@@ -1,6 +1,6 @@
 buildscript {
 
-    ext.gdxVersion = "1.0-SNAPSHOT"
+    ext.gdxVersion = "1.0.0"
 
     repositories {
         maven {

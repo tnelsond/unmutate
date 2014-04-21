@@ -59,7 +59,7 @@ public class Level {
 		for(int r=r1; r<r2; ++r){
 			for(int c=c1; c<c2; ++c){
 				if(blocks[r][c] == Level.blocktype.DIRT){
-					batch.draw(dirt, c*tile, r*tile, tile, tile);
+					batch.draw(dirt, c*tile - 1, r*tile - 1, tile + 2, tile + 2); // Compensating for gaps.
 				}
 			}
 		}

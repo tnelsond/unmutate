@@ -1,5 +1,8 @@
 *.class
+*.swm
+*.swp
 
+**/gwt/war
 **/build
 **/libs
 **/webapp
