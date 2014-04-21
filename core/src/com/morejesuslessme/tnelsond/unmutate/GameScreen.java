@@ -16,8 +16,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public class GameScreen implements Screen {
 	private OrthographicCamera camera;
@@ -33,12 +31,10 @@ public class GameScreen implements Screen {
 	public int vieww = 800;
 	public int viewh = 480;
 
-	//private TInput control;
+	private TInput control;
 	
 	Creature creatures[];
 	Creature selectedCreature;
-	private TextureAtlas atlas;
-	private AtlasRegion eye, eyewhite;
 
 	// private ShaderProgram shader;
 	// String vertexShader;
@@ -47,8 +43,8 @@ public class GameScreen implements Screen {
 	public GameScreen(final Unmutate game) {
 		this.game = game;
 	
-		backgroundColor = new Color(0.05f, 0f, .1f, 1);
-		currentlevel = new Level("levels/1.txt");
+		backgroundColor = new Color(0.2f, 0.1f, .0f, 1);
+		currentlevel = new Level(game.atlas, "levels/1.txt");
 		shapeRenderer = new ShapeRenderer();
 		creatures = new Creature[8];
 		// vertexShader = Gdx.files.internal("vertexShader.txt").readString();
@@ -83,26 +79,20 @@ public class GameScreen implements Screen {
 								{ Allele.DOM, Allele.REC },
 								{ Allele.MUT, Allele.DOM }, } });
 
-		creatures[0] = new Creature(290, 100, g1);
-		creatures[1] = new Creature(250, 100, g2);
-		creatures[2] = creatures[0].breed(creatures[1]);
+		creatures[0] = new Creature(290, 100, g1, game.atlas);
+		creatures[1] = new Creature(250, 100, g2, game.atlas);
+		creatures[2] = creatures[0].breed(creatures[1], game.atlas);
 		selectedCreature = null;// creatures[0];
 
 		// shapeRenderer = new ShapeRenderer();
-		setupTextures();
-
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false);
 		viewport = new ExtendViewport(800, 480, camera);
 		
-		//control = new TInput(this);
-		//InputMultiplexer im = new InputMultiplexer((InputProcessor)control.stage);
-		//im.addProcessor(control);
-		//Gdx.input.setInputProcessor(im);
-		atlas = new TextureAtlas(Gdx.files.internal("gamegdx.atlas"));
-		eye = atlas.findRegion("eye");
-		eyewhite = atlas.findRegion("eyewhite");
-		System.out.println(eye);
+		control = new TInput(this);
+		InputMultiplexer im = new InputMultiplexer((InputProcessor)control.stage);
+		im.addProcessor(control);
+		Gdx.input.setInputProcessor(im);
 	}
 
 
@@ -127,20 +117,14 @@ public class GameScreen implements Screen {
 		game.batch.begin();
 		// game.batch.setShader(shader); // Shader stuff
 
-		/*
 		for (Creature c : creatures) {
 			if (c != null) {
-				// shapeRenderer.rect(c.x, c.y, c.width, c.height);
+				//shapeRenderer.rect(c.x, c.y, c.width, c.height);
 				c.draw(game.batch);
 			}
 		}
-		*/
 
-		//currentlevel.draw(game.batch, camera.position, viewport.getWorldWidth(), viewport.getWorldHeight());
-		game.batch.setColor(0, .3f, 1, 1);
-		game.batch.draw(eye, 32.5f, 32.5f, 55, 55);
-		game.batch.setColor(1, 1, 1, 1);
-		game.batch.draw(eyewhite, 20, 20, 80, 80);
+		currentlevel.draw(game.batch, camera.position, viewport.getWorldWidth(), viewport.getWorldHeight());
 		game.batch.end();
 		
 	/*
@@ -167,7 +151,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		//control.update();
+		control.update();
 		if (delta < 1000.0 / 45)
 			draw();
 		for (Creature c : creatures) {
@@ -177,24 +161,10 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	public void setupTextures() {
-		/*
-		batchtexture = new Texture(256, 512, Pixmap.Format.RGBA4444);
-		currentlevel.setupTexture(batchtexture, 0, 0);
-		int i = 0;
-		for (Creature c : creatures) {
-			if (c != null) {
-				c.setupTexture(batchtexture, 0, 35 + 65 * i);
-				++i; // The texture will be offset by the index of the creature
-			}
-		}
-		*/
-	}
-
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height);
-		//control.stage.getViewport().update(width, height);
+		control.stage.getViewport().update(width, height);
 	}
 
 	@Override
@@ -203,8 +173,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resume() {
-		//batchtexture.dispose();
-		//setupTextures();
 	}
 
 	@Override
@@ -219,6 +187,5 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		//batchtexture.dispose();
 	}
 }

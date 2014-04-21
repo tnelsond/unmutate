@@ -1,5 +1,11 @@
 *.class
 
+**/build
+**/libs
+**/webapp
+**/assets/**.png
+**/assets/**.atlas
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

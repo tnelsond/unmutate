@@ -36,8 +36,8 @@ public class TInput implements InputProcessor {
 		table.align(Align.right);
 		table.setFillParent(true);
 		stage.addActor(table);
-		ButtonStyle bs = new ButtonStyle((Drawable)new TextureRegionDrawable(game.currentlevel.grassRegion), (Drawable)new TextureRegionDrawable(game.currentlevel.yellowRegion), (Drawable)new TextureRegionDrawable(game.currentlevel.grassRegion));
-		table.addActor(new Button(bs));
+		//ButtonStyle bs = new ButtonStyle((Drawable)new TextureRegionDrawable(), (Drawable)new TextureRegionDrawable(game.currentlevel.yellowRegion), (Drawable)new TextureRegionDrawable(game.currentlevel.grassRegion));
+		//table.addActor(new Button(bs));
 	}
 
 	public void update(){

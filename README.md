@@ -1,4 +1,4 @@
-unmutate
+Unmutate
 ========
 
-Breeding Platformer game
+A breeding platformer game with realistic (fairly) genetics.

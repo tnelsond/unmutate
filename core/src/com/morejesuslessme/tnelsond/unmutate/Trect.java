@@ -1,43 +1,53 @@
 package com.morejesuslessme.tnelsond.unmutate;
 
 public class Trect implements Cloneable {
-	public int x;
-	public int y;
-	public int w;
-	public int h;
+	public float x;
+	public float y;
+	public float w;
+	public float h;
 	
 	public Trect() {
 		x = y = w = h = 0;
 	}
 	
-	public Trect(int x, int y, int w, int h) {
+	public Trect(float x, float y, float w, float h) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
 	}
 	
-	public void grow(int h, int v) {
+	public void grow(float h, float v) {
 		this.x -= h;
 		this.w += 2*h;
 		this.y -= v;
 		this.h += 2*v;
 	}
+
+	public void scale(float sw, float sh){
+		this.w *= sw;
+		this.h *= sh;
+	}
 	
-	public void growTo(int h, int w){
-		int growx = w - this.w;
-		int growy = h - this.h;
+	public void growTo(float h, float w){
+		float growx = w - this.w;
+		float growy = h - this.h;
 		this.x -= growx/2;
 		this.w += growx;
 		this.y -= growy/2;
 		this.h += growy;
 	}
+
+	public void setCenter(float x, float y){
+		this.x = x - this.w/2;
+		this.y = y - this.h/2;
+	}
 	
-	public int getCenterX() {
+	public float getCenterX() {
 		return x + w/2;
 	}
 	
-	public int getCenterY() {
+	public float getCenterY() {
 		return y + h/2;
 	}
 	
