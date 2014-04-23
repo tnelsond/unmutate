@@ -32,6 +32,7 @@ public class Creature extends Rectangle {
 
 	public Trect body, leg, eye, eyewhite;
 	
+	float px, py;
 	float vx = 0;
 	float vy = 0; // Velocity
 	private AtlasRegion[] regions;
@@ -57,11 +58,14 @@ public class Creature extends Rectangle {
 	public boolean movingRight = false;
 	public boolean movingLeft = false;
 	
+	public float pwalkStep = 0;
 	public float walkStep = 0;
 	public int tick = 0;
 		
 	public Creature(float x, float y, Genome g, TextureAtlas atlas) {
 		super(x, y, 63, 63);
+		px = x;
+		py = y;
 		regions = new AtlasRegion[Creature.STATUS + 1];
 		color = new Color(0, 0, 0, 0);
 		eyeColor = new Color(0, 0, 0, 1);
@@ -159,6 +163,8 @@ public class Creature extends Rectangle {
 	}
 	
 	public void update(Level level, SpriteBatch batch) {
+		px = x;
+		py = y;
 		onGround = false;
 		x += vx;
 		checkX(vx, level, batch);
@@ -177,6 +183,7 @@ public class Creature extends Rectangle {
 		vx *= .95;
 		vy *= .98; // Air Friction
 		
+		pwalkStep = walkStep;
 		walkStep += (vx) / (legLength/2.0f);
 	}
 	
@@ -306,34 +313,38 @@ public class Creature extends Rectangle {
 		}
 	}
 	
-	public void draw(SpriteBatch batch) {
+	public void draw(SpriteBatch batch, final float alpha) {
+		float dx = px + (x - px) * alpha;
+		float dy = py + (y - py) * alpha;
+		float dwalkStep = pwalkStep + (walkStep - pwalkStep) * alpha;
+
 		float legPivot = legThick/2 + 1;
-		float angle = Math.abs(walkStep*70) % (360);
+		float angle = Math.abs(dwalkStep*70) % (360);
 		float righta = angle > 180 ? 180 - (angle) : angle - 180;
 		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25 + legLength/4.25);//width/2;
 		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25) + legLength - width/3 - legThick;//height - width;
-		float tempy = (float) (y + (Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + legLength - legLength/3.2f - legThick) - 3;
+		float tempy = (float) (dy + (Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + legLength - legLength/3.2f - legThick) - 3;
 		float lefta = 180 - righta;
 		float yleg = width * .3f + tempy;
 		
 		batch.setColor(color);
-		batch.draw(regions[Creature.LEG], x + width/4 - legPivot, yleg - legThick, // Left
+		batch.draw(regions[Creature.LEG], dx + width/4 - legPivot, yleg - legThick, // Left
 				legPivot, legPivot, // originX, originY
 				legLength, legThick, // width, height
 				1, 1, // scaleX, scaleY
 				lefta/2 + 135); // rotation
 		//batch.draw(regions[Creature.LEG], x + width/4 - legPivot, yleg - legThick); // Left debug
-		batch.draw(regions[Creature.LEG], x + width - legThick - width/4 + legPivot, yleg - legThick, // Right
+		batch.draw(regions[Creature.LEG], dx + width - legThick - width/4 + legPivot, yleg - legThick, // Right
 				legPivot, legPivot, // originX, originY
 				legLength, legThick, // width, height
 				1, 1, // scaleX, scaleY
 				righta/2 - 45); // rotation
-		batch.draw(regions[Creature.BODY], x, tempy, body.w, body.w);
+		batch.draw(regions[Creature.BODY], dx, tempy, body.w, body.w);
 		batch.setColor(eyeColor);
 		float ex = ((int)vx) == 0 ? 0 : (vx > 0 ? width/9 : -width/9);
-		batch.draw(regions[Creature.EYE], x + eye.x + ex, tempy + eye.y, eye.w/2, eye.h/2, eye.w, eye.h, 1, 1, 0);
+		batch.draw(regions[Creature.EYE], dx + eye.x + ex, tempy + eye.y, eye.w/2, eye.h/2, eye.w, eye.h, 1, 1, 0);
 		batch.setColor(Color.WHITE);
-		batch.draw(regions[Creature.EYEWHITE], x + eyewhite.x + ex, tempy + eyewhite.y, eyewhite.w/2, eyewhite.h/2, eyewhite.w, eyewhite.h, 1, 1, 0);
+		batch.draw(regions[Creature.EYEWHITE], dx + eyewhite.x + ex, tempy + eyewhite.y, eyewhite.w/2, eyewhite.h/2, eyewhite.w, eyewhite.h, 1, 1, 0);
 	}
 	
 	public Creature breed(Creature other, TextureAtlas atlas) {

@@ -36,4 +36,11 @@ public class Genome {
 		}
 		return new Genome(childc);
 	}
+
+	public String toString() {
+		String ret = "Genome{";
+		for(ChromosomePair p : chromosomes)
+			ret += p;
+		return ret + "}\n";
+	}
 }

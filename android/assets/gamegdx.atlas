@@ -1,7 +1,7 @@
 
 gamegdx.png
 format: RGBA8888
-filter: MipMapLinearNearest,Nearest
+filter: MipMapLinearNearest,Linear
 repeat: none
 bonefoot
   rotate: false
@@ -10,18 +10,9 @@ bonefoot
   orig: 193, 67
   offset: 0, 0
   index: -1
-button
-  rotate: false
-  xy: 2, 2
-  size: 32, 32
-  split: 15, 16, 15, 16
-  pad: 14, 14, 13, 13
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 button_normal
   rotate: false
-  xy: 380, 208
+  xy: 36, 9
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -30,7 +21,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 132, 57
+  xy: 63, 9
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
@@ -46,14 +37,14 @@ circlebody
   index: -1
 dirt
   rotate: false
-  xy: 214, 112
-  size: 72, 72
-  orig: 72, 72
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 288, 129
+  xy: 450, 178
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
@@ -63,6 +54,27 @@ eyewhite
   xy: 132, 84
   size: 80, 80
   orig: 80, 80
+  offset: 0, 0
+  index: -1
+halo
+  rotate: false
+  xy: 380, 167
+  size: 68, 66
+  orig: 68, 66
+  offset: 0, 0
+  index: -1
+joystickinner
+  rotate: false
+  xy: 197, 171
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+joystickouter
+  rotate: false
+  xy: 132, 28
+  size: 54, 54
+  orig: 54, 54
   offset: 0, 0
   index: -1
 roundrectfoot

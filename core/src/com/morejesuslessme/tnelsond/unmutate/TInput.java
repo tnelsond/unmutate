@@ -12,8 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
@@ -23,6 +27,7 @@ public class TInput implements InputProcessor {
 
 	float touchpadminradius = 10;
 	float touchpadmaxradius = 30;
+	AtlasRegion touchpadouter;
 	TTouch touchpad;	
 	TTouch othertouch;
 	Table table;
@@ -30,6 +35,7 @@ public class TInput implements InputProcessor {
 	Stage stage;
 
 	public TInput(GameScreen game){
+		touchpadouter = game.game.atlas.findRegion("joystickouter");
 		touchpad = new TTouch();
 		othertouch = new TTouch(true);
 		this.game = game;
@@ -42,12 +48,23 @@ public class TInput implements InputProcessor {
 		Drawable button_pressed = (Drawable) new NinePatchDrawable(game.game.atlas.createPatch("button_pressed"));
 		TextButtonStyle bs = new TextButtonStyle(button_normal, button_pressed, button_normal, game.game.font);
 		TextButton b = new TextButton("Deselect", bs);
+		b.addListener(new ClickListener()
+		{
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				deselect();
+			}
+		});
 		b.setColor(0.5f, 0, 1, 1);
 		table.addActor(b);
 	}
 
+	public final void deselect(){
+		this.game.selectedCreature = null;
+	}
+
 	public void update(){
-		if(touchpad.pointer >= 0){
+		if(touchpad.pointer >= 0 && game.selectedCreature != null){
 			float x = touchpad.x - touchpad.ox;
 			boolean xpositive = x > 0;
 			float y = touchpad.y - touchpad.oy;
@@ -67,8 +84,8 @@ public class TInput implements InputProcessor {
 		if(touchpad.pointer >= 0) {
 			Vector3 pos = touchpad.oldToVector3();
 			game.viewport.unproject(pos);
-			game.shapeRenderer.setColor(0.4f, 1, 0, .5f);
-			game.shapeRenderer.circle(pos.x, pos.y, 30);
+			game.game.batch.setColor(0.4f, 1, 0, .5f);
+			game.game.batch.draw(touchpadouter, pos.x - touchpadmaxradius/2, pos.y - touchpadmaxradius/2, touchpadmaxradius, touchpadmaxradius);
 		}
 
 		if(othertouch.pointer >= 0) {
