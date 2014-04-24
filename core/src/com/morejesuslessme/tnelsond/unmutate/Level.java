@@ -18,7 +18,7 @@ public class Level {
 		DIRT, NONE
 	}
 	private AtlasRegion dirt;
-	public int w = 12;
+	public int w = 12; // Actually width of map - 1
 	public int h = 16;
 	public int tile = 32;
 	public blocktype blocks[][];
@@ -28,8 +28,8 @@ public class Level {
 		dirt = atlas.findRegion("dirt");
 		Reader reader = Gdx.files.internal(filename).reader();
 		Scanner scan = new Scanner(reader);
-		w = scan.nextInt();
-		h = scan.nextInt();
+		w = scan.nextInt() - 1;
+		h = scan.nextInt() - 1;
 		blocks = new blocktype[h][w];
 		int row = h;
 		while(scan.hasNextLine()) {

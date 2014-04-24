@@ -102,10 +102,21 @@ public class GameScreen implements Screen {
 
 
 	public void draw(final float alpha) {
+			Vector3 pos = new Vector3(camera.position.x, camera.position.y, 0);
 		if (selectedCreature != null) {
-			Vector3 pos = new Vector3(selectedCreature.px + alpha * (selectedCreature.x - selectedCreature.px), selectedCreature.py + alpha * (selectedCreature.y - selectedCreature.py), 0);
-			camera.position.set(pos);
+			pos.x = selectedCreature.px + alpha * (selectedCreature.x - selectedCreature.px);
+			pos.y = selectedCreature.py + alpha * (selectedCreature.y - selectedCreature.py);
 		}
+		if(pos.x - camera.viewportWidth/2 < 0)
+			pos.x = camera.viewportWidth/2;
+		else if(pos.x + camera.viewportWidth/2 > currentlevel.w * currentlevel.tile)
+			pos.x = currentlevel.w * currentlevel.tile - camera.viewportWidth/2;
+		if(pos.y - camera.viewportHeight/2 < 0)
+			pos.y = camera.viewportHeight/2;
+		else if(pos.y + camera.viewportHeight/2 > currentlevel.h * currentlevel.tile)
+			pos.y = currentlevel.h * currentlevel.tile - camera.viewportHeight/2;
+
+		camera.position.set(pos);
 		camera.update();
 
 		Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g,
