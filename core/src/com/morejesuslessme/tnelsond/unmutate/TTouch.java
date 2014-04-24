@@ -3,33 +3,32 @@ package com.morejesuslessme.tnelsond.unmutate;
 import com.badlogic.gdx.math.Vector3;
 
 class TTouch{
+	public int sx;
+	public int sy;
 	public int ox; //old x
 	public int oy; //old y
 	public int x;
 	public int y;
 	public int pointer;	
-	public boolean pan;
 
 	public TTouch(){
 		ox = -1;
 		oy = -1;
 		x = 0;
 		y = 0;
-		pan = false;
+		sx = -1;
+		sy = -1;
 		pointer = -1;
 	}
 
-	public TTouch(boolean pan){
-		this();
-		this.pan = pan;
-	}
-
 	public void update(int x, int y){
-		if(ox < 0){
+		if(sx < 0){
+			sx = x;
+			sy = y;
 			ox = x;
 			oy = y;
 		}
-		if(pan){
+		else {
 			ox = this.x;
 			oy = this.y;
 		}

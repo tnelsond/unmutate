@@ -37,7 +37,7 @@ public class TInput implements InputProcessor {
 	public TInput(GameScreen game){
 		touchpadouter = game.game.atlas.findRegion("joystickouter");
 		touchpad = new TTouch();
-		othertouch = new TTouch(true);
+		othertouch = new TTouch();
 		this.game = game;
 		stage = new Stage(new ExtendViewport(800, 480), game.game.batch);
 		table = new Table();
@@ -65,9 +65,9 @@ public class TInput implements InputProcessor {
 
 	public void update(){
 		if(touchpad.pointer >= 0 && game.selectedCreature != null){
-			float x = touchpad.x - touchpad.ox;
+			float x = touchpad.x - touchpad.sx;
 			boolean xpositive = x > 0;
-			float y = touchpad.y - touchpad.oy;
+			float y = touchpad.y - touchpad.sy;
 			boolean ypositive = !(y > 0); // The ! compensates for the fact that libgdx has flipped y coordinates for the drawing
 			x = MathUtils.clamp(Math.max(0, Math.abs(x) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius;
 			y = MathUtils.clamp(Math.max(0, Math.abs(y) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius;
@@ -140,14 +140,19 @@ public class TInput implements InputProcessor {
 	public boolean touchUp (int x, int y, int pointer, int button) {
 		TTouch sel = (pointer == touchpad.pointer ? touchpad : othertouch);
 		sel.pointer = -1;
-		sel.ox = -1;
+		sel.sx = -1;
 		
 		return false;
 	}
 
 	public boolean touchDragged (int x, int y, int pointer) {
 		TTouch sel = (pointer == touchpad.pointer ? touchpad : othertouch);
-		sel.update(x, y);
+		sel.update(x, y);	
+		if(game.selectedCreature == null){
+			game.camera.position.x -= sel.x - sel.ox;
+			game.camera.position.y += sel.y - sel.oy;
+		}
+	
 		return false;
 	}
 

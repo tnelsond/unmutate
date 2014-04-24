@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
-	private OrthographicCamera camera;
+	public OrthographicCamera camera;
 	public Viewport viewport;
 	
 	final Unmutate game;
