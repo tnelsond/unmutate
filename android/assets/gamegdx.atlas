@@ -5,14 +5,14 @@ filter: MipMapLinearNearest,Linear
 repeat: none
 bonefoot
   rotate: false
-  xy: 2, 166
+  xy: 1, 188
   size: 193, 67
   orig: 193, 67
   offset: 0, 0
   index: -1
 button_normal
   rotate: false
-  xy: 36, 9
+  xy: 449, 230
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -21,7 +21,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 63, 9
+  xy: 165, 79
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
@@ -30,56 +30,56 @@ button_pressed
   index: -1
 circlebody
   rotate: false
-  xy: 2, 36
+  xy: 1, 58
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 dirt
   rotate: false
-  xy: 2, 2
+  xy: 131, 72
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 450, 178
+  xy: 1, 1
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 eyewhite
   rotate: false
-  xy: 132, 84
+  xy: 131, 106
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 halo
   rotate: false
-  xy: 380, 167
+  xy: 379, 189
   size: 68, 66
   orig: 68, 66
   offset: 0, 0
   index: -1
 joystickinner
   rotate: false
-  xy: 197, 171
+  xy: 196, 193
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
   index: -1
 joystickouter
   rotate: false
-  xy: 132, 28
+  xy: 58, 2
   size: 54, 54
   orig: 54, 54
   offset: 0, 0
   index: -1
 roundrectfoot
   rotate: false
-  xy: 197, 186
+  xy: 196, 208
   size: 181, 47
   orig: 181, 47
   offset: 0, 0

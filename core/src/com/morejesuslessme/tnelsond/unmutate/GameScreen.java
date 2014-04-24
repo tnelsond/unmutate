@@ -107,16 +107,16 @@ public class GameScreen implements Screen {
 			pos.x = selectedCreature.px + alpha * (selectedCreature.x - selectedCreature.px);
 			pos.y = selectedCreature.py + alpha * (selectedCreature.y - selectedCreature.py);
 		}
+		if(pos.x - camera.viewportWidth/2 < 0)
+			pos.x = camera.viewportWidth/2;
 		if(currentlevel.w * currentlevel.tile > camera.viewportWidth){
-			if(pos.x - camera.viewportWidth/2 < 0)
-				pos.x = camera.viewportWidth/2;
-			else if(pos.x + camera.viewportWidth/2 > currentlevel.w * currentlevel.tile)
+			if(pos.x + camera.viewportWidth/2 > currentlevel.w * currentlevel.tile)
 				pos.x = currentlevel.w * currentlevel.tile - camera.viewportWidth/2;
 		}
+		if(pos.y - camera.viewportHeight/2 < 0)
+			pos.y = camera.viewportHeight/2;
 		if(currentlevel.h * currentlevel.tile > camera.viewportHeight){
-			if(pos.y - camera.viewportHeight/2 < 0)
-				pos.y = camera.viewportHeight/2;
-			else if(pos.y + camera.viewportHeight/2 > currentlevel.h * currentlevel.tile)
+			if(pos.y + camera.viewportHeight/2 > currentlevel.h * currentlevel.tile)
 				pos.y = currentlevel.h * currentlevel.tile - camera.viewportHeight/2;
 		}
 

@@ -63,7 +63,7 @@ public class Level {
 						batch.setColor(.1f, .6f, 0, 1);
 					else
 						batch.setColor(.1f, .5f, 0, 1);
-					batch.draw(dirt, c*tile - 1, r*tile - 1, tile + 2, tile + 2); // Compensating for gaps.
+					batch.draw(dirt, c*tile - 0.5f, r*tile - 0.5f, tile + 1, tile + 1); // Compensating for gaps.
 				}
 			}
 		}
