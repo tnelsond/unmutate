@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import java.lang.Math;
+
 public class GameScreen implements Screen {
 	public OrthographicCamera camera;
 	public Viewport viewport;
@@ -30,8 +32,8 @@ public class GameScreen implements Screen {
 	public Level currentlevel;
 	Color backgroundColor;
 	
-	public int vieww = 800;
-	public int viewh = 480;
+	public int vieww = 500;
+	public int viewh = 300;
 
 	private double accumulator = 0.0;
 	private float physicsStep = 1.0f / 60.0f;
@@ -40,6 +42,7 @@ public class GameScreen implements Screen {
 	
 	Creature creatures[];
 	Creature selectedCreature;
+	Creature needUpdates[];
 	AtlasRegion halo;
 
 	public GameScreen(final Unmutate game) {
@@ -49,21 +52,24 @@ public class GameScreen implements Screen {
 		halo = game.atlas.findRegion("halo");
 		currentlevel = new Level(game.atlas, "levels/1.txt");
 		shapeRenderer = new ShapeRenderer();
-		creatures = new Creature[8];
+		creatures = new Creature[800];
+		needUpdates = new Creature[10];
 
 		Genome g1 = new Genome(
 				new Allele[][][] {
 						{ { Allele.DOM, Allele.DOM },
 							{ Allele.DOM, Allele.REC },
 							{ Allele.DOM, Allele.DOM },
-							{ Allele.DOM, Allele.DOM },
+							{ Allele.REC, Allele.DOM },
 							{ Allele.MUT, Allele.DOM }, },
-						{ { Allele.DOM, Allele.DOM },
-							{ Allele.DOM, Allele.DOM },
+						{ { Allele.REC, Allele.DOM },
+							{ Allele.REC, Allele.DOM },
 							{ Allele.DOM, Allele.REC }, },
 						{ { Allele.DOM, Allele.DOM },
 							{ Allele.DOM, Allele.MUT },
-							{ Allele.DOM, Allele.DOM }, } });
+							{ Allele.DOM, Allele.MUT }, },
+						{ { Allele.FEMALE, Allele.FEMALE },
+							{ Allele.DOM, Allele.REC }}});
 
 		Genome g2 = new Genome(
 				new Allele[][][] {
@@ -77,22 +83,27 @@ public class GameScreen implements Screen {
 							{ Allele.REC, Allele.REC }, },
 						{ { Allele.REC, Allele.REC },
 							{ Allele.REC, Allele.REC },
-							{ Allele.REC, Allele.REC }, } });
+							{ Allele.REC, Allele.MUT }, },
+						{ { Allele.MALE, Allele.FEMALE },
+							{ Allele.REC, Allele.REC }}});
 
 		creatures[0] = new Creature(290, 100, g1, game.atlas);
 		creatures[1] = new Creature(700, 100, g2, game.atlas);
 		creatures[2] = creatures[0].breed(creatures[1], game.atlas);
 		selectedCreature = null;// creatures[0];
 
+		int i = 0;
 		for(Creature c : creatures){
-			if(c != null)
+			if(c != null){
+				needUpdates[i++] = c;
 				System.out.println(c.g);
+			}
 		}
 
 		// shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false);
-		viewport = new ExtendViewport(800, 480, camera);
+		viewport = new ExtendViewport(vieww, viewh, camera);
 		
 		control = new TInput(this);
 		InputMultiplexer im = new InputMultiplexer((InputProcessor)control.stage);
@@ -144,14 +155,12 @@ public class GameScreen implements Screen {
 
 		currentlevel.draw(game.batch, camera.position, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-		game.batch.end();
 		
 	/*
 		shapeRenderer.begin(ShapeType.Filled);
 
 		shapeRenderer.setProjectionMatrix(camera.combined);
 
-		//control.render();
 	
 		shapeRenderer.setColor(1, 1, 1, 1);
 		if (selectedCreature != null)
@@ -166,19 +175,29 @@ public class GameScreen implements Screen {
 		
 		shapeRenderer.end();
 	*/
-		control.stage.draw();
+		control.render();
 	}
 
 	@Override
 	public void render(float delta) {
 		double time = Math.min(delta, 0.25);
-		control.update();
 
 		accumulator += time;
 		while(accumulator >= physicsStep){ // Physics loop
-			for (Creature c : creatures) {
+			currentlevel.update();
+			control.update();
+			//control.stage.act(); //maybe don't need
+			for(int i = 0; i < needUpdates.length; ++i) {
+				Creature c = needUpdates[i];
 				if (c != null) {
-					c.update(currentlevel, game.batch);
+					if(c != selectedCreature && c.onGround && Math.abs(c.vx) < .0001 && c.vy > -0.0001 && c.tick > 10){
+						needUpdates[i] = null;
+						c.vy = 0;
+						c.tick = 0;
+					}
+					else{
+						c.update(currentlevel, game.batch);
+					}
 				}
 			}
 			accumulator -= physicsStep;
@@ -190,7 +209,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height);
-		control.stage.getViewport().update(width, height);
+		control.stage.getViewport().update(width, height, true);
 	}
 
 	@Override

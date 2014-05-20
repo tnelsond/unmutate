@@ -21,7 +21,7 @@ public class ChromosomePair {
 				System.out.println("MUTATION");
 				chromosome[i] = Allele.MUT;
 			}
-			if(MathUtils.randomBoolean(ChromosomePair.CROSSOVER))
+			if(MathUtils.randomBoolean(ChromosomePair.CROSSOVER) && a[0] == Allele.MALE && b[0] != Allele.MALE)
 				cAllele = !cAllele;
 		}
 		return chromosome;

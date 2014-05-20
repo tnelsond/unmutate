@@ -23,14 +23,16 @@ public class Creature extends Rectangle {
 	public static int LEG = 1;
 	public static int EYE = 2;
 	public static int EYEWHITE = 3;
-	public static int STATUS = 4;
+	public static int SECONDARY = 4;
+	public static int STATUS = 5;
 	
 	public static Trect TBODY = new Trect(0, 0, 64, 64);
 	public static Trect TLEG = new Trect(0, 0, 16, 128);
 	public static Trect TEYEWHITE = new Trect(0, 0, 44, 44);
 	public static Trect TEYE = new Trect(0, 0, 36, 36);
+	public static Trect TSECONDARY = new Trect(0, 0, 24, 24);
 
-	public Trect body, leg, eye, eyewhite;
+	public Trect body, leg, eye, eyewhite, secondary;
 	
 	float px, py;
 	float vx = 0;
@@ -39,6 +41,7 @@ public class Creature extends Rectangle {
 	
 	public Color color;
 	public Color eyeColor;
+	public Color secondaryColor;
 	public boolean albino = false;
 	public boolean legConcave = false;
 	
@@ -67,25 +70,29 @@ public class Creature extends Rectangle {
 		px = x;
 		py = y;
 		regions = new AtlasRegion[Creature.STATUS + 1];
-		color = new Color(0, 0, 0, 0);
+		color = new Color(0, 0, 0, 1);
+		secondaryColor = new Color(0, 0, 0, 1);
 		eyeColor = new Color(0, 0, 0, 1);
 		this.g = g;
 		this.express();
 		
 		legThick *= width*7/200;
 		legLength = legLength * width * 2.0f / TLEG.w;
-		speed *= Math.sqrt(legLength)/6;
+		speed *= Math.sqrt(legLength);
 		height = legLength + width * .8f - legThick;
 
 		body = (Trect) Creature.TBODY.clone();
 		leg = (Trect) Creature.TLEG.clone();
 		eye = (Trect) Creature.TEYE.clone();
 		eyewhite = (Trect) Creature.TEYEWHITE.clone();
+		secondary = (Trect) Creature.TSECONDARY.clone();
+		
 
 		float factor = width / Creature.TBODY.w;
 		body.scale(factor, factor);
 		eye.scale(factor, factor);
 		eyewhite.scale(factor, factor);
+		secondary.scale(factor, factor);
 		leg.growTo(legLength, legThick);
 
 		float cx = body.getCenterX();
@@ -93,11 +100,15 @@ public class Creature extends Rectangle {
 
 		eye.setCenter(cx, cy);
 		eyewhite.setCenter(cx, cy);
+		float tempy = secondary.y;
+		secondary.setCenter(cx, cy);
+		secondary.y += (sex == Genome.Sex.FEMALE) ? body.h/2 : body.h/2 + body.h/8;
 
 		regions[Creature.BODY] = atlas.findRegion("circlebody");
 		regions[Creature.EYE] = atlas.findRegion("eye");
 		regions[Creature.EYEWHITE] = atlas.findRegion("eyewhite");
 		regions[Creature.LEG] = atlas.findRegion((legConcave) ? "bonefoot" : "roundrectfoot");
+		regions[Creature.SECONDARY] = (sex == Genome.Sex.STERILE) ? null : atlas.findRegion((sex == Genome.Sex.MALE) ? "horn" : "bow");
 	}
 	
 	public void express(){
@@ -138,17 +149,52 @@ public class Creature extends Rectangle {
 		j = 2;
 		albino = (g.chromosomes[i].a[j] == Allele.MUT && g.chromosomes[i].b[j] == Allele.MUT);
 		
+			// Make colors subtractive
 		Color tempcolor = new Color(.9f, .9f, .9f, 1);
 		if(!albino) {
-			color = tempcolor.sub(color.b + color.g, color.r + color.b, color.g + color.r, 0);
+			color = tempcolor.cpy().sub(color.b + color.g, color.r + color.b, color.g + color.r, 0);
+			eyeColor = tempcolor.cpy().sub(eyeColor.b + eyeColor.g, eyeColor.r + eyeColor.b, eyeColor.g + eyeColor.r, 0);
 		}
 		else {
-			color = tempcolor;
+			color = tempcolor.cpy();
 			eyeColor = new Color(1, 0, 0, 1);
 		}
+
+		// ---- Chromosome 4 (SEX)
+		++i; j = 0;
+		Allele ca = g.chromosomes[i].a[j];
+		Allele cb = g.chromosomes[i].b[j];
+		if(ca == cb && ca == Allele.FEMALE)
+			sex = Genome.Sex.FEMALE;
+		else if((ca == Allele.MALE && cb == Allele.FEMALE) || (ca == Allele.FEMALE && cb == Allele.MALE))
+			sex = Genome.Sex.MALE;
+		else
+			sex = Genome.Sex.STERILE;
+
+		j = 1;
+		Allele[] femalea = null, femaleb = null, male = null;
+		if(sex == Genome.Sex.MALE){
+			femalea = (g.chromosomes[i].a[j] == Allele.FEMALE) ? g.chromosomes[i].a : g.chromosomes[i].b;
+			femaleb = femalea;
+			male = (g.chromosomes[i].a[j] == Allele.MALE) ? g.chromosomes[i].a : g.chromosomes[i].b;
+			// Male inheritance here
+			secondaryColor.g = ((male[j] == Allele.DOM) ? .9f : (male[j] == Allele.REC) ? .4f : .1f);
+		}
+		else if(sex == Genome.Sex.FEMALE){
+			femalea = g.chromosomes[i].a;
+			femaleb = g.chromosomes[i].b;
+			secondaryColor.r = ((femalea[j] == Allele.DOM) ? .45f : (femalea[j] == Allele.REC) ? .2f : .05f) + ((femaleb[j] == Allele.DOM) ? .45f : (femaleb[j] == Allele.REC) ? .2f : .05f);
+		}
+
+			tempcolor = new Color(1f, .9f, .9f, 1);
+			secondaryColor = tempcolor.cpy().sub(secondaryColor.b + secondaryColor.g, secondaryColor.r + secondaryColor.b, secondaryColor.g + secondaryColor.r, 0);
+				
+
 	}
 
 	public void moveToward(float cx, float cy) {
+		cx = (cx > 1) ? 1 : (cx < -1) ? -1 : cx;
+		cy = (cy < -1) ? -1 : cy;
 		vx += cx * accel * (onGround ? 1 : .5);
 		
 		if(cy > 0 && onGround) // Jump
@@ -160,11 +206,14 @@ public class Creature extends Rectangle {
 			vx = speed;
 		else if(vx < -speed)
 			vx = -speed;
+		tick = 0;
 	}
 	
 	public void update(Level level, SpriteBatch batch) {
 		px = x;
 		py = y;
+		if(!onGround)
+			tick = 0;
 		onGround = false;
 		x += vx;
 		checkX(vx, level, batch);
@@ -185,6 +234,7 @@ public class Creature extends Rectangle {
 		
 		pwalkStep = walkStep;
 		walkStep += (vx) / (legLength/2.0f);
+		++tick;
 	}
 	
 	public void checkX(float v, Level level, SpriteBatch batch) {
@@ -239,7 +289,7 @@ public class Creature extends Rectangle {
 				r = (Integer) row.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
 				Level.blocktype b = level.blocks[r][c];
-				if(b == blocktype.DIRT){
+				if(b != blocktype.NONE){
 					x = c*level.tile + cor;
 					vx = 0;
 					done = true;
@@ -301,12 +351,16 @@ public class Creature extends Rectangle {
 				c = (Integer) col.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
 				Level.blocktype b = level.blocks[r][c];
-				if(b == blocktype.DIRT){
+				if(b != blocktype.NONE){
 					if(v < 0)
 						onGround = true;
 					y = r*level.tile + cor;
 					vy = 0;
 					done = true;
+					if(sex == Genome.Sex.MALE && b == blocktype.BREED1MALE)
+						level.breeder1.male = this;
+					else if(sex == Genome.Sex.FEMALE && b == blocktype.BREED1FEMALE)
+						level.breeder1.female = this;
 					break;
 				}
 			}
@@ -345,6 +399,10 @@ public class Creature extends Rectangle {
 		batch.draw(regions[Creature.EYE], dx + eye.x + ex, tempy + eye.y, eye.w/2, eye.h/2, eye.w, eye.h, 1, 1, 0);
 		batch.setColor(Color.WHITE);
 		batch.draw(regions[Creature.EYEWHITE], dx + eyewhite.x + ex, tempy + eyewhite.y, eyewhite.w/2, eyewhite.h/2, eyewhite.w, eyewhite.h, 1, 1, 0);
+		if(regions[Creature.SECONDARY] != null){
+			batch.setColor(secondaryColor);
+			batch.draw(regions[Creature.SECONDARY], secondary.x + dx, tempy + secondary.y, secondary.w/2, secondary.h/2, secondary.w, secondary.h, 1, 1, 0);
+		}
 	}
 	
 	public Creature breed(Creature other, TextureAtlas atlas) {

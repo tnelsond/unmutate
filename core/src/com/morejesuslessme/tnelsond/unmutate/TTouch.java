@@ -41,6 +41,6 @@ class TTouch{
 	}
 
 	public Vector3 oldToVector3(){
-		return new Vector3(ox, oy, 0);
+		return new Vector3(sx, sy, 0);
 	}
 }

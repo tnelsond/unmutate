@@ -9,6 +9,7 @@ public class Genome {
 		5,
 		3,
 		3,
+		2,
 	};
 	
 	public Genome(Allele[][][] c) {

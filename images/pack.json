@@ -2,7 +2,7 @@
 		pot: true,
     paddingX: 2,
     paddingY: 2,
-    bleed: false,
+    bleed: true,
     edgePadding: true,
     duplicatePadding: true,
     rotation: false,
