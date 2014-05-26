@@ -111,6 +111,25 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(im);
 	}
 
+	public void setCreature(Creature c){
+		selectedCreature = c;
+		addToUpdates(c);	
+	}
+
+	public void addToUpdates(Creature c){
+		int temp = -1;
+		for(int i = 0; i < needUpdates.length; ++i){
+			if(needUpdates[i] == null){
+				temp = i;
+			}
+			if(needUpdates[i] == c){
+				return;
+			}
+		}
+		if(temp != -1){
+			needUpdates[temp] = c;
+		}
+	}
 
 	public void draw(final float alpha) {
 			Vector3 pos = new Vector3(camera.position.x, camera.position.y, 0);

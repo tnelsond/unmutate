@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -92,12 +93,7 @@ public class TInput implements InputProcessor {
 			for(int i = 0; i < game.creatures.length; ++i){
 				if(game.creatures[i] == null){
 					game.creatures[i] = temp;
-					for(int j = 0; j < game.needUpdates.length; ++j){
-						if(game.needUpdates[j] == null){
-							game.needUpdates[j] = temp;
-							return;
-						}
-					}
+					game.addToUpdates(temp);
 					return;
 				}
 			}
@@ -116,6 +112,20 @@ public class TInput implements InputProcessor {
 				x = -x;
 			if(!ypositive)
 				y = -y;
+			game.selectedCreature.moveToward(x, y);
+		}
+		else if(game.selectedCreature != null){
+			int x = 0;
+			int y = 0;
+			if(Gdx.input.isKeyPressed(Keys.A)){
+				--x;
+			}
+			if(Gdx.input.isKeyPressed(Keys.D)){
+				++x;
+			}
+			if(Gdx.input.isKeyPressed(Keys.S)){
+				--y;
+			}
 			game.selectedCreature.moveToward(x, y);
 		}
 	}
@@ -164,6 +174,24 @@ public class TInput implements InputProcessor {
 				if(game.selectedCreature != null)
 					game.selectedCreature.moveToward(0, 1);				
 				break;
+			case Keys.TAB:
+				if(game.selectedCreature != null){
+					Creature temp = null;
+					boolean found = false;
+					for(Creature c : game.creatures){
+						if(c == game.selectedCreature){
+							found = true;
+						}
+						else if(c != null){
+							temp = c;
+							if(found){
+								break;
+							}
+						}
+					}
+					if(temp != null)
+						game.setCreature(temp);
+				}
 		}
 			
 			
@@ -185,19 +213,7 @@ public class TInput implements InputProcessor {
 					Vector3 pos = new Vector3(x, y, 0);
 					game.viewport.unproject(pos);
 					if(c.contains(pos.x, pos.y)){
-						game.selectedCreature = c;
-						int temp = -1;
-						for(int i = 0; i < game.needUpdates.length; ++i){
-							if(game.needUpdates[i] == null){
-								temp = i;
-							}
-							else if(game.needUpdates[i] == c){
-								return true;
-							}
-						}
-						if(temp != -1)
-							game.needUpdates[temp] = c;
-						return true;
+						game.setCreature(c);
 					}
 				}
 			}
