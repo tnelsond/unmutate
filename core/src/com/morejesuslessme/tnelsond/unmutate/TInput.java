@@ -61,6 +61,8 @@ public class TInput implements InputProcessor {
 		TextButtonStyle bs = new TextButtonStyle(button_normal, button_pressed, button_normal, game.game.font);
 		TextButton b = new TextButton("Deselect", bs);
 		TextButton b2 = new TextButton("Breed", bs);
+		TextButton b3 = new TextButton("Kill", bs);
+		TextButton b4 = new TextButton("Switch", bs);
 		b.addListener(new ClickListener()
 		{
 			@Override
@@ -75,11 +77,32 @@ public class TInput implements InputProcessor {
 				breed();
 			}
 		});
+		b3.addListener(new ClickListener()
+		{
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				kill();
+			}
+		});
+		b4.addListener(new ClickListener()
+		{
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				tab();
+			}
+		});
+
 		b.setColor(0.5f, 0, 1, 1);
 		b2.setColor(.3f, .5f, .0f, 1);
+		b3.setColor(.9f, .0f, .0f, 1);
+		b4.setColor(.0f, .2f, .4f, 1);
 		table.add(b);
 		table.row();
 		table.add(b2);
+		table.row();
+		table.add(b3);
+		table.row();
+		table.add(b4);
 		table.layout();
 	}
 
@@ -90,11 +113,54 @@ public class TInput implements InputProcessor {
 	public final void breed(){
 		Creature temp = game.currentlevel.breeder1.breed(game.game.atlas);
 		if(temp != null){
+			temp.y += game.currentlevel.tile;
 			for(int i = 0; i < game.creatures.length; ++i){
 				if(game.creatures[i] == null){
 					game.creatures[i] = temp;
 					game.addToUpdates(temp);
 					return;
+				}
+			}
+		}
+	}
+
+	public final void kill(){
+		if(game.selectedCreature != null){
+			for(int i = 0; i < game.creatures.length; ++i){
+				if(game.creatures[i] == game.selectedCreature){
+					game.creatures[i] = null;
+				}
+			}
+			for(int i = 0; i < game.needUpdates.length; ++i){
+				if(game.needUpdates[i] == game.selectedCreature){
+					game.needUpdates[i] = null;
+				}
+			}
+			game.selectedCreature = null;
+		}
+	}
+	public final void tab(){
+		if(game.selectedCreature != null){
+			Creature temp = null;
+			boolean found = false;
+			for(Creature c : game.creatures){
+				if(c == game.selectedCreature){
+					found = true;
+				}
+				else if((temp == null && c != null) || (c != null && found)){
+					temp = c;
+					if(found){
+						break;
+					}
+				}
+			}
+			if(temp != null)
+				game.setCreature(temp);
+		}
+		else{
+			for(Creature c : game.creatures){
+				if(c != null){
+					game.setCreature(c);
 				}
 			}
 		}
@@ -175,23 +241,7 @@ public class TInput implements InputProcessor {
 					game.selectedCreature.moveToward(0, 1);				
 				break;
 			case Keys.TAB:
-				if(game.selectedCreature != null){
-					Creature temp = null;
-					boolean found = false;
-					for(Creature c : game.creatures){
-						if(c == game.selectedCreature){
-							found = true;
-						}
-						else if(c != null){
-							temp = c;
-							if(found){
-								break;
-							}
-						}
-					}
-					if(temp != null)
-						game.setCreature(temp);
-				}
+				tab();
 		}
 			
 			

@@ -288,7 +288,7 @@ public class Creature extends Rectangle {
 			while(row.hasNext()) {
 				r = (Integer) row.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
-				Level.blocktype b = level.blocks[r][c];
+				blocktype b = level.blocks[r][c];
 				if(b != blocktype.NONE){
 					x = c*level.tile + cor;
 					vx = 0;

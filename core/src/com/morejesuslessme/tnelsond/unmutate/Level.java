@@ -15,9 +15,9 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Level {
 	public static enum blocktype{
-		DIRT, NONE, BREED1MALE, BREED1FEMALE, BREED1CHILD
+		DIRT, NONE, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, BREED1MALE, BREED1FEMALE, BREED1CHILD
 	}
-	private AtlasRegion dirt;
+	private AtlasRegion dirt, slant;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
@@ -27,6 +27,7 @@ public class Level {
 	
 	public Level(TextureAtlas atlas, String filename){
 		dirt = atlas.findRegion("dirt");
+		slant = atlas.findRegion("dirtslant");
 		Reader reader = Gdx.files.internal(filename).reader();
 		Scanner scan = new Scanner(reader);
 		w = scan.nextInt();
@@ -60,6 +61,22 @@ public class Level {
 					breeder1.colMale = col;
 					blocks[row][col] = Level.blocktype.BREED1MALE;
 				}
+				else if(ch == '/'){
+					if(row < h && blocks[row + 1][col] == Level.blocktype.DIRT){
+						blocks[row][col] = Level.blocktype.UPLEFT;
+					}
+					else{
+						blocks[row][col] = Level.blocktype.DOWNRIGHT;
+					}
+				}
+				else if(ch == '\\'){
+					if(row < h && blocks[row + 1][col] == Level.blocktype.DIRT){
+						blocks[row][col] = Level.blocktype.UPRIGHT;
+					}
+					else{
+						blocks[row][col] = Level.blocktype.DOWNLEFT;
+					}
+				}
 				else
 					blocks[row][col] = Level.blocktype.NONE;
 				++col;
@@ -83,13 +100,7 @@ public class Level {
 		for(int r=r1; r<r2; ++r){
 			for(int c=c1; c<c2; ++c){
 				if(blocks[r][c] != Level.blocktype.NONE){
-					if(blocks[r][c] == Level.blocktype.DIRT){
-						if((r + c) % 2 == 1)
-							batch.setColor(.1f, .6f, 0, 1);
-						else
-							batch.setColor(.1f, .5f, 0, 1);
-					}
-					else if(blocks[r][c] == Level.blocktype.BREED1FEMALE){
+					if(blocks[r][c] == Level.blocktype.BREED1FEMALE){
 						batch.setColor(breeder1.femaleColor());
 					}
 					else if(blocks[r][c] == Level.blocktype.BREED1MALE){
@@ -98,9 +109,20 @@ public class Level {
 					else if(blocks[r][c] == Level.blocktype.BREED1CHILD){
 						batch.setColor(breeder1.childColor());
 					}
+					else{
+						if((r + c) % 2 == 1)
+							batch.setColor(.1f, .6f, 0, 1);
+						else
+							batch.setColor(.1f, .5f, 0, 1);
+						if(blocks[r][c] != Level.blocktype.DIRT){
+							batch.draw(slant, c*tile - 0.5f, r*tile - 0.5f, tile/2, tile/2, tile + 1, tile + 1, (blocks[r][c] == Level.blocktype.UPLEFT || blocks[r][c] == Level.blocktype.DOWNLEFT) ? -1 : 1, (blocks[r][c] == Level.blocktype.UPRIGHT || blocks[r][c] == Level.blocktype.UPLEFT) ? -1 : 1, 0);
+							continue;
+						}
+					}
+
 					batch.draw(dirt, c*tile - 0.5f, r*tile - 0.5f, tile + 1, tile + 1); // Compensating for gaps.
 				}
-				}
+			}
 		}
 	}
 }
