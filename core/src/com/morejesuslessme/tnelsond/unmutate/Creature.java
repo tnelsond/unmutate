@@ -74,7 +74,7 @@ public class Creature extends Rectangle {
 		secondaryColor = new Color(0, 0, 0, 1);
 		eyeColor = new Color(0, 0, 0, 1);
 		this.g = g;
-		this.express();
+		this.g.express(this);
 		
 		legThick *= width*7/200;
 		legLength = legLength * width * 2.0f / TLEG.w;
@@ -109,87 +109,6 @@ public class Creature extends Rectangle {
 		regions[Creature.EYEWHITE] = atlas.findRegion("eyewhite");
 		regions[Creature.LEG] = atlas.findRegion((legConcave) ? "bonefoot" : "roundrectfoot");
 		regions[Creature.SECONDARY] = (sex == Genome.Sex.STERILE) ? null : atlas.findRegion((sex == Genome.Sex.MALE) ? "horn" : "bow");
-	}
-	
-	public void express(){
-		/*
-		 * RED		legThick
-		 * GREEN	width		legLength
-		 */
-		int i = 0;
-		int j = 0;
-		
-		// ---- Chromosome 1
-		color.r = ((g.chromosomes[i].a[j] == Allele.DOM) ? .5f : ((g.chromosomes[i].a[j] == Allele.REC) ? .25f : 0)) + ((g.chromosomes[i].b[j] == Allele.DOM) ? .5f : ((g.chromosomes[i].b[j] == Allele.REC) ? .25f : 0));
-		j = 1;
-		legThick = ((g.chromosomes[i].a[j] == Allele.DOM) ? 5 : ((g.chromosomes[i].a[j] == Allele.REC) ? 4 : 2)) + ((g.chromosomes[i].b[j] == Allele.DOM) ? 5 : ((g.chromosomes[i].b[j] == Allele.REC) ? 4 : 2));
-		j = 2;
-		legConcave = g.chromosomes[i].a[j] != Allele.DOM && g.chromosomes[i].b[j] != Allele.DOM;
-		j = 3;
-		speed *= ((g.chromosomes[i].a[j] == Allele.DOM) ? 3 : ((g.chromosomes[i].a[j] == Allele.REC) ? 1 : .1)) + ((g.chromosomes[i].b[j] == Allele.DOM) ? 3 : ((g.chromosomes[i].b[j] == Allele.REC) ? 1 : .1));
-		j = 4;
-		eyeColor.b = Math.max((g.chromosomes[i].a[j] == Allele.DOM) ? .9f : ((g.chromosomes[i].a[j] == Allele.REC) ? .4f : 0), ((g.chromosomes[i].b[j] == Allele.DOM) ? .9f : ((g.chromosomes[i].b[j] == Allele.REC) ? .4f : 0)));
-		
-		// ---- Chromosome 2
-		++i; j = 0;
-		color.g = ((g.chromosomes[i].a[j] == Allele.DOM) ? .4f : ((g.chromosomes[i].a[j] == Allele.REC) ? .1f : 0)) + ((g.chromosomes[i].b[j] == Allele.DOM) ? .4f : ((g.chromosomes[i].b[j] == Allele.REC) ? .1f : 0));
-		j = 1;
-		width *= ((g.chromosomes[i].a[j] == Allele.DOM) ? .5 : ((g.chromosomes[i].a[j] == Allele.REC) ? .2 : .1)) + 
-				((g.chromosomes[i].b[j] == Allele.DOM) ? .5 : ((g.chromosomes[i].b[j] == Allele.REC) ? .2 : .1));
-		j = 2;
-		legLength *= ((g.chromosomes[i].a[j] == Allele.DOM) ? .5 : ((g.chromosomes[i].a[j] == Allele.REC) ? .2 : .1)) +
-				((g.chromosomes[i].b[j] == Allele.DOM) ? .5 : ((g.chromosomes[i].b[j] == Allele.REC) ? .2 : .1));
-		
-		// ---- Chromosome 3
-		++i; j = 0;
-		eyeColor.g = ((g.chromosomes[i].a[j]== Allele.DOM) ? .4f : ((g.chromosomes[i].a[j] == Allele.REC) ? .25f : 0)) + ((g.chromosomes[i].b[j] == Allele.DOM) ? .4f : ((g.chromosomes[i].b[j] == Allele.REC) ? .25f : 0));
-		j = 1;
-		jump += ((g.chromosomes[i].a[j]== Allele.DOM) ? 6 : ((g.chromosomes[i].a[j] == Allele.REC) ? 2 : 0))
-				+ ((g.chromosomes[i].b[j] == Allele.DOM) ? 6 : ((g.chromosomes[i].b[j] == Allele.REC) ? 2 : 0));
-		j = 2;
-		albino = (g.chromosomes[i].a[j] == Allele.MUT && g.chromosomes[i].b[j] == Allele.MUT);
-		
-			// Make colors subtractive
-		Color tempcolor = new Color(.9f, .9f, .9f, 1);
-		if(!albino) {
-			color = tempcolor.cpy().sub(color.b + color.g, color.r + color.b, color.g + color.r, 0);
-			eyeColor = tempcolor.cpy().sub(eyeColor.b + eyeColor.g, eyeColor.r + eyeColor.b, eyeColor.g + eyeColor.r, 0);
-		}
-		else {
-			color = tempcolor.cpy();
-			eyeColor = new Color(1, 0, 0, 1);
-		}
-
-		// ---- Chromosome 4 (SEX)
-		++i; j = 0;
-		Allele ca = g.chromosomes[i].a[j];
-		Allele cb = g.chromosomes[i].b[j];
-		if(ca == cb && ca == Allele.FEMALE)
-			sex = Genome.Sex.FEMALE;
-		else if((ca == Allele.MALE && cb == Allele.FEMALE) || (ca == Allele.FEMALE && cb == Allele.MALE))
-			sex = Genome.Sex.MALE;
-		else
-			sex = Genome.Sex.STERILE;
-
-		j = 1;
-		Allele[] femalea = null, femaleb = null, male = null;
-		if(sex == Genome.Sex.MALE){
-			femalea = (g.chromosomes[i].a[j] == Allele.FEMALE) ? g.chromosomes[i].a : g.chromosomes[i].b;
-			femaleb = femalea;
-			male = (g.chromosomes[i].a[j] == Allele.MALE) ? g.chromosomes[i].a : g.chromosomes[i].b;
-			// Male inheritance here
-			secondaryColor.g = ((male[j] == Allele.DOM) ? .9f : (male[j] == Allele.REC) ? .4f : .1f);
-		}
-		else if(sex == Genome.Sex.FEMALE){
-			femalea = g.chromosomes[i].a;
-			femaleb = g.chromosomes[i].b;
-			secondaryColor.r = ((femalea[j] == Allele.DOM) ? .45f : (femalea[j] == Allele.REC) ? .2f : .05f) + ((femaleb[j] == Allele.DOM) ? .45f : (femaleb[j] == Allele.REC) ? .2f : .05f);
-		}
-
-			tempcolor = new Color(1f, .9f, .9f, 1);
-			secondaryColor = tempcolor.cpy().sub(secondaryColor.b + secondaryColor.g, secondaryColor.r + secondaryColor.b, secondaryColor.g + secondaryColor.r, 0);
-				
-
 	}
 
 	public void moveToward(float cx, float cy) {
