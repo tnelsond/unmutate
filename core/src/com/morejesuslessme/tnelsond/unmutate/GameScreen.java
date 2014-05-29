@@ -55,39 +55,9 @@ public class GameScreen implements Screen {
 		creatures = new Creature[40];
 		needUpdates = new Creature[40];
 
-		Genome g1 = new Genome(
-				new Allele[][][] {
-						{ { Allele.DOM, Allele.DOM },
-							{ Allele.DOM, Allele.REC },
-							{ Allele.DOM, Allele.DOM },
-							{ Allele.REC, Allele.DOM },
-							{ Allele.MUT, Allele.DOM }, },
-						{ { Allele.REC, Allele.DOM },
-							{ Allele.REC, Allele.DOM },
-							{ Allele.DOM, Allele.REC }, },
-						{ { Allele.DOM, Allele.DOM },
-							{ Allele.DOM, Allele.MUT },
-							{ Allele.DOM, Allele.MUT },
-							{ Allele.DOM, Allele.MUT }, },
-						{ { Allele.FEMALE, Allele.FEMALE },
-							{ Allele.DOM, Allele.REC }}});
+		Genome g1 = new Genome(true);
 
-		Genome g2 = new Genome(
-				new Allele[][][] {
-						{ { Allele.MUT, Allele.REC },
-							{ Allele.MUT, Allele.REC },
-							{ Allele.REC, Allele.MUT },
-							{ Allele.MUT, Allele.REC },
-							{ Allele.REC, Allele.MUT }, },
-						{ { Allele.REC, Allele.DOM },
-							{ Allele.REC, Allele.REC },
-							{ Allele.REC, Allele.REC }, },
-						{ { Allele.REC, Allele.REC },
-							{ Allele.REC, Allele.REC },
-							{ Allele.REC, Allele.REC },
-							{ Allele.REC, Allele.MUT }, },
-						{ { Allele.MALE, Allele.FEMALE },
-							{ Allele.REC, Allele.REC }}});
+		Genome g2 = new Genome(false);
 
 		creatures[0] = new Creature(290, 100, g1, game.atlas);
 		creatures[1] = new Creature(700, 100, g2, game.atlas);

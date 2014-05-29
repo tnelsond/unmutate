@@ -6,20 +6,24 @@ public class Genome {
 	public enum Sex {
 		MALE, FEMALE, STERILE
 	}
-	public ChromosomePair[] chromosomes;
-	public final int[] LOCUS;
+	public final ChromosomePair[] chromosomes;
+	public int[] LOCUS;
 
 	public Allele[] femalea;
 	public Allele[] femaleb;
 	public Allele[] male;
 
-	public Genome(Allele[][][] c) {
+	public void initLOCUS(){
 		LOCUS = new int[]{
-			5,
+			6,
 			3,
 			4,
 			2,
 		};
+	}
+
+	public Genome(Allele[][][] c) {
+		initLOCUS();
 		chromosomes = new ChromosomePair[LOCUS.length];
 		for(int i=0; i<LOCUS.length; ++i){
 			int size = c[i].length;
@@ -34,16 +38,49 @@ public class Genome {
 	}
 	
 	public Genome(ChromosomePair[] c) {
-		LOCUS = new int[]{
-			5,
-			3,
-			4,
-			2,
-		};
+		initLOCUS();
 		chromosomes = c;
 	}
 	
-	public Genome breed(Genome other) {
+	public Genome(boolean female){
+		this(female ?
+			(new Allele[][][] {
+				{ { Allele.DOM, Allele.DOM },
+					{ Allele.DOM, Allele.REC },
+					{ Allele.DOM, Allele.DOM },
+					{ Allele.REC, Allele.DOM },
+					{ Allele.REC, Allele.DOM },
+					{ Allele.REC, Allele.DOM }, },
+				{ { Allele.REC, Allele.DOM },
+					{ Allele.REC, Allele.DOM },
+					{ Allele.DOM, Allele.REC }, },
+				{ { Allele.DOM, Allele.DOM },
+					{ Allele.DOM, Allele.MUT },
+					{ Allele.DOM, Allele.MUT },
+					{ Allele.DOM, Allele.MUT }, },
+				{ { Allele.FEMALE, Allele.FEMALE },
+					{ Allele.DOM, Allele.REC }}})
+			:
+			(new Allele[][][] {
+				{ { Allele.MUT, Allele.REC },
+					{ Allele.MUT, Allele.REC },
+					{ Allele.REC, Allele.MUT },
+					{ Allele.MUT, Allele.REC },
+					{ Allele.MUT, Allele.REC },
+					{ Allele.REC, Allele.DOM }, },
+				{ { Allele.REC, Allele.DOM },
+					{ Allele.REC, Allele.REC },
+					{ Allele.REC, Allele.REC }, },
+				{ { Allele.REC, Allele.REC },
+					{ Allele.REC, Allele.REC },
+					{ Allele.REC, Allele.REC },
+					{ Allele.REC, Allele.MUT }, },
+				{ { Allele.MALE, Allele.FEMALE },
+					{ Allele.REC, Allele.REC }}})
+		);
+	}
+	
+	public final Genome breed(Genome other) {
 		ChromosomePair[] childc = new ChromosomePair[LOCUS.length]; 
 		for(int i=0; i<chromosomes.length; ++i) {
 			childc[i] = new ChromosomePair(chromosomes[i].meiosis(), other.chromosomes[i].meiosis());
@@ -52,7 +89,7 @@ public class Genome {
 	}
 	
 	// Master inheritance function
-	public float phenotype(int i, int j, boolean mendelian, float dom, float rec, float mut){
+	public final float phenotype(int i, int j, boolean mendelian, float dom, float rec, float mut){
 		if(!mendelian){
 			// Since the inheritance is not mendelian, we divide the inheritance targets by 2 so that
 			// two genes will add up to form the whole.
@@ -71,7 +108,7 @@ public class Genome {
 				: mut );
 	}
 
-	public float phenotypeSex(int j, boolean mendelian, float dom, float rec, float mut){
+	public final float phenotypeSex(int j, boolean mendelian, float dom, float rec, float mut){
 		if(!mendelian){
 			// Since the inheritance is not mendelian, we divide the inheritance targets by 2 so that
 			// two genes will add up to form the whole.
@@ -91,13 +128,13 @@ public class Genome {
 	}
 
 
-	public boolean phenotype(int i, int j, boolean homo, Allele flag){
+	public final boolean phenotype(int i, int j, boolean homo, Allele flag){
 		if(homo)
 			return chromosomes[i].a[j] == flag && chromosomes[i].b[j] == flag;
 		return chromosomes[i].a[j] == flag || chromosomes[i].b[j] == flag;
 	}
 
-	public float phenotypeMale(int j, float dom, float rec, float mut){
+	public final float phenotypeMale(int j, float dom, float rec, float mut){
 		return
 				((male[j] == Allele.DOM) ? dom
 				: (male[j] == Allele.REC) ? rec
@@ -121,7 +158,9 @@ public class Genome {
 		j = 3;
 		c.speed = phenotype(i, j, false, 1, .4f, .1f);
 		j = 4;
-		c.eyeColor.b = phenotype(i, j, true, .9f, .4f, 0);
+		c.eyeColor.b = phenotype(i, j, true, .7f, .3f, 0);
+		j = 5;
+		c.accel = phenotype(i, j, false, 1, .8f, .3f);
 
 		// ---- Chromosome 2
 		++i; j = 0;
@@ -133,7 +172,7 @@ public class Genome {
 
 		// ---- Chromosome 3
 		++i; j = 0;
-		c.eyeColor.g = phenotype(i, j, true, .2f, .8f, 0);
+		c.eyeColor.g = phenotype(i, j, true, .2f, .6f, 0);
 		j = 1;
 		c.jump = phenotype(i, j, false, 1, .7f, .4f);
 		j = 2;
@@ -155,7 +194,7 @@ public class Genome {
 		}
 	}
 
-	public void setupSex(int i, int j, Creature c){
+	public final void setupSex(int i, int j, Creature c){
 		Allele ca = chromosomes[i].a[j];
 		Allele cb = chromosomes[i].b[j];
 		if(ca == cb && ca == Allele.FEMALE)

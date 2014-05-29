@@ -45,11 +45,11 @@ public class Creature extends Rectangle {
 	public boolean albino = false;
 	public boolean legConcave = false;
 	
-	public float accel = 0.3f;
+	public float accel = 1f;
 	public float speed = 1;
-	public float legThick = 0;
+	public float legThick = 1;
 	public float legLength = TLEG.w;
-	public float jump = 0;
+	public float jump = 1;
 	
 	public Genome.Sex sex;
 	public Genome g;
@@ -66,7 +66,7 @@ public class Creature extends Rectangle {
 	public int tick = 0;
 
 	public static Color pigmentize(Color base, Color offset){
-		return base.cpy().sub(offset.b + offset.g, offset.b + offset.r, offset.r + offset.g, 0);
+		return base.cpy().sub(offset.b + offset.g, offset.b + offset.r, offset.r + offset.g, 0).clamp();
 	}
 		
 	public Creature(float x, float y, Genome g, TextureAtlas atlas) {
@@ -92,6 +92,7 @@ public class Creature extends Rectangle {
 		}
 		secondaryColor = pigmentize(tempcolor, secondaryColor);
 		
+		accel *= .3;
 		jump *= 12;
 		width *= 64;
 		legThick *= width*7/20;
