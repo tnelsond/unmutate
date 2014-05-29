@@ -7,16 +7,17 @@ public class Genome {
 		MALE, FEMALE, STERILE
 	}
 	public ChromosomePair[] chromosomes;
-	static public int[] LOCUS = {
-		5,
-		3,
-		3,
-		2,
-	};
-	
+	public final int[] LOCUS;
+
 	public Genome(Allele[][][] c) {
-		chromosomes = new ChromosomePair[Genome.LOCUS.length];
-		for(int i=0; i<Genome.LOCUS.length; ++i){
+		LOCUS = new int[]{
+			5,
+			3,
+			3,
+			2,
+		};
+		chromosomes = new ChromosomePair[LOCUS.length];
+		for(int i=0; i<LOCUS.length; ++i){
 			int size = c[i].length;
 			Allele[] tempa = new Allele[size];
 			Allele[] tempb = new Allele[size];
@@ -29,15 +30,47 @@ public class Genome {
 	}
 	
 	public Genome(ChromosomePair[] c) {
+		LOCUS = new int[]{
+			5,
+			3,
+			3,
+			2,
+		};
 		chromosomes = c;
 	}
 	
 	public Genome breed(Genome other) {
-		ChromosomePair[] childc = new ChromosomePair[Genome.LOCUS.length]; 
+		ChromosomePair[] childc = new ChromosomePair[LOCUS.length]; 
 		for(int i=0; i<chromosomes.length; ++i) {
 			childc[i] = new ChromosomePair(chromosomes[i].meiosis(), other.chromosomes[i].meiosis());
 		}
 		return new Genome(childc);
+	}
+	
+	// Master inheritance function
+	public float phenotype(int i, int j, boolean mendelian, float dom, float rec, float mut){
+		if(!mendelian){
+			// Since the inheritance is not mendelian, we divide the inheritance targets by 2 so that
+			// two genes will add up to form the whole.
+			return
+					((chromosomes[i].a[j] == Allele.DOM) ? dom/2
+					: (chromosomes[i].a[j] == Allele.REC) ? rec/2
+					: mut/2)
+					+ 
+					((chromosomes[i].b[j] == Allele.DOM) ? dom/2
+					: (chromosomes[i].b[j] == Allele.REC) ? rec/2
+					: mut/2);
+		}
+		return
+				((chromosomes[i].a[j] == Allele.DOM || chromosomes[i].b[j] == Allele.DOM) ? dom
+				: (chromosomes[i].a[j] == Allele.REC || chromosomes[i].b[j] == Allele.REC) ? rec
+				: mut );
+	}
+
+	public boolean phenotype(int i, int j, boolean homo, Allele flag){
+		if(homo)
+			return chromosomes[i].a[j] == flag && chromosomes[i].b[j] == flag;
+		return chromosomes[i].a[j] == flag || chromosomes[i].b[j] == flag;
 	}
 	
 	public void express(Creature c){
@@ -49,46 +82,33 @@ public class Genome {
 		int j = 0;
 		
 		// ---- Chromosome 1
-		c.color.r = ((chromosomes[i].a[j] == Allele.DOM) ? .5f : ((chromosomes[i].a[j] == Allele.REC) ? .25f : 0)) + ((chromosomes[i].b[j] == Allele.DOM) ? .5f : ((chromosomes[i].b[j] == Allele.REC) ? .25f : 0));
+		c.color.r = phenotype(i, j, false, 1, .5f, .1f);
 		j = 1;
-		c.legThick = ((chromosomes[i].a[j] == Allele.DOM) ? 5 : ((chromosomes[i].a[j] == Allele.REC) ? 4 : 2)) + ((chromosomes[i].b[j] == Allele.DOM) ? 5 : ((chromosomes[i].b[j] == Allele.REC) ? 4 : 2));
+		c.legThick = phenotype(i, j, false, 1, .8f, .5f);
 		j = 2;
-		c.legConcave = chromosomes[i].a[j] != Allele.DOM && chromosomes[i].b[j] != Allele.DOM;
+		c.legConcave = !phenotype(i, j, false, Allele.DOM);
 		j = 3;
-		c.speed *= ((chromosomes[i].a[j] == Allele.DOM) ? 3 : ((chromosomes[i].a[j] == Allele.REC) ? 1 : .1)) + ((chromosomes[i].b[j] == Allele.DOM) ? 3 : ((chromosomes[i].b[j] == Allele.REC) ? 1 : .1));
+		c.speed = phenotype(i, j, false, 1, .4f, .1f);
 		j = 4;
-		c.eyeColor.b = Math.max((chromosomes[i].a[j] == Allele.DOM) ? .9f : ((chromosomes[i].a[j] == Allele.REC) ? .4f : 0), ((chromosomes[i].b[j] == Allele.DOM) ? .9f : ((chromosomes[i].b[j] == Allele.REC) ? .4f : 0)));
-		
+		c.eyeColor.b = phenotype(i, j, true, .9f, .4f, 0);
+
 		// ---- Chromosome 2
 		++i; j = 0;
-		c.color.g = ((chromosomes[i].a[j] == Allele.DOM) ? .4f : ((chromosomes[i].a[j] == Allele.REC) ? .1f : 0)) + ((chromosomes[i].b[j] == Allele.DOM) ? .4f : ((chromosomes[i].b[j] == Allele.REC) ? .1f : 0));
+		c.color.g = phenotype(i, j, false, .9f, .3f, 0);
 		j = 1;
-		c.width *= ((chromosomes[i].a[j] == Allele.DOM) ? .5 : ((chromosomes[i].a[j] == Allele.REC) ? .2 : .1)) + 
-				((chromosomes[i].b[j] == Allele.DOM) ? .5 : ((chromosomes[i].b[j] == Allele.REC) ? .2 : .1));
+		c.width = phenotype(i, j, false, 1, .6f, .1f);
 		j = 2;
-		c.legLength *= ((chromosomes[i].a[j] == Allele.DOM) ? .5 : ((chromosomes[i].a[j] == Allele.REC) ? .2 : .1)) +
-				((chromosomes[i].b[j] == Allele.DOM) ? .5 : ((chromosomes[i].b[j] == Allele.REC) ? .2 : .1));
-		
+		c.legLength = phenotype(i, j, false, 1, .5f, .1f);
+
 		// ---- Chromosome 3
 		++i; j = 0;
-		c.eyeColor.g = ((chromosomes[i].a[j]== Allele.DOM) ? .4f : ((chromosomes[i].a[j] == Allele.REC) ? .25f : 0)) + ((chromosomes[i].b[j] == Allele.DOM) ? .4f : ((chromosomes[i].b[j] == Allele.REC) ? .25f : 0));
+		c.eyeColor.g = phenotype(i, j, true, .2f, .8f, 0);
 		j = 1;
-		c.jump += ((chromosomes[i].a[j]== Allele.DOM) ? 6 : ((chromosomes[i].a[j] == Allele.REC) ? 2 : 0))
-				+ ((chromosomes[i].b[j] == Allele.DOM) ? 6 : ((chromosomes[i].b[j] == Allele.REC) ? 2 : 0));
+		c.jump = phenotype(i, j, false, 1, .7f, .4f);
 		j = 2;
-		c.albino = (chromosomes[i].a[j] == Allele.MUT && chromosomes[i].b[j] == Allele.MUT);
+		c.albino = phenotype(i, j, true, Allele.MUT); 
 		
-			// Make colors subtractive
-		Color tempcolor = new Color(.9f, .9f, .9f, 1);
-		if(!c.albino) {
-			c.color = tempcolor.cpy().sub(c.color.b + c.color.g, c.color.r + c.color.b, c.color.g + c.color.r, 0);
-			c.eyeColor = tempcolor.cpy().sub(c.eyeColor.b + c.eyeColor.g, c.eyeColor.r + c.eyeColor.b, c.eyeColor.g + c.eyeColor.r, 0);
-		}
-		else {
-			c.color = tempcolor.cpy();
-			c.eyeColor = new Color(1, 0, 0, 1);
-		}
-
+		
 		// ---- Chromosome 4 (SEX)
 		++i; j = 0;
 		Allele ca = chromosomes[i].a[j];
@@ -114,9 +134,6 @@ public class Genome {
 			femaleb = chromosomes[i].b;
 			c.secondaryColor.r = ((femalea[j] == Allele.DOM) ? .45f : (femalea[j] == Allele.REC) ? .2f : .05f) + ((femaleb[j] == Allele.DOM) ? .45f : (femaleb[j] == Allele.REC) ? .2f : .05f);
 		}
-
-			tempcolor = new Color(1f, .9f, .9f, 1);
-			c.secondaryColor = tempcolor.cpy().sub(c.secondaryColor.b + c.secondaryColor.g, c.secondaryColor.r + c.secondaryColor.b, c.secondaryColor.g + c.secondaryColor.r, 0);
 	}
 
 	public String toString() {

@@ -49,7 +49,7 @@ public class Creature extends Rectangle {
 	public float speed = 1;
 	public float legThick = 0;
 	public float legLength = TLEG.w;
-	public float jump = 2;
+	public float jump = 0;
 	
 	public Genome.Sex sex;
 	public Genome g;
@@ -64,9 +64,13 @@ public class Creature extends Rectangle {
 	public float pwalkStep = 0;
 	public float walkStep = 0;
 	public int tick = 0;
+
+	public static Color pigmentize(Color base, Color offset){
+		return base.cpy().sub(offset.b + offset.g, offset.b + offset.r, offset.r + offset.g, 0);
+	}
 		
 	public Creature(float x, float y, Genome g, TextureAtlas atlas) {
-		super(x, y, 63, 63);
+		super(x, y, 1, 1);
 		px = x;
 		py = y;
 		regions = new AtlasRegion[Creature.STATUS + 1];
@@ -75,9 +79,23 @@ public class Creature extends Rectangle {
 		eyeColor = new Color(0, 0, 0, 1);
 		this.g = g;
 		this.g.express(this);
+
+		// Make colors subtractive
+		Color tempcolor = new Color(.95f, .9f, .9f, 1);
+		if(!albino) {
+			color = Creature.pigmentize(tempcolor, color);
+			eyeColor = Creature.pigmentize(tempcolor, color);
+		}
+		else {
+			color = tempcolor.cpy();
+			eyeColor = new Color(1, 0, 0, 1);
+		}
+		secondaryColor = pigmentize(tempcolor, secondaryColor);
 		
-		legThick *= width*7/200;
-		legLength = legLength * width * 2.0f / TLEG.w;
+		jump *= 12;
+		width *= 64;
+		legThick *= width*7/20;
+		legLength *= Creature.TLEG.w * width * 2.0f / TLEG.w;
 		speed *= Math.sqrt(legLength);
 		height = legLength + width * .8f - legThick;
 
