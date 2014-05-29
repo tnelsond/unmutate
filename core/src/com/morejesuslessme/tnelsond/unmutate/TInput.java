@@ -242,6 +242,10 @@ public class TInput implements InputProcessor {
 				break;
 			case Keys.TAB:
 				tab();
+				break;
+			case Keys.DEL:
+				kill();
+				break;
 		}
 			
 			

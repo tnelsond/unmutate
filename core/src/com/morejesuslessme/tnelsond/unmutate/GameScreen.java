@@ -52,8 +52,8 @@ public class GameScreen implements Screen {
 		halo = game.atlas.findRegion("halo");
 		currentlevel = new Level(game.atlas, "levels/1.txt");
 		shapeRenderer = new ShapeRenderer();
-		creatures = new Creature[800];
-		needUpdates = new Creature[10];
+		creatures = new Creature[40];
+		needUpdates = new Creature[40];
 
 		Genome g1 = new Genome(
 				new Allele[][][] {
@@ -66,6 +66,7 @@ public class GameScreen implements Screen {
 							{ Allele.REC, Allele.DOM },
 							{ Allele.DOM, Allele.REC }, },
 						{ { Allele.DOM, Allele.DOM },
+							{ Allele.DOM, Allele.MUT },
 							{ Allele.DOM, Allele.MUT },
 							{ Allele.DOM, Allele.MUT }, },
 						{ { Allele.FEMALE, Allele.FEMALE },
@@ -82,6 +83,7 @@ public class GameScreen implements Screen {
 							{ Allele.REC, Allele.REC },
 							{ Allele.REC, Allele.REC }, },
 						{ { Allele.REC, Allele.REC },
+							{ Allele.REC, Allele.REC },
 							{ Allele.REC, Allele.REC },
 							{ Allele.REC, Allele.MUT }, },
 						{ { Allele.MALE, Allele.FEMALE },
@@ -209,7 +211,7 @@ public class GameScreen implements Screen {
 			for(int i = 0; i < needUpdates.length; ++i) {
 				Creature c = needUpdates[i];
 				if (c != null) {
-					if(c != selectedCreature && c.onGround && Math.abs(c.vx) < .0001 && c.vy > -0.0001 && c.tick > 10){
+					if(c != selectedCreature && c.onGround && Math.abs(c.vx) < .0001 && c.vy > -0.0001 && c.tick > 3){
 						needUpdates[i] = null;
 						c.vy = 0;
 						c.tick = 0;

@@ -17,7 +17,7 @@ public class Genome {
 		LOCUS = new int[]{
 			5,
 			3,
-			3,
+			4,
 			2,
 		};
 		chromosomes = new ChromosomePair[LOCUS.length];
@@ -37,7 +37,7 @@ public class Genome {
 		LOCUS = new int[]{
 			5,
 			3,
-			3,
+			4,
 			2,
 		};
 		chromosomes = c;
@@ -127,7 +127,7 @@ public class Genome {
 		++i; j = 0;
 		c.color.g = phenotype(i, j, false, .9f, .3f, 0);
 		j = 1;
-		c.width = phenotype(i, j, false, 1, .6f, .1f);
+		c.width = phenotype(i, j, false, .5f, .3f, .2f);
 		j = 2;
 		c.legLength = phenotype(i, j, false, 1, .5f, .1f);
 
@@ -137,8 +137,9 @@ public class Genome {
 		j = 1;
 		c.jump = phenotype(i, j, false, 1, .7f, .4f);
 		j = 2;
-		c.albino = phenotype(i, j, true, Allele.MUT); 
-		
+		c.albino = phenotype(i, j, true, Allele.MUT);
+		j = 3;
+		c.width += phenotype(i, j, false, .5f, .2f, .1f);		
 		
 		// ---- Chromosome 4 (SEX)
 		++i; j = 0;
