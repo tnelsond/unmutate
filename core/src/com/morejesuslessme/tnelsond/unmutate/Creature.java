@@ -84,7 +84,7 @@ public class Creature extends Rectangle {
 		Color tempcolor = new Color(.95f, .9f, .9f, 1);
 		if(!albino) {
 			color = Creature.pigmentize(tempcolor, color);
-			eyeColor = Creature.pigmentize(tempcolor, color);
+			eyeColor = Creature.pigmentize(tempcolor, eyeColor);
 		}
 		else {
 			color = tempcolor.cpy();

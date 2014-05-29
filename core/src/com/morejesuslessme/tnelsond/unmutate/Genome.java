@@ -9,6 +9,10 @@ public class Genome {
 	public ChromosomePair[] chromosomes;
 	public final int[] LOCUS;
 
+	public Allele[] femalea;
+	public Allele[] femaleb;
+	public Allele[] male;
+
 	public Genome(Allele[][][] c) {
 		LOCUS = new int[]{
 			5,
@@ -67,10 +71,37 @@ public class Genome {
 				: mut );
 	}
 
+	public float phenotypeSex(int j, boolean mendelian, float dom, float rec, float mut){
+		if(!mendelian){
+			// Since the inheritance is not mendelian, we divide the inheritance targets by 2 so that
+			// two genes will add up to form the whole.
+			return
+					((femalea[j] == Allele.DOM) ? dom/2
+					: (femalea[j] == Allele.REC) ? rec/2
+					: mut/2)
+					+ 
+					((femaleb[j] == Allele.DOM) ? dom/2
+					: (femaleb[j] == Allele.REC) ? rec/2
+					: mut/2);
+		}
+		return
+				((femalea[j] == Allele.DOM || femaleb[j] == Allele.DOM) ? dom
+				: (femalea[j] == Allele.REC || femaleb[j] == Allele.REC) ? rec
+				: mut );
+	}
+
+
 	public boolean phenotype(int i, int j, boolean homo, Allele flag){
 		if(homo)
 			return chromosomes[i].a[j] == flag && chromosomes[i].b[j] == flag;
 		return chromosomes[i].a[j] == flag || chromosomes[i].b[j] == flag;
+	}
+
+	public float phenotypeMale(int j, float dom, float rec, float mut){
+		return
+				((male[j] == Allele.DOM) ? dom
+				: (male[j] == Allele.REC) ? rec
+				: mut);
 	}
 	
 	public void express(Creature c){
@@ -111,6 +142,19 @@ public class Genome {
 		
 		// ---- Chromosome 4 (SEX)
 		++i; j = 0;
+		setupSex(i, j, c);
+		j = 1;
+		if(c.sex == Genome.Sex.MALE){	
+			c.secondaryColor.g = phenotypeMale(j, .6f, .3f, .1f);
+		}
+		else if(c.sex == Genome.Sex.FEMALE){
+			femalea = chromosomes[i].a;
+			femaleb = chromosomes[i].b;
+			c.secondaryColor.r = phenotypeSex(j, true, .9f, .4f, .1f);
+		}
+	}
+
+	public void setupSex(int i, int j, Creature c){
 		Allele ca = chromosomes[i].a[j];
 		Allele cb = chromosomes[i].b[j];
 		if(ca == cb && ca == Allele.FEMALE)
@@ -121,20 +165,13 @@ public class Genome {
 			c.sex = Genome.Sex.STERILE;
 
 		j = 1;
-		Allele[] femalea = null, femaleb = null, male = null;
 		if(c.sex == Genome.Sex.MALE){
 			femalea = (chromosomes[i].a[j] == Allele.FEMALE) ? chromosomes[i].a : chromosomes[i].b;
 			femaleb = femalea;
 			male = (chromosomes[i].a[j] == Allele.MALE) ? chromosomes[i].a : chromosomes[i].b;
-			// Male inheritance here
-			c.secondaryColor.g = ((male[j] == Allele.DOM) ? .9f : (male[j] == Allele.REC) ? .4f : .1f);
-		}
-		else if(c.sex == Genome.Sex.FEMALE){
-			femalea = chromosomes[i].a;
-			femaleb = chromosomes[i].b;
-			c.secondaryColor.r = ((femalea[j] == Allele.DOM) ? .45f : (femalea[j] == Allele.REC) ? .2f : .05f) + ((femaleb[j] == Allele.DOM) ? .45f : (femaleb[j] == Allele.REC) ? .2f : .05f);
 		}
 	}
+	
 
 	public String toString() {
 		String ret = "Genome{";
