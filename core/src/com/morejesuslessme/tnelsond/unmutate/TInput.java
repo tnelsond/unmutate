@@ -111,15 +111,33 @@ public class TInput implements InputProcessor {
 	}
 
 	public final void breed(){
-		Creature temp = game.currentlevel.breeder1.breed(game.game.atlas);
-		if(temp != null){
-			temp.y += game.currentlevel.tile;
+		int index = -1;
+		Creature temp = null;
+		Creature otherparent = null;
+		if(game.selectedCreature.breedable && game.selectedCreature.sex != Genome.Sex.STERILE){
 			for(int i = 0; i < game.creatures.length; ++i){
 				if(game.creatures[i] == null){
-					game.creatures[i] = temp;
-					game.addToUpdates(temp);
-					return;
+					index = i;
 				}
+				else if(game.creatures[i] != game.selectedCreature
+						&& game.creatures[i].breedable
+						&& game.selectedCreature.sex != game.creatures[i].sex
+						&& game.creatures[i].sex != Genome.Sex.STERILE
+						&& (int)(game.creatures[i].y/10) == (int)(game.selectedCreature.y/10)
+						&& game.creatures[i].overlaps(game.selectedCreature)){
+					otherparent = game.creatures[i];
+					temp = game.creatures[i].breed(game.selectedCreature, game.game.atlas);
+				}
+
+				if(temp != null && index != -1)
+					break;
+			}
+			if(index != -1 && temp != null){
+				game.creatures[index] = temp;
+				game.selectedCreature.vx = 4;
+				otherparent.vx = -4;
+				temp.vy = 4;
+				otherparent.awake = true;
 			}
 		}
 	}
@@ -129,16 +147,12 @@ public class TInput implements InputProcessor {
 			for(int i = 0; i < game.creatures.length; ++i){
 				if(game.creatures[i] == game.selectedCreature){
 					game.creatures[i] = null;
+					break;
 				}
 			}
-			for(int i = 0; i < game.needUpdates.length; ++i){
-				if(game.needUpdates[i] == game.selectedCreature){
-					game.needUpdates[i] = null;
-				}
-			}
-			game.selectedCreature = null;
 		}
 	}
+
 	public final void tab(){
 		if(game.selectedCreature != null){
 			Creature temp = null;

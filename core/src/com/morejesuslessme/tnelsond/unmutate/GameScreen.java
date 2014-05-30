@@ -42,7 +42,6 @@ public class GameScreen implements Screen {
 	
 	Creature creatures[];
 	Creature selectedCreature;
-	Creature needUpdates[];
 	AtlasRegion halo;
 
 	public GameScreen(final Unmutate game) {
@@ -53,10 +52,8 @@ public class GameScreen implements Screen {
 		currentlevel = new Level(game.atlas, "levels/1.txt");
 		shapeRenderer = new ShapeRenderer();
 		creatures = new Creature[40];
-		needUpdates = new Creature[40];
 
 		Genome g1 = new Genome(true);
-
 		Genome g2 = new Genome(false);
 
 		creatures[0] = new Creature(290, 100, g1, game.atlas);
@@ -64,10 +61,8 @@ public class GameScreen implements Screen {
 		creatures[2] = creatures[0].breed(creatures[1], game.atlas);
 		selectedCreature = null;// creatures[0];
 
-		int i = 0;
 		for(Creature c : creatures){
 			if(c != null){
-				needUpdates[i++] = c;
 				System.out.println(c.g);
 			}
 		}
@@ -85,26 +80,11 @@ public class GameScreen implements Screen {
 
 	public void setCreature(Creature c){
 		selectedCreature = c;
-		addToUpdates(c);	
-	}
-
-	public void addToUpdates(Creature c){
-		int temp = -1;
-		for(int i = 0; i < needUpdates.length; ++i){
-			if(needUpdates[i] == null){
-				temp = i;
-			}
-			if(needUpdates[i] == c){
-				return;
-			}
-		}
-		if(temp != -1){
-			needUpdates[temp] = c;
-		}
+		c.awake = true;
 	}
 
 	public void draw(final float alpha) {
-			Vector3 pos = new Vector3(camera.position.x, camera.position.y, 0);
+		Vector3 pos = new Vector3(camera.position.x, camera.position.y, 0);
 		if (selectedCreature != null) {
 			pos.x = selectedCreature.px + alpha * (selectedCreature.x - selectedCreature.px);
 			pos.y = selectedCreature.py + alpha * (selectedCreature.y - selectedCreature.py);
@@ -175,14 +155,12 @@ public class GameScreen implements Screen {
 
 		accumulator += time;
 		while(accumulator >= physicsStep){ // Physics loop
-			currentlevel.update();
 			control.update();
 			//control.stage.act(); //maybe don't need
-			for(int i = 0; i < needUpdates.length; ++i) {
-				Creature c = needUpdates[i];
-				if (c != null) {
+			for(Creature c : creatures){
+				if(c != null && c.awake) {
 					if(c != selectedCreature && c.onGround && Math.abs(c.vx) < .0001 && c.vy > -0.0001 && c.tick > 3){
-						needUpdates[i] = null;
+						c.awake = false;
 						c.vy = 0;
 						c.tick = 0;
 					}

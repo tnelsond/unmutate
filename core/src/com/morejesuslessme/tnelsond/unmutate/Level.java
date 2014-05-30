@@ -15,14 +15,13 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Level {
 	public static enum blocktype{
-		DIRT, NONE, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, BREED1MALE, BREED1FEMALE, BREED1CHILD
+		DIRT, NONE, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, BREED
 	}
 	private AtlasRegion dirt, slant;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
 	public blocktype blocks[][];
-	public Breeder breeder1;
 	public float GRAVITY = 0.4f;
 	
 	public Level(TextureAtlas atlas, String filename){
@@ -32,8 +31,6 @@ public class Level {
 		Scanner scan = new Scanner(reader);
 		w = scan.nextInt();
 		h = scan.nextInt();
-		boolean breeder = false;
-		breeder1 = new Breeder(0, 0, 0);
 		blocks = new blocktype[h][w];
 		int row = h;
 		while(scan.hasNextLine()) {
@@ -42,24 +39,10 @@ public class Level {
 			for(int i=0; i<str.length(); ++i){
 				char ch = str.charAt(i);
 				if(ch == '#'){
-					if(breeder){
-						blocks[row][col] = Level.blocktype.BREED1CHILD;
-						blocks[row + 1][col] = Level.blocktype.BREED1CHILD;
-					}
-					else{
-						blocks[row][col] = Level.blocktype.DIRT;
-					}
+					blocks[row][col] = Level.blocktype.DIRT;
 				}
-				else if(ch == '1'){
-					breeder = true;
-					breeder1.row = row;
-					breeder1.colFemale = col;
-					blocks[row][col] = Level.blocktype.BREED1FEMALE;
-				}
-				else if(ch == '2'){
-					breeder = false;
-					breeder1.colMale = col;
-					blocks[row][col] = Level.blocktype.BREED1MALE;
+				else if(ch == 'o'){
+					blocks[row][col] = Level.blocktype.BREED;
 				}
 				else if(ch == '/'){
 					if(row < h && blocks[row + 1][col] == Level.blocktype.DIRT){
@@ -86,10 +69,6 @@ public class Level {
 		scan.close();
 	}
 
-	public void update(){
-		breeder1.update();
-	}
-	
 	public void draw(SpriteBatch batch, Vector3 pos, float width, float height){
 		int c1 = Math.max((int) ((pos.x - width/2)/tile), 0);
 		int r1 = Math.max((int) ((pos.y - height/2)/tile), 0);
@@ -100,14 +79,11 @@ public class Level {
 		for(int r=r1; r<r2; ++r){
 			for(int c=c1; c<c2; ++c){
 				if(blocks[r][c] != Level.blocktype.NONE){
-					if(blocks[r][c] == Level.blocktype.BREED1FEMALE){
-						batch.setColor(breeder1.femaleColor());
-					}
-					else if(blocks[r][c] == Level.blocktype.BREED1MALE){
-						batch.setColor(breeder1.maleColor());
-					}
-					else if(blocks[r][c] == Level.blocktype.BREED1CHILD){
-						batch.setColor(breeder1.childColor());
+					if(blocks[r][c] == Level.blocktype.BREED){
+						if((r + c) % 2 == 1)
+							batch.setColor(.1f, .2f, .5f, 1);
+						else
+							batch.setColor(.1f, .2f, .4f, 1);
 					}
 					else{
 						if((r + c) % 2 == 1)

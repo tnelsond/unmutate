@@ -60,6 +60,8 @@ public class Creature extends Rectangle {
 	public boolean movingDown = false;
 	public boolean movingRight = false;
 	public boolean movingLeft = false;
+	public boolean breedable = false;
+	public boolean awake = true;
 	
 	public float pwalkStep = 0;
 	public float walkStep = 0;
@@ -148,6 +150,7 @@ public class Creature extends Rectangle {
 	}
 	
 	public void update(Level level, SpriteBatch batch) {
+		breedable = false;
 		px = x;
 		py = y;
 		if(!onGround)
@@ -295,10 +298,8 @@ public class Creature extends Rectangle {
 					y = r*level.tile + cor;
 					vy = 0;
 					done = true;
-					if(sex == Genome.Sex.MALE && b == blocktype.BREED1MALE)
-						level.breeder1.male = this;
-					else if(sex == Genome.Sex.FEMALE && b == blocktype.BREED1FEMALE)
-						level.breeder1.female = this;
+					if(b == blocktype.BREED)
+						breedable = true;
 					break;
 				}
 			}
