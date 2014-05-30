@@ -12,9 +12,6 @@ import com.morejesuslessme.tnelsond.unmutate.Level.blocktype;
 
 
 public class Creature extends Rectangle {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7611724726502808151L;
 	
 	public int FLOOR = 100;
@@ -61,11 +58,14 @@ public class Creature extends Rectangle {
 	public boolean movingRight = false;
 	public boolean movingLeft = false;
 	public boolean breedable = false;
+
 	public boolean awake = true;
-	
 	public float pwalkStep = 0;
 	public float walkStep = 0;
 	public int tick = 0;
+
+	public int grassc = -1;
+	public int grassr = -1;
 
 	public static Color pigmentize(Color base, Color offset){
 		return base.cpy().sub(offset.b + offset.g, offset.b + offset.r, offset.r + offset.g, 0).clamp();
@@ -150,6 +150,8 @@ public class Creature extends Rectangle {
 	}
 	
 	public void update(Level level, SpriteBatch batch) {
+		grassc = -1;
+		grassr = -1;
 		breedable = false;
 		px = x;
 		py = y;
@@ -298,10 +300,37 @@ public class Creature extends Rectangle {
 					y = r*level.tile + cor;
 					vy = 0;
 					done = true;
-					if(b == blocktype.BREED)
+					if(b == blocktype.GRASS){
+						grassc = c;
+						grassr = r;
 						breedable = true;
+					}
 					break;
 				}
+			}
+		}
+	}
+
+	public void checkForGrass(Level level){
+		int r = (int) Math.floor((y - 1) / level.tile);
+		//if(r < 0)
+		//		return;
+		int c1 = (int) (x / level.tile) - 1;
+		int c2 = (int) ((x + width) / level.tile);
+		if(c2 == c1)
+			--c1;
+		int c;
+		Titer col = new Titer(c1, c2);
+		while(col.hasNext()){
+			c = (Integer) col.next();
+			//batch.setColor(0, 0, 0, .5f);
+			//batch.draw(level.dirt, c*level.tile, r*level.tile);
+			Level.blocktype b = level.blocks[r][c];
+			if(b == blocktype.GRASS){
+				grassc = c;
+				grassr = r;
+				breedable = true;
+				break;
 			}
 		}
 	}
@@ -344,7 +373,8 @@ public class Creature extends Rectangle {
 		}
 	}
 	
-	public Creature breed(Creature other, TextureAtlas atlas) {
+	public Creature breed(Creature other, Level level, TextureAtlas atlas) {
+		level.consume(grassr, grassc);
 		return new Creature((x + other.x)/2, (y + other.y)/2, g.breed(other.g), atlas);
 	}
 }

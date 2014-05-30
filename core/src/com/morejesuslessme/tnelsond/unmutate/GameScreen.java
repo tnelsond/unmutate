@@ -51,14 +51,13 @@ public class GameScreen implements Screen {
 		halo = game.atlas.findRegion("halo");
 		currentlevel = new Level(game.atlas, "levels/1.txt");
 		shapeRenderer = new ShapeRenderer();
-		creatures = new Creature[40];
+		creatures = new Creature[50];
 
 		Genome g1 = new Genome(true);
 		Genome g2 = new Genome(false);
 
 		creatures[0] = new Creature(290, 100, g1, game.atlas);
 		creatures[1] = new Creature(700, 100, g2, game.atlas);
-		creatures[2] = creatures[0].breed(creatures[1], game.atlas);
 		selectedCreature = null;// creatures[0];
 
 		for(Creature c : creatures){
@@ -126,7 +125,6 @@ public class GameScreen implements Screen {
 
 		currentlevel.draw(game.batch, camera.position, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-		
 	/*
 		shapeRenderer.begin(ShapeType.Filled);
 
@@ -156,6 +154,7 @@ public class GameScreen implements Screen {
 		accumulator += time;
 		while(accumulator >= physicsStep){ // Physics loop
 			control.update();
+			currentlevel.update();
 			//control.stage.act(); //maybe don't need
 			for(Creature c : creatures){
 				if(c != null && c.awake) {

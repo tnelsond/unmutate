@@ -3,6 +3,9 @@ package com.morejesuslessme.tnelsond.unmutate;
 import java.io.Reader;
 import java.util.Scanner;
 
+import java.util.Queue;
+import java.util.LinkedList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -15,14 +18,38 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Level {
 	public static enum blocktype{
-		DIRT, NONE, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, BREED
+		DIRT, NONE, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, GRASS
 	}
-	private AtlasRegion dirt, slant;
+	public AtlasRegion dirt, slant;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
 	public blocktype blocks[][];
 	public float GRAVITY = 0.4f;
+
+	LinkedList grassGrow = new LinkedList();
+
+	public void consume(int r, int c){
+		if(blocks[r][c] == Level.blocktype.GRASS){
+			blocks[r][c] = Level.blocktype.DIRT;
+			int offset = 0;
+			if(grassGrow.size() > 0){
+				TileAction last = (TileAction) grassGrow.getLast();
+				offset = last.delay;
+			}
+			grassGrow.add(new TileAction(r, c, 2000 - offset));
+		}
+	}
+	
+	public void update(){
+		if(grassGrow.size() > 0){
+			TileAction t = (TileAction) grassGrow.element();
+			if(t != null && t.tick()){
+				blocks[t.r][t.c] = Level.blocktype.GRASS;
+				grassGrow.remove(t);
+			}
+		}
+	}
 	
 	public Level(TextureAtlas atlas, String filename){
 		dirt = atlas.findRegion("dirt");
@@ -42,7 +69,7 @@ public class Level {
 					blocks[row][col] = Level.blocktype.DIRT;
 				}
 				else if(ch == 'o'){
-					blocks[row][col] = Level.blocktype.BREED;
+					blocks[row][col] = Level.blocktype.GRASS;
 				}
 				else if(ch == '/'){
 					if(row < h && blocks[row + 1][col] == Level.blocktype.DIRT){
@@ -79,17 +106,17 @@ public class Level {
 		for(int r=r1; r<r2; ++r){
 			for(int c=c1; c<c2; ++c){
 				if(blocks[r][c] != Level.blocktype.NONE){
-					if(blocks[r][c] == Level.blocktype.BREED){
+					if(blocks[r][c] == Level.blocktype.GRASS){
 						if((r + c) % 2 == 1)
-							batch.setColor(.1f, .2f, .5f, 1);
+							batch.setColor(.1f, .7f, .0f, 1);
 						else
-							batch.setColor(.1f, .2f, .4f, 1);
+							batch.setColor(.1f, .6f, .0f, 1);
 					}
 					else{
 						if((r + c) % 2 == 1)
-							batch.setColor(.1f, .6f, 0, 1);
+							batch.setColor(.4f, .3f, 0, 1);
 						else
-							batch.setColor(.1f, .5f, 0, 1);
+							batch.setColor(.3f, .2f, 0, 1);
 						if(blocks[r][c] != Level.blocktype.DIRT){
 							batch.draw(slant, c*tile - 0.5f, r*tile - 0.5f, tile/2, tile/2, tile + 1, tile + 1, (blocks[r][c] == Level.blocktype.UPLEFT || blocks[r][c] == Level.blocktype.DOWNLEFT) ? -1 : 1, (blocks[r][c] == Level.blocktype.UPRIGHT || blocks[r][c] == Level.blocktype.UPLEFT) ? -1 : 1, 0);
 							continue;

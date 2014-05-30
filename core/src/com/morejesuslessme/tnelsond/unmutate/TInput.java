@@ -114,19 +114,26 @@ public class TInput implements InputProcessor {
 		int index = -1;
 		Creature temp = null;
 		Creature otherparent = null;
+		if(!game.selectedCreature.breedable)
+			game.selectedCreature.checkForGrass(game.currentlevel);
 		if(game.selectedCreature.breedable && game.selectedCreature.sex != Genome.Sex.STERILE){
 			for(int i = 0; i < game.creatures.length; ++i){
 				if(game.creatures[i] == null){
 					index = i;
 				}
+				// TODO: make breeding check for grass spots under the creatures. Even if breedable is not true.
 				else if(game.creatures[i] != game.selectedCreature
-						&& game.creatures[i].breedable
 						&& game.selectedCreature.sex != game.creatures[i].sex
 						&& game.creatures[i].sex != Genome.Sex.STERILE
 						&& (int)(game.creatures[i].y/10) == (int)(game.selectedCreature.y/10)
 						&& game.creatures[i].overlaps(game.selectedCreature)){
-					otherparent = game.creatures[i];
-					temp = game.creatures[i].breed(game.selectedCreature, game.game.atlas);
+					if(!game.creatures[i].breedable){
+						game.creatures[i].checkForGrass(game.currentlevel);
+					}
+					if(game.creatures[i].breedable){
+						otherparent = game.creatures[i];
+						temp = game.creatures[i].breed(game.selectedCreature, game.currentlevel, game.game.atlas);
+					}
 				}
 
 				if(temp != null && index != -1)
