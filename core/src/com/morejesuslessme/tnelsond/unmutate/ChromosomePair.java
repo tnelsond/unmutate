@@ -8,10 +8,18 @@ public class ChromosomePair {
 	public Allele[] b;
 	public static float MUTATION = 0.04f;
 	public static float CROSSOVER = 0.2f;
+
 	public ChromosomePair(Allele[] a, Allele[] b) {
 		this.a = a;
 		this.b = b;
 	}
+
+	// Only for reflection
+	public ChromosomePair(){
+		a = null;
+		b = null;
+	}
+
 	public Allele[] meiosis() {
 		Allele[] chromosome = new Allele[a.length];
 		boolean cAllele = MathUtils.randomBoolean();

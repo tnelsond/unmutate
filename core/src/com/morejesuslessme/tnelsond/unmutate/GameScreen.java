@@ -21,7 +21,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
-import com.badlogic.gdx.files.FileHandle;
+
+import com.badlogic.gdx.Preferences;
 
 import java.lang.Math;
 
@@ -32,6 +33,7 @@ public class GameScreen implements Screen {
 	final Unmutate game;
 
 	public ShapeRenderer shapeRenderer;
+	public Json json = new Json();
 
 	public Level currentlevel;
 	Color backgroundColor;
@@ -43,45 +45,26 @@ public class GameScreen implements Screen {
 	private float physicsStep = 1.0f / 60.0f;
 
 	private TInput control;
+
+	public Preferences pref;
 	
 	Creature creatures[];
-	Creature selectedCreature;
+	Creature selectedCreature = null;
 	AtlasRegion halo;
 
 	public GameScreen(final Unmutate game) {
 		this.game = game;
 	
+		json.setOutputType(OutputType.minimal);
+		pref = Gdx.app.getPreferences("level1");
 		backgroundColor = new Color(0.4f, 0.8f, 1f, 1);
 		halo = game.atlas.findRegion("halo");
 		currentlevel = new Level(game.atlas, "levels/1.txt");
 		shapeRenderer = new ShapeRenderer();
-		creatures = new Creature[50];
+		creatures = new Creature[40];
 
-		Genome g1 = new Genome(true);
-		Genome g2 = new Genome(false);
-
-		creatures[0] = new Creature(290, 100, g1, game.atlas);
-		creatures[1] = new Creature(700, 100, g2, game.atlas);
-
-		Json json = new Json();
-		json.setOutputType(OutputType.minimal);
-		System.out.println(json.prettyPrint(creatures[0].g));
-		/*String str = Gdx.files.internal("1_0.json");
-		if(str != null){
-
-		}
-		else{
-			creatures[2] = new Creature(400, 100, g2.breed(g1), game.atlas);
-		}
-		*/
-		selectedCreature = null;// creatures[0];
-
-		for(Creature c : creatures){
-			if(c != null){
-				System.out.println(c.g);
-			}
-		}
-
+		loadCreatures();
+	
 		// shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false);
@@ -91,6 +74,28 @@ public class GameScreen implements Screen {
 		InputMultiplexer im = new InputMultiplexer((InputProcessor)control.stage);
 		im.addProcessor(control);
 		Gdx.input.setInputProcessor(im);
+	}
+
+	public void loadCreatures(){
+		for(int i = 0; i < currentlevel.spawns.length; ++i){
+			String key = ((i % 2 == 0) ? "male" : "female") + i/2;
+			String str = pref.getString(key, "null");
+			boolean load = true;
+			Genome g = null;
+			if(str.equals("null")){
+				if(i <= 1){
+					g = new Genome((i % 2 == 0) ? false : true);
+					str = json.toJson(g);
+					pref.putString(key, str);
+				}
+				else
+					load = false;
+			}
+			if(load){
+				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, (g == null) ? json.fromJson(Genome.class, str) : g, game.atlas);
+			}
+		}
+		pref.flush();
 	}
 
 	public void setCreature(Creature c){

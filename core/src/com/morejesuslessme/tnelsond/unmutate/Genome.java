@@ -41,6 +41,12 @@ public class Genome {
 		initLOCUS();
 		chromosomes = c;
 	}
+
+	// Only for reflection
+	public Genome(){
+		initLOCUS();
+		chromosomes = null;
+	}
 	
 	public Genome(boolean female){
 		this(female ?

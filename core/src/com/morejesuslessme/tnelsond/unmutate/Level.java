@@ -26,6 +26,7 @@ public class Level {
 	public int tile = 32;
 	public blocktype blocks[][];
 	public float GRAVITY = 0.4f;
+	public Index[] spawns = new Index[4];
 
 	LinkedList grassGrow = new LinkedList();
 
@@ -37,7 +38,7 @@ public class Level {
 				TileAction last = (TileAction) grassGrow.getLast();
 				offset = last.delay;
 			}
-			grassGrow.add(new TileAction(r, c, 2000 - offset));
+			grassGrow.add(new TileAction(r, c, 1000 - offset));
 		}
 	}
 	
@@ -60,6 +61,7 @@ public class Level {
 		h = scan.nextInt();
 		blocks = new blocktype[h][w];
 		int row = h;
+		int spawn = 0;
 		while(scan.hasNextLine()) {
 			int col = 0;
 			String str = scan.nextLine();
@@ -70,6 +72,10 @@ public class Level {
 				}
 				else if(ch == 'o'){
 					blocks[row][col] = Level.blocktype.GRASS;
+				}
+				else if(ch == '$'){
+					spawns[spawn++] = new Index(row, col);
+					blocks[row][col] = Level.blocktype.NONE;
 				}
 				else if(ch == '/'){
 					if(row < h && blocks[row + 1][col] == Level.blocktype.DIRT){

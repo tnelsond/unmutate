@@ -1,13 +1,11 @@
 package com.morejesuslessme.tnelsond.unmutate;
 
-public class TileAction{
-	public int r;
-	public int c;
-	public int delay = 300;
+public class TileAction extends Index{
+	public int delay;
 
 	public TileAction(int r, int c, int delay){
-		this.r = r;
-		this.c = c;
+		super(r, c);
+		this.delay = delay;
 	}
 
 	public boolean tick(){
