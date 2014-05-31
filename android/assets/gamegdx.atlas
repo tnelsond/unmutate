@@ -1,26 +1,26 @@
 
 gamegdx.png
-size: 743,716
+size: 1012,249
 format: RGBA8888
 filter: MipMapLinearNearest,Linear
 repeat: none
 bonefoot
   rotate: false
-  xy: 1, 134
+  xy: 4, 50
   size: 193, 67
   orig: 193, 67
   offset: 0, 0
   index: -1
 bow
   rotate: false
-  xy: 645, 673
+  xy: 4, 4
   size: 70, 42
   orig: 70, 42
   offset: 0, 0
   index: -1
 button_normal
   rotate: false
-  xy: 717, 690
+  xy: 78, 21
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -29,7 +29,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 1, 1
+  xy: 517, 92
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
@@ -38,78 +38,78 @@ button_pressed
   index: -1
 circlebody
   rotate: false
-  xy: 515, 587
+  xy: 520, 121
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 dirt
   rotate: false
-  xy: 266, 169
-  size: 32, 32
-  orig: 32, 32
+  xy: 823, 180
+  size: 69, 69
+  orig: 69, 69
   offset: 0, 0
   index: -1
 dirtslant
   rotate: false
-  xy: 645, 639
-  size: 32, 32
-  orig: 32, 32
+  xy: 896, 180
+  size: 69, 69
+  orig: 69, 69
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 1, 28
+  xy: 458, 62
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 eyewhite
   rotate: false
-  xy: 515, 505
+  xy: 739, 169
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 halo
   rotate: false
-  xy: 196, 135
+  xy: 386, 51
   size: 68, 66
   orig: 68, 66
   offset: 0, 0
   index: -1
 horn
   rotate: false
-  xy: 597, 530
+  xy: 969, 194
   size: 43, 55
   orig: 43, 55
   offset: 0, 0
   index: -1
 joystickinner
   rotate: false
-  xy: 58, 63
-  size: 20, 20
-  orig: 20, 20
+  xy: 652, 129
+  size: 33, 33
+  orig: 33, 33
   offset: 0, 0
   index: -1
 joystickouter
   rotate: false
-  xy: 515, 453
-  size: 50, 50
-  orig: 50, 50
+  xy: 652, 166
+  size: 83, 83
+  orig: 83, 83
   offset: 0, 0
   index: -1
 roundrectfoot
   rotate: false
-  xy: 1, 85
+  xy: 201, 70
   size: 181, 47
   orig: 181, 47
   offset: 0, 0
   index: -1
 sans
   rotate: false
-  xy: 1, 203
-  size: 512, 512
-  orig: 512, 512
+  xy: 4, 121
+  size: 512, 128
+  orig: 512, 128
   offset: 0, 0
   index: -1

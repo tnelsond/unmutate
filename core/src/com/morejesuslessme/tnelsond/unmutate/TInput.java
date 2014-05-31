@@ -154,6 +154,7 @@ public class TInput implements InputProcessor {
 			for(int i = 0; i < game.creatures.length; ++i){
 				if(game.creatures[i] == game.selectedCreature){
 					game.creatures[i] = null;
+					game.selectedCreature = null;
 					break;
 				}
 			}

@@ -185,8 +185,8 @@ public class Creature extends Rectangle {
 			return;
 		}
 		float cor = 0;
-		int c1 = (int) Math.floor((x) / level.tile);
-		int c2 = (int) Math.floor((x + width + 1) / level.tile);
+		int c1 = (int) ((x) / level.tile);
+		int c2 = (int) ((x + width + 1) / level.tile);
 		if(c1 < 0)
 			c1 = 0;
 		if(c2 < 0)
@@ -206,8 +206,8 @@ public class Creature extends Rectangle {
 			cor = -width - 1;
 		}
 		
-		int r2 = (int) Math.floor((y + height - 1) / level.tile);
-		int r1 = (int) Math.floor(y / level.tile);
+		int r2 = (int) ((y + height - 1) / level.tile);
+		int r1 = (int) (y / level.tile);
 		//if(r1 == r2)
 			--r1;
 		if(r1 < 0)
@@ -247,8 +247,8 @@ public class Creature extends Rectangle {
 			return;
 		}
 		float cor = 0;
-		int r2 = (int) Math.floor((y + height) / level.tile);
-		int r1 = (int) Math.floor(y / level.tile);
+		int r2 = (int) ((y + height) / level.tile);
+		int r1 = (int) (y / level.tile);
 		if(r1 < 0)
 			r1 = 0;
 		if(r1 >= level.h)
@@ -268,8 +268,8 @@ public class Creature extends Rectangle {
 			cor = -height - 1;
 		}
 		
-		int c1 = (int) Math.floor((x) / level.tile) - 1;
-		int c2 = (int) Math.floor((x + width ) / level.tile);
+		int c1 = (int) ((x) / level.tile) - 1;
+		int c2 = (int) ((x + width ) / level.tile);
 		if(c2 == c1)
 			--c1;
 		if(c1 < 0)

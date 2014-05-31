@@ -19,6 +19,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.badlogic.gdx.files.FileHandle;
+
 import java.lang.Math;
 
 public class GameScreen implements Screen {
@@ -58,6 +62,18 @@ public class GameScreen implements Screen {
 
 		creatures[0] = new Creature(290, 100, g1, game.atlas);
 		creatures[1] = new Creature(700, 100, g2, game.atlas);
+
+		Json json = new Json();
+		json.setOutputType(OutputType.minimal);
+		System.out.println(json.prettyPrint(creatures[0].g));
+		/*String str = Gdx.files.internal("1_0.json");
+		if(str != null){
+
+		}
+		else{
+			creatures[2] = new Creature(400, 100, g2.breed(g1), game.atlas);
+		}
+		*/
 		selectedCreature = null;// creatures[0];
 
 		for(Creature c : creatures){
@@ -111,17 +127,7 @@ public class GameScreen implements Screen {
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
 
-		if(selectedCreature != null){
-			game.batch.setColor(1, 0.5f, 0, 1);
-			game.batch.draw(halo, selectedCreature.x + selectedCreature.width/2 - 16, selectedCreature.y + selectedCreature.height, 32, 32);
-		}
-
-		for (Creature c : creatures) {
-			if (c != null) {
-				//shapeRenderer.rect(c.x, c.y, c.width, c.height);
-				c.draw(game.batch, alpha);
-			}
-		}
+		game.batch.disableBlending();
 
 		currentlevel.draw(game.batch, camera.position, viewport.getWorldWidth(), viewport.getWorldHeight());
 
@@ -144,6 +150,21 @@ public class GameScreen implements Screen {
 		
 		shapeRenderer.end();
 	*/
+
+		game.batch.enableBlending();
+
+		for (Creature c : creatures) {
+			if (c != null) {
+				//shapeRenderer.rect(c.x, c.y, c.width, c.height);
+				c.draw(game.batch, alpha);
+			}
+		}
+
+		if(selectedCreature != null){
+			game.batch.setColor(1, 0.5f, 0, 1);
+			game.batch.draw(halo, selectedCreature.x + selectedCreature.width/2 - 16, selectedCreature.y + selectedCreature.height, 32, 32);
+		}
+
 		control.render();
 	}
 
@@ -156,7 +177,8 @@ public class GameScreen implements Screen {
 			control.update();
 			currentlevel.update();
 			//control.stage.act(); //maybe don't need
-			for(Creature c : creatures){
+			for(int i = creatures.length - 1; i >= 0; --i){
+				Creature c = creatures[i];
 				if(c != null && c.awake) {
 					if(c != selectedCreature && c.onGround && Math.abs(c.vx) < .0001 && c.vy > -0.0001 && c.tick > 3){
 						c.awake = false;

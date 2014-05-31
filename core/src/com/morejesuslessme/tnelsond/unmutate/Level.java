@@ -118,12 +118,13 @@ public class Level {
 						else
 							batch.setColor(.3f, .2f, 0, 1);
 						if(blocks[r][c] != Level.blocktype.DIRT){
-							batch.draw(slant, c*tile - 0.5f, r*tile - 0.5f, tile/2, tile/2, tile + 1, tile + 1, (blocks[r][c] == Level.blocktype.UPLEFT || blocks[r][c] == Level.blocktype.DOWNLEFT) ? -1 : 1, (blocks[r][c] == Level.blocktype.UPRIGHT || blocks[r][c] == Level.blocktype.UPLEFT) ? -1 : 1, 0);
+							batch.draw(slant, c*tile, r*tile, tile/2, tile/2, tile, tile, (blocks[r][c] == Level.blocktype.UPLEFT || blocks[r][c] == Level.blocktype.DOWNLEFT) ? -1 : 1, (blocks[r][c] == Level.blocktype.UPRIGHT || blocks[r][c] == Level.blocktype.UPLEFT) ? -1 : 1, 0);
 							continue;
 						}
 					}
 
-					batch.draw(dirt, c*tile - 0.5f, r*tile - 0.5f, tile + 1, tile + 1); // Compensating for gaps.
+					//batch.draw(dirt, c*tile - 0.5f, r*tile - 0.5f, tile + 1, tile + 1); // Compensating for gaps.
+					batch.draw(dirt, c*tile, r*tile, tile, tile); // Compensating for gaps.
 				}
 			}
 		}
