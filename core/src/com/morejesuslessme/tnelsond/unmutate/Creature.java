@@ -40,6 +40,9 @@ public class Creature extends Rectangle {
 	public Color secondaryColor;
 	public boolean albino = false;
 	public boolean legConcave = false;
+	public boolean legPoint = true;
+	public boolean stripes = true;
+	public boolean catseye = true;
 	
 	public float accel = 1f;
 	public float speed = 1;
@@ -124,10 +127,10 @@ public class Creature extends Rectangle {
 		secondary.setCenter(cx, cy);
 		secondary.y += (sex == Genome.Sex.FEMALE) ? body.h/2 : body.h/2 + body.h/8;
 
-		regions[Creature.BODY] = atlas.findRegion("circlebody");
-		regions[Creature.EYE] = atlas.findRegion("eye");
+		regions[Creature.BODY] = atlas.findRegion(stripes ? "circlebodystripes" : "circlebody");
+		regions[Creature.EYE] = atlas.findRegion(catseye ? "catseye" : "eye");
 		regions[Creature.EYEWHITE] = atlas.findRegion("eyewhite");
-		regions[Creature.LEG] = atlas.findRegion((legConcave) ? "bonefoot" : "roundrectfoot");
+		regions[Creature.LEG] = atlas.findRegion(legPoint ? "pointfoot" : ((legConcave) ? "bonefoot" : "roundrectfoot"));
 		regions[Creature.SECONDARY] = (sex == Genome.Sex.STERILE) ? null : atlas.findRegion((sex == Genome.Sex.MALE) ? "horn" : "bow");
 	}
 

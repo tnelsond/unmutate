@@ -18,7 +18,7 @@ public class Genome {
 			6,
 			3,
 			4,
-			2,
+			4,
 		};
 	}
 
@@ -65,6 +65,8 @@ public class Genome {
 					{ Allele.DOM, Allele.MUT },
 					{ Allele.DOM, Allele.MUT }, },
 				{ { Allele.FEMALE, Allele.FEMALE },
+					{ Allele.DOM, Allele.REC },
+					{ Allele.DOM, Allele.REC },
 					{ Allele.DOM, Allele.REC }}})
 			:
 			(new Allele[][][] {
@@ -82,6 +84,8 @@ public class Genome {
 					{ Allele.REC, Allele.REC },
 					{ Allele.REC, Allele.MUT }, },
 				{ { Allele.MALE, Allele.FEMALE },
+					{ Allele.REC, Allele.REC },
+					{ Allele.REC, Allele.REC },
 					{ Allele.REC, Allele.REC }}})
 		);
 	}
@@ -133,6 +137,12 @@ public class Genome {
 				: mut );
 	}
 
+	public final boolean phenotypeSex(int i, int j, boolean homo, Allele flag){
+		if(homo)
+			return femalea[j] == flag && femaleb[j] == flag;
+		return femalea[j] == flag || femaleb[j] == flag;
+	}
+
 
 	public final boolean phenotype(int i, int j, boolean homo, Allele flag){
 		if(homo)
@@ -160,7 +170,8 @@ public class Genome {
 		j = 1;
 		c.legThick = phenotype(i, j, false, 1, .8f, .5f);
 		j = 2;
-		c.legConcave = !phenotype(i, j, false, Allele.DOM);
+		c.legConcave = phenotype(i, j, true, Allele.MUT);
+		c.legPoint = phenotype(i, j, false, Allele.DOM);
 		j = 3;
 		c.speed = phenotype(i, j, false, 1, .4f, .1f);
 		j = 4;
@@ -194,27 +205,33 @@ public class Genome {
 			c.secondaryColor.g = phenotypeMale(j, .6f, .3f, .1f);
 		}
 		else if(c.sex == Genome.Sex.FEMALE){
-			femalea = chromosomes[i].a;
-			femaleb = chromosomes[i].b;
 			c.secondaryColor.r = phenotypeSex(j, true, .9f, .4f, .1f);
 		}
+		// Unisex
+		j = 2;
+		c.catseye = phenotypeSex(i, j, false, Allele.DOM);
+		j = 3;
+		c.stripes = !phenotypeSex(i, j, false, Allele.DOM);
 	}
 
 	public final void setupSex(int i, int j, Creature c){
 		Allele ca = chromosomes[i].a[j];
 		Allele cb = chromosomes[i].b[j];
-		if(ca == cb && ca == Allele.FEMALE)
+		if(ca == cb && ca == Allele.FEMALE){
+			femalea = chromosomes[i].a;
+			femaleb = chromosomes[i].b;
 			c.sex = Genome.Sex.FEMALE;
-		else if((ca == Allele.MALE && cb == Allele.FEMALE) || (ca == Allele.FEMALE && cb == Allele.MALE))
-			c.sex = Genome.Sex.MALE;
-		else
-			c.sex = Genome.Sex.STERILE;
-
-		j = 1;
-		if(c.sex == Genome.Sex.MALE){
-			femalea = (chromosomes[i].a[j] == Allele.FEMALE) ? chromosomes[i].a : chromosomes[i].b;
+		}
+		else if((ca == Allele.MALE && cb == Allele.FEMALE) || (ca == Allele.FEMALE && cb == Allele.MALE)){
+			femalea = (ca == Allele.FEMALE) ? chromosomes[i].a : chromosomes[i].b;
 			femaleb = femalea;
-			male = (chromosomes[i].a[j] == Allele.MALE) ? chromosomes[i].a : chromosomes[i].b;
+			male = (ca == Allele.MALE) ? chromosomes[i].a : chromosomes[i].b;
+			c.sex = Genome.Sex.MALE;
+		}
+		else{
+			femalea = (ca == Allele.FEMALE) ? chromosomes[i].a : chromosomes[i].b;
+			femaleb = femalea;
+			c.sex = Genome.Sex.STERILE;
 		}
 	}
 	

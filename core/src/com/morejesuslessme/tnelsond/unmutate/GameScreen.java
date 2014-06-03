@@ -29,7 +29,7 @@ import java.lang.Math;
 public class GameScreen implements Screen {
 	public OrthographicCamera camera;
 	public Viewport viewport;
-	
+
 	final Unmutate game;
 
 	public ShapeRenderer shapeRenderer;
@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 
 	public Level currentlevel;
 	Color backgroundColor;
-	
+
 	public int vieww = 500;
 	public int viewh = 300;
 
@@ -47,14 +47,14 @@ public class GameScreen implements Screen {
 	private TInput control;
 
 	public Preferences pref;
-	
+
 	Creature creatures[];
 	Creature selectedCreature = null;
 	AtlasRegion halo;
 
 	public GameScreen(final Unmutate game) {
 		this.game = game;
-	
+
 		json.setOutputType(OutputType.minimal);
 		pref = Gdx.app.getPreferences("level1");
 		backgroundColor = new Color(0.4f, 0.8f, 1f, 1);
@@ -64,12 +64,12 @@ public class GameScreen implements Screen {
 		creatures = new Creature[40];
 
 		loadCreatures();
-	
+
 		// shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false);
 		viewport = new ExtendViewport(vieww, viewh, camera);
-		
+
 		control = new TInput(this);
 		InputMultiplexer im = new InputMultiplexer((InputProcessor)control.stage);
 		im.addProcessor(control);

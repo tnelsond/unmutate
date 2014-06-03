@@ -68,7 +68,7 @@ public class Level {
 	
 	public void update(){
 		if(grassGrow.size() > 0){
-			TileAction t = (TileAction) grassGrow.element();
+			TileAction t = (TileAction) grassGrow.getFirst();
 			if(t != null && t.tick()){
 				blocks[t.r][t.c] = Level.GRASS;
 				grassGrow.remove(t);
