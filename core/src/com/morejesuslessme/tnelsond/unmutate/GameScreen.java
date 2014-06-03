@@ -56,10 +56,15 @@ public class GameScreen implements Screen {
 		this.game = game;
 
 		json.setOutputType(OutputType.minimal);
+
 		pref = Gdx.app.getPreferences("level1");
 		backgroundColor = new Color(0.4f, 0.8f, 1f, 1);
 		halo = game.atlas.findRegion("halo");
-		currentlevel = new Level(game.atlas, "levels/1.txt");
+
+		System.out.println(Level.class);
+		currentlevel = json.fromJson(Level.class, Gdx.files.internal("levels/1.json"));
+		currentlevel.setupTextures(game.atlas);
+
 		shapeRenderer = new ShapeRenderer();
 		creatures = new Creature[40];
 

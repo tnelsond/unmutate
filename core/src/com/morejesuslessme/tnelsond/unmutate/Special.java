@@ -14,16 +14,16 @@ public class Special{
 	public boolean isSolid(Creature c){
 		if(outside != null){
 			if(!outside.equals(c.color)){
-				return false;
+				return true;
 			}
 		} 
 	
 		if(inside != null){
 			if(!inside.equals(c.eyeColor)){
-				return false;
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}	
 }

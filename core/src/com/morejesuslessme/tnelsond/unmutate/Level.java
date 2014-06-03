@@ -1,9 +1,5 @@
 package com.morejesuslessme.tnelsond.unmutate;
 
-import java.io.Reader;
-import java.util.Scanner;
-
-import java.util.Queue;
 import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
@@ -16,7 +12,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector3;
 
-public class Level {
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+
+import java.lang.Character;
+
+public class Level implements Json.Serializable{
 	public AtlasRegion dirt, slant, grass;
 	public int w = 12;
 	public int h = 16;
@@ -35,7 +36,84 @@ public class Level {
 	public Color dirtColor2 = new Color(.3f, 0.16f, 0, 1);
 	public Color grassColor = new Color(.2f, .5f, 0, 1);
 	public Color skyColor = new Color(.4f, .8f, 1, 1);
+
+	public void write(Json json){
+		// Levels shouldn't be saved in this way
+	}
+
+	public void read(Json json, JsonValue jsonMap){
+		JsonValue js = jsonMap.child();
+		do{
+			if(js.name().equals("dirt")){
+				float[] colors = js.asFloatArray();
+				dirtColor.r = colors[0];
+				dirtColor.g = colors[1];
+				dirtColor.b = colors[2];
+			}
+			else if(js.name().equals("dirt2")){
+				float[] colors = js.asFloatArray();
+				dirtColor2.r = colors[0];
+				dirtColor2.g = colors[1];
+				dirtColor2.b = colors[2];
+			}
+			else if(js.name().equals("grass")){
+				float[] colors = js.asFloatArray();
+				grassColor.r = colors[0];
+				grassColor.g = colors[1];
+				grassColor.b = colors[2];
+			}
+			else if(js.name().equals("sky")){
+				float[] colors = js.asFloatArray();
+				skyColor.r = colors[0];
+				skyColor.g = colors[1];
+				skyColor.b = colors[2];
+			}
+			else if(js.name().equals("special")){
+				JsonValue js2 = js.child();
+				int i = 0;
+				do{
+					float[] colors = js2.asFloatArray();
+					special[i] = new Special(new Color(colors[0], colors[1], colors[2], 1), null);
+					++i;
+				}while((js2 = js2.next) != null);
+			}
+			else if(js.name().equals("map")){
+				String[] btext = js.asStringArray();
+
+				w = btext[0].length();
+				h = btext.length;
+				blocks = new int[h][w];
+				int row = h - 1;
+				int spawn = 0;
+				for(int line = 0; line < h; ++line){
+					int col = 0;
+					String str = btext[line];
+					for(int i=0; i<str.length(); ++i){
+						char ch = str.charAt(i);
+						if(ch == '#'){
+							blocks[row][col] = Level.DIRT;
+						}
+						else if(ch == 'o'){
+							blocks[row][col] = Level.GRASS;
+						}
+						else if(ch == '$'){
+							spawns[spawn++] = new Index(row, col);
+							blocks[row][col] = Level.NONE;
+						}
+						else if(Character.isDigit(ch)){
+							blocks[row][col] = -ch + '0';
+						}
+						else
+							blocks[row][col] = Level.NONE;
+						++col;
+					}
+					--row;
+				}
+			}
+		}while((js = js.next()) != null);
+	}
 	
+
 	public boolean isSpecial(int n){
 		return n <= 0;
 	}
@@ -44,9 +122,11 @@ public class Level {
 		return special[-n];
 	}
 
-	// Checks if a special block is solid
-	public boolean isSpecialSolid(int n, Creature c){
-		if(n <= 0 && special[-n] != null){
+	// Checks if a block is solid
+	public boolean isSolid(int n, Creature c){
+		if(n > 0)
+			return true;
+		if(n <= 0 && n >= -9 && special[-n] != null){
 			return special[-n].isSolid(c);	
 		}
 		return false;
@@ -62,7 +142,7 @@ public class Level {
 				TileAction last = (TileAction) grassGrow.getLast();
 				offset = last.delay;
 			}
-			grassGrow.add(new TileAction(r, c, 1000 - offset));
+			grassGrow.add(new TileAction(r, c, 400 - offset));
 		}
 	}
 	
@@ -76,57 +156,15 @@ public class Level {
 		}
 	}
 	
-	public Level(TextureAtlas atlas, String filename){
+	public void setupTextures(TextureAtlas atlas){
 		dirt = atlas.findRegion("dirt");
 		slant = atlas.findRegion("dirtslant");
 		grass = atlas.findRegion("grass");
-		Reader reader = Gdx.files.internal(filename).reader();
-		Scanner scan = new Scanner(reader);
-		w = scan.nextInt();
-		h = scan.nextInt();
-		blocks = new int[h][w];
-		int row = h;
-		int spawn = 0;
-		while(scan.hasNextLine()) {
-			int col = 0;
-			String str = scan.nextLine();
-			for(int i=0; i<str.length(); ++i){
-				char ch = str.charAt(i);
-				if(ch == '#'){
-					blocks[row][col] = Level.DIRT;
-				}
-				else if(ch == 'o'){
-					blocks[row][col] = Level.GRASS;
-				}
-				else if(ch == '$'){
-					spawns[spawn++] = new Index(row, col);
-					blocks[row][col] = Level.NONE;
-				}
-				/*
-				else if(ch == '/'){
-					if(row < h && blocks[row + 1][col] == Level.blocktype.DIRT){
-						blocks[row][col] = BlockType.UPLEFT;
-					}
-					else{
-						blocks[row][col] = BlockType.DOWNRIGHT;
-					}
-				}
-				else if(ch == '\\'){
-					if(row < h && blocks[row + 1][col] == Level.blocktype.DIRT){
-						blocks[row][col] = Level.blocktype.UPRIGHT;
-					}
-					else{
-						blocks[row][col] = Level.blocktype.DOWNLEFT;
-					}
-				}
-				*/
-				else
-					blocks[row][col] = Level.NONE;
-				++col;
-			}
-			--row;
-		}
-		scan.close();
+	}
+
+	// For reflection
+	public Level(){
+
 	}
 
 	public void draw(SpriteBatch batch, Vector3 pos, float width, float height){

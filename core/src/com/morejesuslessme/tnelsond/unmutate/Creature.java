@@ -26,7 +26,7 @@ public class Creature extends Rectangle {
 	public static Trect TLEG = new Trect(0, 0, 16, 128);
 	public static Trect TEYEWHITE = new Trect(0, 0, 44, 44);
 	public static Trect TEYE = new Trect(0, 0, 36, 36);
-	public static Trect TSECONDARY = new Trect(0, 0, 24, 24);
+	public static Trect TSECONDARY = new Trect(0, 0, 14, 24);
 
 	public Trect body, leg, eye, eyewhite, secondary;
 	
@@ -41,8 +41,6 @@ public class Creature extends Rectangle {
 	public boolean albino = false;
 	public boolean legConcave = false;
 	public boolean legPoint = true;
-	public boolean stripes = true;
-	public boolean catseye = true;
 	
 	public float accel = 1f;
 	public float speed = 1;
@@ -109,6 +107,9 @@ public class Creature extends Rectangle {
 		eye = (Trect) Creature.TEYE.clone();
 		eyewhite = (Trect) Creature.TEYEWHITE.clone();
 		secondary = (Trect) Creature.TSECONDARY.clone();
+		if(sex == Genome.Sex.FEMALE){
+			secondary.scale(2.5f, 1);
+		}
 		
 
 		float factor = width / Creature.TBODY.w;
@@ -127,8 +128,8 @@ public class Creature extends Rectangle {
 		secondary.setCenter(cx, cy);
 		secondary.y += (sex == Genome.Sex.FEMALE) ? body.h/2 : body.h/2 + body.h/8;
 
-		regions[Creature.BODY] = atlas.findRegion(stripes ? "circlebodystripes" : "circlebody");
-		regions[Creature.EYE] = atlas.findRegion(catseye ? "catseye" : "eye");
+		regions[Creature.BODY] = atlas.findRegion("circlebody");
+		regions[Creature.EYE] = atlas.findRegion("eye");
 		regions[Creature.EYEWHITE] = atlas.findRegion("eyewhite");
 		regions[Creature.LEG] = atlas.findRegion(legPoint ? "pointfoot" : ((legConcave) ? "bonefoot" : "roundrectfoot"));
 		regions[Creature.SECONDARY] = (sex == Genome.Sex.STERILE) ? null : atlas.findRegion((sex == Genome.Sex.MALE) ? "horn" : "bow");
@@ -234,7 +235,7 @@ public class Creature extends Rectangle {
 				r = (Integer) row.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
 				int b = level.blocks[r][c];
-				if(b != Level.NONE){
+				if(b != Level.NONE && level.isSolid(b, this)){
 					x = c*level.tile + cor;
 					vx = 0;
 					done = true;
@@ -296,7 +297,7 @@ public class Creature extends Rectangle {
 				c = (Integer) col.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
 				int b = level.blocks[r][c];
-				if(b != Level.NONE){
+				if(b != Level.NONE && level.isSolid(b, this)){
 					if(v < 0)
 						onGround = true;
 					y = r*level.tile + cor;
