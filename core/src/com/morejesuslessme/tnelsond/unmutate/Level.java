@@ -17,22 +17,46 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector3;
 
 public class Level {
-	public static enum blocktype{
-		DIRT, NONE, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, GRASS
-	}
-	public AtlasRegion dirt, slant;
+	public AtlasRegion dirt, slant, grass;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
-	public blocktype blocks[][];
-	public float GRAVITY = 0.4f;
+	public int blocks[][];
 	public Index[] spawns = new Index[4];
+
+	public float GRAVITY = 0.4f;
+
+	public final static int NONE = 1;
+	public final static int DIRT = 2;
+	public final static int GRASS = 3;
+	public Special[] special = new Special[10];
+
+	public Color dirtColor = new Color(.4f, 0.2f, 0, 1);
+	public Color dirtColor2 = new Color(.3f, 0.16f, 0, 1);
+	public Color grassColor = new Color(.2f, .5f, 0, 1);
+	public Color skyColor = new Color(.4f, .8f, 1, 1);
+	
+	public boolean isSpecial(int n){
+		return n <= 0;
+	}
+
+	public Special getSpecial(int n){
+		return special[-n];
+	}
+
+	// Checks if a special block is solid
+	public boolean isSpecialSolid(int n, Creature c){
+		if(n <= 0 && special[-n] != null){
+			return special[-n].isSolid(c);	
+		}
+		return false;
+	}
 
 	LinkedList grassGrow = new LinkedList();
 
 	public void consume(int r, int c){
-		if(blocks[r][c] == Level.blocktype.GRASS){
-			blocks[r][c] = Level.blocktype.DIRT;
+		if(blocks[r][c] == Level.GRASS){
+			blocks[r][c] = Level.DIRT;
 			int offset = 0;
 			if(grassGrow.size() > 0){
 				TileAction last = (TileAction) grassGrow.getLast();
@@ -46,7 +70,7 @@ public class Level {
 		if(grassGrow.size() > 0){
 			TileAction t = (TileAction) grassGrow.element();
 			if(t != null && t.tick()){
-				blocks[t.r][t.c] = Level.blocktype.GRASS;
+				blocks[t.r][t.c] = Level.GRASS;
 				grassGrow.remove(t);
 			}
 		}
@@ -55,11 +79,12 @@ public class Level {
 	public Level(TextureAtlas atlas, String filename){
 		dirt = atlas.findRegion("dirt");
 		slant = atlas.findRegion("dirtslant");
+		grass = atlas.findRegion("grass");
 		Reader reader = Gdx.files.internal(filename).reader();
 		Scanner scan = new Scanner(reader);
 		w = scan.nextInt();
 		h = scan.nextInt();
-		blocks = new blocktype[h][w];
+		blocks = new int[h][w];
 		int row = h;
 		int spawn = 0;
 		while(scan.hasNextLine()) {
@@ -68,21 +93,22 @@ public class Level {
 			for(int i=0; i<str.length(); ++i){
 				char ch = str.charAt(i);
 				if(ch == '#'){
-					blocks[row][col] = Level.blocktype.DIRT;
+					blocks[row][col] = Level.DIRT;
 				}
 				else if(ch == 'o'){
-					blocks[row][col] = Level.blocktype.GRASS;
+					blocks[row][col] = Level.GRASS;
 				}
 				else if(ch == '$'){
 					spawns[spawn++] = new Index(row, col);
-					blocks[row][col] = Level.blocktype.NONE;
+					blocks[row][col] = Level.NONE;
 				}
+				/*
 				else if(ch == '/'){
 					if(row < h && blocks[row + 1][col] == Level.blocktype.DIRT){
-						blocks[row][col] = Level.blocktype.UPLEFT;
+						blocks[row][col] = BlockType.UPLEFT;
 					}
 					else{
-						blocks[row][col] = Level.blocktype.DOWNRIGHT;
+						blocks[row][col] = BlockType.DOWNRIGHT;
 					}
 				}
 				else if(ch == '\\'){
@@ -93,8 +119,9 @@ public class Level {
 						blocks[row][col] = Level.blocktype.DOWNLEFT;
 					}
 				}
+				*/
 				else
-					blocks[row][col] = Level.blocktype.NONE;
+					blocks[row][col] = Level.NONE;
 				++col;
 			}
 			--row;
@@ -111,26 +138,32 @@ public class Level {
 			return;
 		for(int r=r1; r<r2; ++r){
 			for(int c=c1; c<c2; ++c){
-				if(blocks[r][c] != Level.blocktype.NONE){
-					if(blocks[r][c] == Level.blocktype.GRASS){
-						if((r + c) % 2 == 1)
-							batch.setColor(.1f, .7f, .0f, 1);
-						else
-							batch.setColor(.1f, .6f, .0f, 1);
+				if(blocks[r][c] != Level.NONE){
+					if(isSpecial(blocks[r][c])){
+						batch.setColor(getSpecial(blocks[r][c]).outside);
 					}
+					else
+						batch.setColor(((r + c) % 2 == 1) ? dirtColor : dirtColor2);
+					/*
 					else{
 						if((r + c) % 2 == 1)
 							batch.setColor(.4f, .3f, 0, 1);
 						else
 							batch.setColor(.3f, .2f, 0, 1);
-						if(blocks[r][c] != Level.blocktype.DIRT){
-							batch.draw(slant, c*tile, r*tile, tile/2, tile/2, tile, tile, (blocks[r][c] == Level.blocktype.UPLEFT || blocks[r][c] == Level.blocktype.DOWNLEFT) ? -1 : 1, (blocks[r][c] == Level.blocktype.UPRIGHT || blocks[r][c] == Level.blocktype.UPLEFT) ? -1 : 1, 0);
+						if(blocks[r][c] != BlockType.DIRT){
+							batch.draw(slant, c*tile, r*tile, tile/2, tile/2, tile, tile, (blocks[r][c] == BlockType.UPLEFT || blocks[r][c] == Level.blocktype.DOWNLEFT) ? -1 : 1, (blocks[r][c] == Level.blocktype.UPRIGHT || blocks[r][c] == Level.blocktype.UPLEFT) ? -1 : 1, 0);
 							continue;
 						}
 					}
+					*/
 
 					//batch.draw(dirt, c*tile - 0.5f, r*tile - 0.5f, tile + 1, tile + 1); // Compensating for gaps.
 					batch.draw(dirt, c*tile, r*tile, tile, tile); // Compensating for gaps.
+
+					if(blocks[r][c] == Level.GRASS){
+						batch.setColor(grassColor);
+						batch.draw(grass, c*tile, r*tile + tile*3/4, tile, tile/3); // Compensating for gaps.
+					}
 				}
 			}
 		}

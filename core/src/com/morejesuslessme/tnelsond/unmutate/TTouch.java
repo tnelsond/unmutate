@@ -1,6 +1,7 @@
 package com.morejesuslessme.tnelsond.unmutate;
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 
 class TTouch{
 	public int sx;
@@ -11,6 +12,8 @@ class TTouch{
 	public int y;
 	public int pointer;	
 
+	public long time;
+
 	public TTouch(){
 		ox = -1;
 		oy = -1;
@@ -19,6 +22,7 @@ class TTouch{
 		sx = -1;
 		sy = -1;
 		pointer = -1;
+		time = 0;
 	}
 
 	public void update(int x, int y){
@@ -27,6 +31,7 @@ class TTouch{
 			sy = y;
 			ox = x;
 			oy = y;
+			time = TimeUtils.millis();
 		}
 		else {
 			ox = this.x;
@@ -34,6 +39,10 @@ class TTouch{
 		}
 		this.x = x;
 		this.y = y;	
+	}
+
+	public long getDuration(){
+		return TimeUtils.timeSinceMillis(time);
 	}
 
 	public Vector3 toVector3(){

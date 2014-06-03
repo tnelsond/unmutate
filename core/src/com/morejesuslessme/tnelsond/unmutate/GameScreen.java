@@ -74,6 +74,8 @@ public class GameScreen implements Screen {
 		InputMultiplexer im = new InputMultiplexer((InputProcessor)control.stage);
 		im.addProcessor(control);
 		Gdx.input.setInputProcessor(im);
+
+		Gdx.gl.glClearColor(currentlevel.skyColor.r, currentlevel.skyColor.g, currentlevel.skyColor.b, 1);
 	}
 
 	public void loadCreatures(){
@@ -125,8 +127,6 @@ public class GameScreen implements Screen {
 		camera.position.set(pos);
 		camera.update();
 
-		Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g,
-				backgroundColor.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		game.batch.setProjectionMatrix(camera.combined);

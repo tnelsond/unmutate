@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.morejesuslessme.tnelsond.unmutate.Level.blocktype;
 
 
 public class Creature extends Rectangle {
@@ -231,8 +230,8 @@ public class Creature extends Rectangle {
 			while(row.hasNext()) {
 				r = (Integer) row.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
-				blocktype b = level.blocks[r][c];
-				if(b != blocktype.NONE){
+				int b = level.blocks[r][c];
+				if(b != Level.NONE){
 					x = c*level.tile + cor;
 					vx = 0;
 					done = true;
@@ -293,14 +292,14 @@ public class Creature extends Rectangle {
 			while(col.hasNext()) {
 				c = (Integer) col.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
-				Level.blocktype b = level.blocks[r][c];
-				if(b != blocktype.NONE){
+				int b = level.blocks[r][c];
+				if(b != Level.NONE){
 					if(v < 0)
 						onGround = true;
 					y = r*level.tile + cor;
 					vy = 0;
 					done = true;
-					if(b == blocktype.GRASS){
+					if(b == Level.GRASS){
 						grassc = c;
 						grassr = r;
 						breedable = true;
@@ -325,8 +324,8 @@ public class Creature extends Rectangle {
 			c = (Integer) col.next();
 			//batch.setColor(0, 0, 0, .5f);
 			//batch.draw(level.dirt, c*level.tile, r*level.tile);
-			Level.blocktype b = level.blocks[r][c];
-			if(b == blocktype.GRASS){
+			int b = level.blocks[r][c];
+			if(b == Level.GRASS){
 				grassc = c;
 				grassr = r;
 				breedable = true;
