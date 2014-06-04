@@ -1,6 +1,6 @@
 
 gamegdx.png
-size: 1015,252
+size: 1014,252
 format: RGBA8888
 filter: MipMapLinearNearest,Linear
 repeat: none
@@ -13,14 +13,14 @@ bonefoot
   index: -1
 bow
   rotate: false
-  xy: 544, 4
+  xy: 203, 4
   size: 70, 42
   orig: 70, 42
   offset: 0, 0
   index: -1
 button_normal
   rotate: false
-  xy: 724, 95
+  xy: 981, 190
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -29,18 +29,11 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 724, 66
+  xy: 630, 95
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
   orig: 25, 25
-  offset: 0, 0
-  index: -1
-catseye
-  rotate: false
-  xy: 618, 65
-  size: 55, 55
-  orig: 55, 55
   offset: 0, 0
   index: -1
 circlebody
@@ -50,79 +43,72 @@ circlebody
   orig: 128, 128
   offset: 0, 0
   index: -1
-circlebodystripes
-  rotate: false
-  xy: 652, 124
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
 dirt
   rotate: false
-  xy: 386, 45
+  xy: 823, 177
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 dirtslant
   rotate: false
-  xy: 465, 45
+  xy: 902, 177
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 end
   rotate: false
-  xy: 544, 50
+  xy: 386, 50
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 618, 6
+  xy: 524, 65
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 eyewhite
   rotate: false
-  xy: 871, 172
+  xy: 739, 172
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 grass
   rotate: false
-  xy: 784, 139
+  xy: 652, 139
   size: 75, 26
   orig: 75, 26
   offset: 0, 0
   index: -1
 halo
   rotate: false
-  xy: 955, 199
+  xy: 460, 67
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
   index: -1
 horn
   rotate: false
-  xy: 677, 65
+  xy: 583, 65
   size: 43, 55
   orig: 43, 55
   offset: 0, 0
   index: -1
 joystickinner
   rotate: false
-  xy: 677, 28
+  xy: 981, 219
   size: 33, 33
   orig: 33, 33
   offset: 0, 0
   index: -1
 joystickouter
   rotate: false
-  xy: 784, 169
+  xy: 652, 169
   size: 83, 83
   orig: 83, 83
   offset: 0, 0

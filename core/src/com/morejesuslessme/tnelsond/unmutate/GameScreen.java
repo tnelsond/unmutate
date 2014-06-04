@@ -72,7 +72,7 @@ public class GameScreen implements Screen {
 		currentlevel = Level.makeLevel(game);
 
 		shapeRenderer = new ShapeRenderer();
-		creatures = new Creature[40];
+		creatures = new Creature[10];
 
 		loadCreatures();
 

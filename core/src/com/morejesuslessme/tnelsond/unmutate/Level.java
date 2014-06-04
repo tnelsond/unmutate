@@ -28,6 +28,8 @@ public class Level implements Json.Serializable{
 	public int blocks[][];
 	public boolean carryover = false;
 	public Index[] spawns = new Index[4];
+	public boolean male = false;
+	public boolean female = false;
 
 	public float GRAVITY = 0.4f;
 
@@ -84,6 +86,13 @@ public class Level implements Json.Serializable{
 			if(value.equals("null")){
 				String str = json.toJson(c.g);
 				prefNext.putString(key, str);
+				if(c.sex == Genome.Sex.MALE){
+					male = true;
+				}
+				else if(c.sex == Genome.Sex.FEMALE){
+					female = true;
+				}
+
 				break;
 			}
 		}
@@ -249,10 +258,15 @@ public class Level implements Json.Serializable{
 	public Level(){
 		pref = Gdx.app.getPreferences(Level.getLevelName(".json", false));
 		prefNext = Gdx.app.getPreferences(Level.getLevelName(".json", true));
+		prefNext.clear();
+	}
+
+	public boolean done(){
+		return male && female;
 	}
 
 	public void nextLevel(GameScreen game){	
-		if(!prefNext.getString("male0", "null").equals("null") && prefNext.getString("female0", "null").equals("null")){
+		if(!prefNext.getString("male0", "null").equals("null") && !prefNext.getString("female0", "null").equals("null")){
 			++part;
 		}
 		game.game.setScreen(new MainMenuScreen(game.game));
@@ -276,7 +290,12 @@ public class Level implements Json.Serializable{
 					}
 					else if(blocks[r][c] == Level.END){
 						tex = end;
-						batch.setColor(new Color(1, 1, 0, 1));
+						if(done()){
+							batch.setColor(new Color(1, 1, 0, 1));
+						}
+						else{
+							batch.setColor(new Color(.6f, .6f, 0, 1));
+						}
 					}
 					else
 						batch.setColor(((r + c) % 2 == 1) ? dirtColor : dirtColor2);

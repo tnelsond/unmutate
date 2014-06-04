@@ -286,7 +286,7 @@ public class TInput implements InputProcessor {
 		return false;
 	}
 
-	public void clickCreature(int x, int y){
+	public boolean clickCreature(int x, int y){
 		for(int i = game.creatures.length - 1; i >= 0; --i){
 			Creature c = game.creatures[i];
 			if(c != null){
@@ -294,15 +294,31 @@ public class TInput implements InputProcessor {
 				game.viewport.unproject(pos);
 				if(c.contains(pos.x, pos.y)){
 					game.setCreature(c);
-					break;
+					return true;
 				}
 			}
 		}
+		return false;
+	}
+
+	public boolean clickEnd(int x, int y){
+		Vector3 pos = new Vector3(x, y, 0);
+		game.viewport.unproject(pos);
+		int r = (int)(pos.y / Level.currentlevel.tile);
+		int c = (int)(pos.x / Level.currentlevel.tile);
+		if(r < 0 || c < 0 || r >= Level.currentlevel.h || c >= Level.currentlevel.w)
+			return false;
+		if(Level.currentlevel.blocks[r][c] == Level.END && Level.currentlevel.done()){
+			Level.currentlevel.nextLevel(game);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean touchDown (int x, int y, int pointer, int button) {
 		if(game.selectedCreature == null){
-			clickCreature(x, y);	
+			if(!clickCreature(x, y))
+				clickEnd(x, y);
 			return true;
 		}
 		if(touchpad.pointer < 0){
@@ -320,7 +336,8 @@ public class TInput implements InputProcessor {
 		TTouch sel = (pointer == touchpad.pointer ? touchpad : othertouch);
 		sel.pointer = -1;
 		if(sel.getDuration() < 400 && Math.abs(sel.x - sel.sx) < touchpadminradius && Math.abs(sel.y - sel.sy) < touchpadminradius){
-			clickCreature(x, y);
+			if(!clickCreature(x, y))
+				clickEnd(x, y);
 		}
 
 		sel.sx = -1;
