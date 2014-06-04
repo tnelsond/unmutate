@@ -19,12 +19,11 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.TimeUtils;
 
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
-
 import com.badlogic.gdx.Preferences;
 
 import java.lang.Math;
+
+import com.morejesuslessme.tnelsond.unmutate.genome.Genome;
 
 public class GameScreen implements Screen {
 	public OrthographicCamera camera;
@@ -33,7 +32,6 @@ public class GameScreen implements Screen {
 	final Unmutate game;
 
 	public ShapeRenderer shapeRenderer;
-	public Json json = new Json();
 
 	public Level currentlevel;
 	Color backgroundColor;
@@ -46,24 +44,32 @@ public class GameScreen implements Screen {
 
 	private TInput control;
 
-	public Preferences pref;
-
 	Creature creatures[];
 	Creature selectedCreature = null;
 	AtlasRegion halo;
 
+	public final void kill(Creature c){
+		if(c != null){
+			for(int i = 0; i < creatures.length; ++i){
+				if(creatures[i] == c){
+					creatures[i] = null;
+					if(selectedCreature == c)
+						selectedCreature = null;
+					break;
+				}
+			}
+		}
+	}
+
 	public GameScreen(final Unmutate game) {
 		this.game = game;
 
-		json.setOutputType(OutputType.minimal);
+		Gdx.graphics.setContinuousRendering(true);
 
-		pref = Gdx.app.getPreferences("level1");
 		backgroundColor = new Color(0.4f, 0.8f, 1f, 1);
 		halo = game.atlas.findRegion("halo");
 
-		System.out.println(Level.class);
-		currentlevel = json.fromJson(Level.class, Gdx.files.internal("levels/1.json"));
-		currentlevel.setupTextures(game.atlas);
+		currentlevel = Level.makeLevel(game);
 
 		shapeRenderer = new ShapeRenderer();
 		creatures = new Creature[40];
@@ -86,23 +92,20 @@ public class GameScreen implements Screen {
 	public void loadCreatures(){
 		for(int i = 0; i < currentlevel.spawns.length; ++i){
 			String key = ((i % 2 == 0) ? "male" : "female") + i/2;
-			String str = pref.getString(key, "null");
+			String str = currentlevel.pref.getString(key, "null");
 			boolean load = true;
 			Genome g = null;
-			if(str.equals("null")){
+			if(str.equals("null") && !currentlevel.carryover){
 				if(i <= 1){
-					g = new Genome((i % 2 == 0) ? false : true);
-					str = json.toJson(g);
-					pref.putString(key, str);
+					creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, Level.getGenome(null, null, null, (i % 2 == 0) ? false : true), game.atlas);
+					//str = game.json.toJson(g);
+					//pref.putString(key, str);
 				}
-				else
-					load = false;
 			}
-			if(load){
-				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, (g == null) ? json.fromJson(Genome.class, str) : g, game.atlas);
+			else{
+				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, (g == null) ? Level.getGenome(null, game.json, str, false) : g, game.atlas);
 			}
 		}
-		pref.flush();
 	}
 
 	public void setCreature(Creature c){
@@ -141,31 +144,10 @@ public class GameScreen implements Screen {
 
 		currentlevel.draw(game.batch, camera.position, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-	/*
-		shapeRenderer.begin(ShapeType.Filled);
-
-		shapeRenderer.setProjectionMatrix(camera.combined);
-
-	
-		shapeRenderer.setColor(1, 1, 1, 1);
-		if (selectedCreature != null)
-			shapeRenderer.triangle(selectedCreature.x + selectedCreature.width
-					/ 2.0f, selectedCreature.y + selectedCreature.height + 10,
-					selectedCreature.x + selectedCreature.width / 2.0f - 20,
-					selectedCreature.y + selectedCreature.height + 34,
-					selectedCreature.x + selectedCreature.width / 2.0f + 20,
-					selectedCreature.y + selectedCreature.height + 34);
-		// shapeRenderer.ellipse(selectedCreature.x, selectedCreature.y,
-		// selectedCreature.width, selectedCreature.height, 9);
-		
-		shapeRenderer.end();
-	*/
-
 		game.batch.enableBlending();
 
 		for (Creature c : creatures) {
 			if (c != null) {
-				//shapeRenderer.rect(c.x, c.y, c.width, c.height);
 				c.draw(game.batch, alpha);
 			}
 		}
@@ -187,6 +169,7 @@ public class GameScreen implements Screen {
 			control.update();
 			currentlevel.update();
 			//control.stage.act(); //maybe don't need
+			boolean any = false;
 			for(int i = creatures.length - 1; i >= 0; --i){
 				Creature c = creatures[i];
 				if(c != null && c.awake) {
@@ -196,9 +179,21 @@ public class GameScreen implements Screen {
 						c.tick = 0;
 					}
 					else{
-						c.update(currentlevel, game.batch);
+						c.update();
 					}
 				}
+				if(c != null){
+					any = true;
+					if(c.dead){
+						kill(c);	
+					}
+					else if(c.ascend){
+						currentlevel.ascend(c);	
+					}
+				}
+			}
+			if(!any){
+				currentlevel.nextLevel(this);
 			}
 			accumulator -= physicsStep;
 		}

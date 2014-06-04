@@ -1,6 +1,8 @@
-package com.morejesuslessme.tnelsond.unmutate;
+package com.morejesuslessme.tnelsond.unmutate.genome;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+
+import com.morejesuslessme.tnelsond.unmutate.*;
 
 public class Genome {
 	public enum Sex {
@@ -91,7 +93,7 @@ public class Genome {
 		for(int i=0; i<chromosomes.length; ++i) {
 			childc[i] = new ChromosomePair(chromosomes[i].meiosis(), other.chromosomes[i].meiosis());
 		}
-		return new Genome(childc);
+		return Level.getGenome(childc, null, null,  false);
 	}
 	
 	// Master inheritance function

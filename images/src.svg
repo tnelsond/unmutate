@@ -1024,9 +1024,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1216216"
-     inkscape:cx="-246.27956"
-     inkscape:cy="893.39951"
+     inkscape:zoom="2.2432432"
+     inkscape:cx="-73.315708"
+     inkscape:cy="740.05012"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
@@ -1339,6 +1339,18 @@
        d="m 466.69047,533.64886 a 98.489876,88.388351 0 1 1 -196.97975,0 98.489876,88.388351 0 1 1 196.97975,0 z"
        transform="matrix(0.1156549,0,0,0.12823448,-341.4904,33.943981)"
        inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/eye.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="color:#000000;fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect10168-2"
+       width="74.853683"
+       height="74.853683"
+       x="60.302952"
+       y="363.20987"
+       rx="0"
+       ry="0"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/dirt.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>

@@ -14,28 +14,101 @@ import com.badlogic.gdx.math.Vector3;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.Preferences;
 
 import java.lang.Character;
 
+import com.morejesuslessme.tnelsond.unmutate.genome.*;
+
 public class Level implements Json.Serializable{
-	public AtlasRegion dirt, slant, grass;
+	public AtlasRegion dirt, slant, grass, end;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
 	public int blocks[][];
+	public boolean carryover = false;
 	public Index[] spawns = new Index[4];
 
 	public float GRAVITY = 0.4f;
 
-	public final static int NONE = 1;
-	public final static int DIRT = 2;
-	public final static int GRASS = 3;
 	public Special[] special = new Special[10];
 
 	public Color dirtColor = new Color(.4f, 0.2f, 0, 1);
 	public Color dirtColor2 = new Color(.3f, 0.16f, 0, 1);
 	public Color grassColor = new Color(.2f, .5f, 0, 1);
 	public Color skyColor = new Color(.4f, .8f, 1, 1);
+
+	public static Json json;
+	public static Preferences pref;
+	public static Preferences prefNext;
+
+	// START Static Stuff
+	public final static int NONE = 1;
+	public final static int DIRT = 2;
+	public final static int GRASS = 3;
+	public final static int DEATH = 4;
+	public final static int END = 5;
+	public static int chapter = 0;
+	public static int part = 0;
+	public static int currentgenome = 0;
+	public static String prefix = "unmutatelevels/level";
+	public static int[] levels = {2};
+	public static Level currentlevel = null;
+
+	public static Genome getGenome(ChromosomePair[] c, Json j, String s, boolean f){
+		switch(Level.chapter){
+			default:
+				if(c != null)
+					return new Genome0(c);
+				else if(j != null)
+					return j.fromJson(Genome0.class, s);
+				return new Genome0(f);
+		}
+	}
+
+	public void ascend(Creature c){
+		for(int i = 0; i < 2; ++i){
+			String value;
+			String key;
+			if(c.sex == Genome.Sex.MALE){
+				key = "male" + i;
+				value = prefNext.getString(key, "null");
+			}
+			else if(c.sex == Genome.Sex.FEMALE){
+				key = "female" + i;
+				value = prefNext.getString(key, "null");
+			}
+			else{
+				return;
+			}
+			if(value.equals("null")){
+				String str = json.toJson(c.g);
+				prefNext.putString(key, str);
+				break;
+			}
+		}
+		prefNext.flush();
+		c.dead = true;
+	}
+
+	public static String getLevelName(String extension, boolean next){
+		return String.format("%s-%d-%d%s", Level.prefix, Level.chapter, next ? Level.part + 1 : Level.part, extension);
+	}	
+
+	public static String getLevelName(boolean next){
+		return Level.getLevelName("", next);
+	}	
+
+	public static Level makeLevel(Unmutate game){
+		Level.currentlevel = json.fromJson(Level.class, Gdx.files.internal(Level.getLevelName(".json", false)));
+		Level.currentlevel.setupTextures(game.atlas);
+		return currentlevel;
+	}
+
+	public static String getLevelIntro(){
+		return Gdx.files.internal(Level.getLevelName(".txt", false)).readString();
+	}
+	// END Static
 
 	public void write(Json json){
 		// Levels shouldn't be saved in this way
@@ -49,6 +122,9 @@ public class Level implements Json.Serializable{
 				dirtColor.r = colors[0];
 				dirtColor.g = colors[1];
 				dirtColor.b = colors[2];
+			}
+			else if(js.name().equals("carryover")){
+				carryover = js.asBoolean();	
 			}
 			else if(js.name().equals("dirt2")){
 				float[] colors = js.asFloatArray();
@@ -95,6 +171,12 @@ public class Level implements Json.Serializable{
 						}
 						else if(ch == 'o'){
 							blocks[row][col] = Level.GRASS;
+						}
+						else if(ch == '*'){
+							blocks[row][col] = Level.END;
+						}
+						else if(ch == '^'){
+							blocks[row][col] = Level.DEATH;
 						}
 						else if(ch == '$'){
 							spawns[spawn++] = new Index(row, col);
@@ -145,7 +227,7 @@ public class Level implements Json.Serializable{
 			grassGrow.add(new TileAction(r, c, 400 - offset));
 		}
 	}
-	
+
 	public void update(){
 		if(grassGrow.size() > 0){
 			TileAction t = (TileAction) grassGrow.getFirst();
@@ -160,11 +242,21 @@ public class Level implements Json.Serializable{
 		dirt = atlas.findRegion("dirt");
 		slant = atlas.findRegion("dirtslant");
 		grass = atlas.findRegion("grass");
+		end = atlas.findRegion("end");
 	}
 
 	// For reflection
 	public Level(){
+		pref = Gdx.app.getPreferences(Level.getLevelName(".json", false));
+		prefNext = Gdx.app.getPreferences(Level.getLevelName(".json", true));
+	}
 
+	public void nextLevel(GameScreen game){	
+		if(!prefNext.getString("male0", "null").equals("null") && prefNext.getString("female0", "null").equals("null")){
+			++part;
+		}
+		game.game.setScreen(new MainMenuScreen(game.game));
+		game.dispose();
 	}
 
 	public void draw(SpriteBatch batch, Vector3 pos, float width, float height){
@@ -172,13 +264,19 @@ public class Level implements Json.Serializable{
 		int r1 = Math.max((int) ((pos.y - height/2)/tile), 0);
 		int c2 = Math.min((int) ((pos.x + width/2)/tile) + 1, w);
 		int r2 = Math.min((int) ((pos.y + height/2)/tile) + 1, h);
+		AtlasRegion tex;
 		if(c1 > w || r1 > h)
 			return;
 		for(int r=r1; r<r2; ++r){
 			for(int c=c1; c<c2; ++c){
 				if(blocks[r][c] != Level.NONE){
+					tex = dirt;
 					if(isSpecial(blocks[r][c])){
 						batch.setColor(getSpecial(blocks[r][c]).outside);
+					}
+					else if(blocks[r][c] == Level.END){
+						tex = end;
+						batch.setColor(new Color(1, 1, 0, 1));
 					}
 					else
 						batch.setColor(((r + c) % 2 == 1) ? dirtColor : dirtColor2);
@@ -196,7 +294,7 @@ public class Level implements Json.Serializable{
 					*/
 
 					//batch.draw(dirt, c*tile - 0.5f, r*tile - 0.5f, tile + 1, tile + 1); // Compensating for gaps.
-					batch.draw(dirt, c*tile, r*tile, tile, tile); // Compensating for gaps.
+					batch.draw(tex, c*tile, r*tile, tile, tile);
 
 					if(blocks[r][c] == Level.GRASS){
 						batch.setColor(grassColor);

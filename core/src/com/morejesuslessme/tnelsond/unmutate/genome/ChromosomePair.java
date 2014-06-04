@@ -1,4 +1,4 @@
-package com.morejesuslessme.tnelsond.unmutate;
+package com.morejesuslessme.tnelsond.unmutate.genome;
 
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.math.MathUtils;

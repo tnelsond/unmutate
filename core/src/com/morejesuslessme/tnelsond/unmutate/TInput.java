@@ -30,6 +30,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import java.lang.Math;
 
+import com.morejesuslessme.tnelsond.unmutate.genome.*;
+
 public class TInput implements InputProcessor {
 
 	float touchpadminradius = 10;
@@ -56,13 +58,10 @@ public class TInput implements InputProcessor {
 		table.debug();
 		table.debugTable();
 		stage.addActor(table);
-		Drawable button_normal = (Drawable) new NinePatchDrawable(game.game.atlas.createPatch("button_normal"));
-		Drawable button_pressed = (Drawable) new NinePatchDrawable(game.game.atlas.createPatch("button_pressed"));
-		TextButtonStyle bs = new TextButtonStyle(button_normal, button_pressed, button_normal, game.game.font);
-		TextButton b = new TextButton("Deselect", bs);
-		TextButton b2 = new TextButton("Breed", bs);
-		TextButton b3 = new TextButton("Kill", bs);
-		TextButton b4 = new TextButton("Switch", bs);
+		TextButton b = new TextButton("Deselect", game.game.bs);
+		TextButton b2 = new TextButton("Breed", game.game.bs);
+		TextButton b3 = new TextButton("Kill", game.game.bs);
+		TextButton b4 = new TextButton("Switch", game.game.bs);
 		b.addListener(new ClickListener()
 		{
 			@Override
@@ -110,6 +109,10 @@ public class TInput implements InputProcessor {
 		this.game.selectedCreature = null;
 	}
 
+	public final void kill(){
+		this.game.kill(this.game.selectedCreature);
+	}
+
 	public final void breed(){
 		int index = -1;
 		Creature temp = null;
@@ -134,7 +137,7 @@ public class TInput implements InputProcessor {
 					}
 					if(game.creatures[i].breedable){
 						otherparent = game.creatures[i];
-						temp = game.creatures[i].breed(game.selectedCreature, game.currentlevel, game.game.atlas);
+						temp = game.creatures[i].breed(game.selectedCreature, game);
 					}
 				}
 
@@ -147,18 +150,6 @@ public class TInput implements InputProcessor {
 				otherparent.vx = -4;
 				temp.vy = 4;
 				otherparent.awake = true;
-			}
-		}
-	}
-
-	public final void kill(){
-		if(game.selectedCreature != null){
-			for(int i = 0; i < game.creatures.length; ++i){
-				if(game.creatures[i] == game.selectedCreature){
-					game.creatures[i] = null;
-					game.selectedCreature = null;
-					break;
-				}
 			}
 		}
 	}

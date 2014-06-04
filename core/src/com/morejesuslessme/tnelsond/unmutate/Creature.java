@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+import com.morejesuslessme.tnelsond.unmutate.genome.*;
 
 public class Creature extends Rectangle {
 	private static final long serialVersionUID = 7611724726502808151L;
@@ -45,7 +46,7 @@ public class Creature extends Rectangle {
 	public float accel = 1f;
 	public float speed = 1;
 	public float legThick = 1;
-	public float legLength = TLEG.w;
+	public float legLength = 1;
 	public float jump = 1;
 	
 	public Genome.Sex sex;
@@ -60,6 +61,8 @@ public class Creature extends Rectangle {
 	public boolean breedable = false;
 
 	public boolean awake = true;
+	public boolean dead = false;
+	public boolean ascend = false;
 	public float pwalkStep = 0;
 	public float walkStep = 0;
 	public int tick = 0;
@@ -152,7 +155,7 @@ public class Creature extends Rectangle {
 		tick = 0;
 	}
 	
-	public void update(Level level, SpriteBatch batch) {
+	public void update(){
 		grassc = -1;
 		grassr = -1;
 		breedable = false;
@@ -162,10 +165,10 @@ public class Creature extends Rectangle {
 			tick = 0;
 		onGround = false;
 		x += vx;
-		checkX(vx, level, batch);
-		vy -= level.GRAVITY;
+		checkX(vx, Level.currentlevel);
+		vy -= Level.currentlevel.GRAVITY;
 		y += vy;
-		checkY(vy, level, batch);
+		checkY(vy, Level.currentlevel);
 		
 		/*
 		if(y <= FLOOR) {
@@ -183,7 +186,7 @@ public class Creature extends Rectangle {
 		++tick;
 	}
 	
-	public void checkX(float v, Level level, SpriteBatch batch) {
+	public void checkX(float v, Level level) {
 		if(v == 0){
 			return;
 		}
@@ -235,6 +238,9 @@ public class Creature extends Rectangle {
 				r = (Integer) row.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
 				int b = level.blocks[r][c];
+				if(b == Level.END){
+					ascend = true;
+				}
 				if(b != Level.NONE && level.isSolid(b, this)){
 					x = c*level.tile + cor;
 					vx = 0;
@@ -245,7 +251,7 @@ public class Creature extends Rectangle {
 		}
 	}
 	
-	public void checkY(float v, Level level, SpriteBatch batch) {
+	public void checkY(float v, Level level) {
 		if(v == 0){
 			return;
 		}
@@ -297,6 +303,9 @@ public class Creature extends Rectangle {
 				c = (Integer) col.next();
 				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
 				int b = level.blocks[r][c];
+				if(b == Level.END){
+					ascend = true;
+				}
 				if(b != Level.NONE && level.isSolid(b, this)){
 					if(v < 0)
 						onGround = true;
@@ -376,8 +385,8 @@ public class Creature extends Rectangle {
 		}
 	}
 	
-	public Creature breed(Creature other, Level level, TextureAtlas atlas) {
-		level.consume(grassr, grassc);
-		return new Creature((x + other.x)/2, (y + other.y)/2, g.breed(other.g), atlas);
+	public Creature breed(Creature other, GameScreen game) {
+		game.currentlevel.consume(grassr, grassc);
+		return new Creature((x + other.x)/2, (y + other.y)/2, g.breed(other.g), game.game.atlas);
 	}
 }
