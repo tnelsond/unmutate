@@ -60,11 +60,20 @@ public class Level implements Json.Serializable{
 	public static Genome getGenome(ChromosomePair[] c, Json j, String s, boolean f){
 		switch(Level.chapter){
 			default:
-				if(c != null)
-					return new Genome0(c);
-				else if(j != null)
-					return j.fromJson(Genome0.class, s);
-				return new Genome0(f);
+				switch(Level.part){
+					case 1:
+						if(c != null)
+							return new Genome01(c);
+						else if(j != null)
+							return j.fromJson(Genome01.class, s);
+						return new Genome01(f);
+					default:
+						if(c != null)
+							return new Genome0(c);
+						else if(j != null)
+							return j.fromJson(Genome0.class, s);
+						return new Genome0(f);
+				}
 		}
 	}
 

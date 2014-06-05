@@ -31,10 +31,7 @@ public class GameScreen implements Screen {
 
 	final Unmutate game;
 
-	public ShapeRenderer shapeRenderer;
-
 	public Level currentlevel;
-	Color backgroundColor;
 
 	public int vieww = 500;
 	public int viewh = 300;
@@ -66,12 +63,10 @@ public class GameScreen implements Screen {
 
 		Gdx.graphics.setContinuousRendering(true);
 
-		backgroundColor = new Color(0.4f, 0.8f, 1f, 1);
 		halo = game.atlas.findRegion("halo");
 
 		currentlevel = Level.makeLevel(game);
 
-		shapeRenderer = new ShapeRenderer();
 		creatures = new Creature[10];
 
 		loadCreatures();
@@ -93,9 +88,7 @@ public class GameScreen implements Screen {
 		for(int i = 0; i < currentlevel.spawns.length; ++i){
 			String key = ((i % 2 == 0) ? "male" : "female") + i/2;
 			String str = currentlevel.pref.getString(key, "null");
-			boolean load = true;
-			Genome g = null;
-			if(str.equals("null") && !currentlevel.carryover){
+			if(str.equals("null") || !currentlevel.carryover){
 				if(i <= 1){
 					creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, Level.getGenome(null, null, null, (i % 2 == 0) ? false : true), game.atlas);
 					//str = game.json.toJson(g);
@@ -103,7 +96,7 @@ public class GameScreen implements Screen {
 				}
 			}
 			else{
-				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, (g == null) ? Level.getGenome(null, game.json, str, false) : g, game.atlas);
+				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, Level.getGenome(null, game.json, str, false), game.atlas);
 			}
 		}
 	}
