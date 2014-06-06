@@ -70,6 +70,7 @@ public class GameScreen implements Screen {
 		creatures = new Creature[10];
 
 		loadCreatures();
+		selectedCreature = creatures[0];
 
 		// shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera();

@@ -170,14 +170,6 @@ public class Creature extends Rectangle {
 		y += vy;
 		checkY(vy, Level.currentlevel);
 		
-		/*
-		if(y <= FLOOR) {
-			y = FLOOR;
-			vy = 0;
-		}
-		*/
-		
-		
 		vx *= .95;
 		vy *= .98; // Air Friction
 		
@@ -185,7 +177,7 @@ public class Creature extends Rectangle {
 		walkStep += (vx) / (legLength/2.0f);
 		++tick;
 	}
-	
+
 	public void checkX(float v, Level level) {
 		if(v == 0){
 			return;
@@ -214,8 +206,7 @@ public class Creature extends Rectangle {
 		
 		int r2 = (int) ((y + height - 1) / level.tile);
 		int r1 = (int) (y / level.tile);
-		//if(r1 == r2)
-			--r1;
+		--r1;
 		if(r1 < 0)
 			r1 = 0;
 		if(r1 >= level.h)
@@ -301,7 +292,6 @@ public class Creature extends Rectangle {
 			Titer col = new Titer(c1, c2);
 			while(col.hasNext()) {
 				c = (Integer) col.next();
-				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
 				int b = level.blocks[r][c];
 				if(b == Level.END){
 					ascend = true;
@@ -325,8 +315,6 @@ public class Creature extends Rectangle {
 
 	public void checkForGrass(Level level){
 		int r = (int) Math.floor((y - 1) / level.tile);
-		//if(r < 0)
-		//		return;
 		int c1 = (int) (x / level.tile) - 1;
 		int c2 = (int) ((x + width) / level.tile);
 		if(c2 == c1)
@@ -335,8 +323,6 @@ public class Creature extends Rectangle {
 		Titer col = new Titer(c1, c2);
 		while(col.hasNext()){
 			c = (Integer) col.next();
-			//batch.setColor(0, 0, 0, .5f);
-			//batch.draw(level.dirt, c*level.tile, r*level.tile);
 			int b = level.blocks[r][c];
 			if(b == Level.GRASS){
 				grassc = c;

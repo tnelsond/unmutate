@@ -23,8 +23,8 @@ public class MainMenuScreen implements Screen {
 	
 	public MainMenuScreen(final Unmutate game) {
 		this.game = game;
-		Gdx.graphics.setContinuousRendering(false);
-		Gdx.graphics.requestRendering();
+		//Gdx.graphics.setContinuousRendering(true);
+		//Gdx.graphics.requestRendering();
 		stage = new Stage(new ExtendViewport(vieww, viewh), game.batch);
 		Gdx.input.setInputProcessor(stage);
 
@@ -67,7 +67,7 @@ public class MainMenuScreen implements Screen {
 		
 		stage.act(delta);
 		stage.draw();
-		table.drawDebug(stage);
+		//table.drawDebug(stage);
 	}
 
 	@Override

@@ -24,8 +24,11 @@ public class Unmutate extends Game {
 	public TextButtonStyle bs;
 	public Json json = new Json();
 
+	public static String tag = "***UNMUTATE";
+
 	@Override
 	public void create() {
+		Gdx.app.log(Unmutate.tag, "STARTING APP");
 		Level.json = json;
 		batch = new SpriteBatch(200);
 		atlas = new TextureAtlas(Gdx.files.internal("gamegdx.atlas"));

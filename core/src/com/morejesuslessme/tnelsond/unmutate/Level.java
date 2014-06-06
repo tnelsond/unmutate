@@ -53,8 +53,8 @@ public class Level implements Json.Serializable{
 	public static int chapter = 0;
 	public static int part = 0;
 	public static int currentgenome = 0;
-	public static String prefix = "unmutatelevels/level";
-	public static int[] levels = {2};
+	public static String prefix = "unmutatelevel";
+	public static int[] levels = {1};
 	public static Level currentlevel = null;
 
 	public static Genome getGenome(ChromosomePair[] c, Json j, String s, boolean f){
@@ -276,7 +276,13 @@ public class Level implements Json.Serializable{
 
 	public void nextLevel(GameScreen game){	
 		if(!prefNext.getString("male0", "null").equals("null") && !prefNext.getString("female0", "null").equals("null")){
-			++part;
+			if(part < levels[chapter]){
+				++part;
+			}
+			else if(chapter < levels.length - 1){
+				++chapter;
+				part = 0;
+			}
 		}
 		game.game.setScreen(new MainMenuScreen(game.game));
 		game.dispose();
@@ -308,25 +314,13 @@ public class Level implements Json.Serializable{
 					}
 					else
 						batch.setColor(((r + c) % 2 == 1) ? dirtColor : dirtColor2);
-					/*
-					else{
-						if((r + c) % 2 == 1)
-							batch.setColor(.4f, .3f, 0, 1);
-						else
-							batch.setColor(.3f, .2f, 0, 1);
-						if(blocks[r][c] != BlockType.DIRT){
-							batch.draw(slant, c*tile, r*tile, tile/2, tile/2, tile, tile, (blocks[r][c] == BlockType.UPLEFT || blocks[r][c] == Level.blocktype.DOWNLEFT) ? -1 : 1, (blocks[r][c] == Level.blocktype.UPRIGHT || blocks[r][c] == Level.blocktype.UPLEFT) ? -1 : 1, 0);
-							continue;
-						}
-					}
-					*/
 
-					//batch.draw(dirt, c*tile - 0.5f, r*tile - 0.5f, tile + 1, tile + 1); // Compensating for gaps.
 					batch.draw(tex, c*tile, r*tile, tile, tile);
 
+					// For grass
 					if(blocks[r][c] == Level.GRASS){
 						batch.setColor(grassColor);
-						batch.draw(grass, c*tile, r*tile + tile*3/4, tile, tile/3); // Compensating for gaps.
+						batch.draw(grass, c*tile, r*tile + tile*3/4, tile, tile/3);
 					}
 				}
 			}
