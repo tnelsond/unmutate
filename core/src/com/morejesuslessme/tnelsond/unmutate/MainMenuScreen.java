@@ -41,7 +41,7 @@ public class MainMenuScreen implements Screen {
 		Table con = new Table();
 		con.add(label).fill().expand();
 		con.row();
-		TextButton start = new TextButton("Start", game.bs);
+		TextButton start = new TextButton("START", game.bs);
 		start.addListener(new ClickListener()
 		{
 			@Override

@@ -29,6 +29,10 @@ public class GameScreen implements Screen {
 	public OrthographicCamera camera;
 	public Viewport viewport;
 
+	TParticleEffect deathFX;
+	TParticleEffect ascendFX;
+	TParticleEffect birthFX;
+
 	final Unmutate game;
 
 	public Level currentlevel;
@@ -45,6 +49,48 @@ public class GameScreen implements Screen {
 	Creature selectedCreature = null;
 	AtlasRegion halo;
 
+	public final void breed(){
+		int index = -1;
+		Creature temp = null;
+		Creature otherparent = null;
+		if(selectedCreature == null)
+			return;
+		if(!selectedCreature.breedable)
+			selectedCreature.checkForGrass(currentlevel);
+		if(selectedCreature.breedable && selectedCreature.sex != Genome.Sex.STERILE){
+			for(int i = 0; i < creatures.length; ++i){
+				if(creatures[i] == null){
+					index = i;
+				}
+				else if(creatures[i] != selectedCreature
+						&& selectedCreature.sex != creatures[i].sex
+						&& creatures[i].sex != Genome.Sex.STERILE
+						&& (int)(creatures[i].y/10) == (int)(selectedCreature.y/10)
+						&& creatures[i].overlaps(selectedCreature)){
+					if(!creatures[i].breedable){
+						creatures[i].checkForGrass(currentlevel);
+					}
+					if(creatures[i].breedable){
+						otherparent = creatures[i];
+						temp = creatures[i].breed(selectedCreature, this);
+					}
+				}
+
+				if(temp != null && index != -1)
+					break;
+			}
+			if(index != -1 && temp != null){
+				creatures[index] = temp;
+				selectedCreature.vx = 4;
+				otherparent.vx = -4;
+				temp.vy = 4;
+				otherparent.awake = true;
+				birthFX.addEffect(temp.x + temp.width/2, temp.y);
+			}
+		}
+
+	}
+
 	public final void kill(Creature c){
 		if(c != null){
 			for(int i = 0; i < creatures.length; ++i){
@@ -52,6 +98,15 @@ public class GameScreen implements Screen {
 					creatures[i] = null;
 					if(selectedCreature == c)
 						selectedCreature = null;
+
+					// Particle effect
+					if(c.ascend){
+						ascendFX.addEffect(c.x + c.width/2, c.y + c.height/2);
+					}
+					else{
+						deathFX.addEffect(c.x + c.width/2, c.y + c.height/2);
+					}
+	
 					break;
 				}
 			}
@@ -83,6 +138,10 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(im);
 
 		Gdx.gl.glClearColor(currentlevel.skyColor.r, currentlevel.skyColor.g, currentlevel.skyColor.b, 1);
+
+		deathFX = new TParticleEffect("fx/death.p", game.atlas);
+		ascendFX = new TParticleEffect("fx/ascend.p", game.atlas);
+		birthFX = new TParticleEffect("fx/birth.p", game.atlas);
 	}
 
 	public void loadCreatures(){
@@ -92,8 +151,6 @@ public class GameScreen implements Screen {
 			if(str.equals("null") || !currentlevel.carryover){
 				if(i <= 1){
 					creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, Level.getGenome(null, null, null, (i % 2 == 0) ? false : true), game.atlas);
-					//str = game.json.toJson(g);
-					//pref.putString(key, str);
 				}
 			}
 			else{
@@ -151,6 +208,11 @@ public class GameScreen implements Screen {
 			game.batch.draw(halo, selectedCreature.x + selectedCreature.width/2 - 16, selectedCreature.y + selectedCreature.height, 32, 32);
 		}
 
+		// Particle effects
+		deathFX.render(game.batch);
+		ascendFX.render(game.batch);
+		birthFX.render(game.batch);
+	
 		control.render();
 	}
 
@@ -178,11 +240,9 @@ public class GameScreen implements Screen {
 				}
 				if(c != null){
 					any = true;
-					if(c.dead){
-						kill(c);	
-					}
-					else if(c.ascend){
+					if(c.ascend){
 						currentlevel.ascend(c);	
+						kill(c);
 					}
 				}
 			}
@@ -221,5 +281,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
+		deathFX.dispose();
+		ascendFX.dispose();
 	}
 }

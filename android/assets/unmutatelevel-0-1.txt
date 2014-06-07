@@ -1,5 +1,8 @@
-Congratulations you beat the first level.
-Yeah, the inheritance was a bit poor. I mean really, what kind of creature only has 2 heritable traits (sex and fur color)?
+CONGRATULATIONS YOU BEAT THE FIRST LEVEL.
+YEAH, THE INHERITANCE WAS A BIT POOR. i MEAN REALLY, WHAT KIND OF CREATURE ONLY HAS 2 HERITABLE TRAITS (SEX AND FUR COLOR)?
 
-Alright, we're complicating things up a little bit.
-** NEW GENOME **
+ALRIGHT, WE'RE COMPLICATING THINGS UP A LITTLE BIT.
+
+## NEW GENOME ##
+
+

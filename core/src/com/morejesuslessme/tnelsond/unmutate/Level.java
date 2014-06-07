@@ -106,7 +106,6 @@ public class Level implements Json.Serializable{
 			}
 		}
 		prefNext.flush();
-		c.dead = true;
 	}
 
 	public static String getLevelName(String extension, boolean next){

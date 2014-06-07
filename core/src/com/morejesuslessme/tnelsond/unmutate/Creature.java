@@ -61,7 +61,6 @@ public class Creature extends Rectangle {
 	public boolean breedable = false;
 
 	public boolean awake = true;
-	public boolean dead = false;
 	public boolean ascend = false;
 	public float pwalkStep = 0;
 	public float walkStep = 0;

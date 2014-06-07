@@ -58,10 +58,10 @@ public class TInput implements InputProcessor {
 		table.debug();
 		table.debugTable();
 		stage.addActor(table);
-		TextButton b = new TextButton("Deselect", game.game.bs);
-		TextButton b2 = new TextButton("Breed", game.game.bs);
-		TextButton b3 = new TextButton("Kill", game.game.bs);
-		TextButton b4 = new TextButton("Switch", game.game.bs);
+		TextButton b = new TextButton("DESELECT", game.game.bs);
+		TextButton b2 = new TextButton("BREED", game.game.bs);
+		TextButton b3 = new TextButton("KILL", game.game.bs);
+		TextButton b4 = new TextButton("SWITCH", game.game.bs);
 		b.addListener(new ClickListener()
 		{
 			@Override
@@ -114,44 +114,7 @@ public class TInput implements InputProcessor {
 	}
 
 	public final void breed(){
-		int index = -1;
-		Creature temp = null;
-		Creature otherparent = null;
-		if(game.selectedCreature == null)
-			return;
-		if(!game.selectedCreature.breedable)
-			game.selectedCreature.checkForGrass(game.currentlevel);
-		if(game.selectedCreature.breedable && game.selectedCreature.sex != Genome.Sex.STERILE){
-			for(int i = 0; i < game.creatures.length; ++i){
-				if(game.creatures[i] == null){
-					index = i;
-				}
-				// TODO: make breeding check for grass spots under the creatures. Even if breedable is not true.
-				else if(game.creatures[i] != game.selectedCreature
-						&& game.selectedCreature.sex != game.creatures[i].sex
-						&& game.creatures[i].sex != Genome.Sex.STERILE
-						&& (int)(game.creatures[i].y/10) == (int)(game.selectedCreature.y/10)
-						&& game.creatures[i].overlaps(game.selectedCreature)){
-					if(!game.creatures[i].breedable){
-						game.creatures[i].checkForGrass(game.currentlevel);
-					}
-					if(game.creatures[i].breedable){
-						otherparent = game.creatures[i];
-						temp = game.creatures[i].breed(game.selectedCreature, game);
-					}
-				}
-
-				if(temp != null && index != -1)
-					break;
-			}
-			if(index != -1 && temp != null){
-				game.creatures[index] = temp;
-				game.selectedCreature.vx = 4;
-				otherparent.vx = -4;
-				temp.vy = 4;
-				otherparent.awake = true;
-			}
-		}
+		game.breed();
 	}
 
 	public final void tab(){
