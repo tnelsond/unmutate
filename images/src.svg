@@ -19,6 +19,25 @@
   <defs
      id="defs4">
     <linearGradient
+       id="linearGradient4178">
+      <stop
+         id="stop4180"
+         offset="0"
+         style="stop-color:#979797;stop-opacity:1;" />
+      <stop
+         style="stop-color:#a8a8a8;stop-opacity:1;"
+         offset="0.36039841"
+         id="stop4182" />
+      <stop
+         style="stop-color:#d2d2d2;stop-opacity:1;"
+         offset="0.9386161"
+         id="stop4184" />
+      <stop
+         style="stop-color:#a8a8a8;stop-opacity:1;"
+         offset="1"
+         id="stop4186" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient3921">
       <stop
          style="stop-color:#888888;stop-opacity:1;"
@@ -183,13 +202,21 @@
     <linearGradient
        id="linearGradient3851">
       <stop
-         style="stop-color:#fb00f1;stop-opacity:1;"
+         style="stop-color:#979797;stop-opacity:1;"
          offset="0"
          id="stop3853" />
       <stop
-         style="stop-color:#5e005a;stop-opacity:1;"
+         id="stop4111"
+         offset="0.79364932"
+         style="stop-color:#a8a8a8;stop-opacity:1;" />
+      <stop
+         id="stop4109"
+         offset="0.9386161"
+         style="stop-color:#d2d2d2;stop-opacity:1;" />
+      <stop
+         id="stop4107"
          offset="1"
-         id="stop3855" />
+         style="stop-color:#a8a8a8;stop-opacity:1;" />
     </linearGradient>
     <radialGradient
        inkscape:collect="always"
@@ -426,16 +453,6 @@
        gradientUnits="userSpaceOnUse" />
     <radialGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient11030"
-       id="radialGradient11028"
-       cx="-98.729782"
-       cy="240.51521"
-       fx="-98.729782"
-       fy="240.51521"
-       r="20.240932"
-       gradientUnits="userSpaceOnUse" />
-    <radialGradient
-       inkscape:collect="always"
        xlink:href="#linearGradient11030-9"
        id="radialGradient11028-3"
        cx="-98.729782"
@@ -463,7 +480,7 @@
        cx="-98.729782"
        gradientUnits="userSpaceOnUse"
        id="radialGradient11051"
-       xlink:href="#linearGradient6012"
+       xlink:href="#linearGradient3897-5-9"
        inkscape:collect="always"
        gradientTransform="matrix(2.0684628,0,0,2.0902027,105.4891,-262.21032)" />
     <linearGradient
@@ -1049,6 +1066,139 @@
        id="radialGradient3208"
        xlink:href="#linearGradient6198-8"
        inkscape:collect="always" />
+    <radialGradient
+       r="20.240932"
+       fy="240.51521"
+       fx="-98.729782"
+       cy="240.51521"
+       cx="-98.729782"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient11051-1"
+       xlink:href="#linearGradient3897-5-9-4"
+       inkscape:collect="always"
+       gradientTransform="matrix(2.0684628,0,0,2.0902027,105.4891,-262.21032)" />
+    <linearGradient
+       id="linearGradient3897-5-9-4">
+      <stop
+         style="stop-color:#8a8a8a;stop-opacity:1;"
+         offset="0"
+         id="stop3899-3-8-9" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="1"
+         id="stop3901-3-8-4" />
+    </linearGradient>
+    <radialGradient
+       r="20.240932"
+       fy="240.51521"
+       fx="-98.729782"
+       cy="240.51521"
+       cx="-98.729782"
+       gradientTransform="matrix(0.98123213,-6.574037e-4,6.613949e-4,0.98718867,-2.0120224,3.0164295)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient4086"
+       xlink:href="#linearGradient3851"
+       inkscape:collect="always" />
+    <radialGradient
+       r="20.240932"
+       fy="240.51521"
+       fx="-98.729782"
+       cy="240.51521"
+       cx="-98.729782"
+       gradientTransform="matrix(0.98123213,-6.574037e-4,6.613949e-4,0.98718867,-2.0120224,3.0164295)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient4086-9"
+       xlink:href="#linearGradient3851-2"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient3851-2">
+      <stop
+         style="stop-color:#979797;stop-opacity:1;"
+         offset="0"
+         id="stop3853-0" />
+      <stop
+         id="stop4111-4"
+         offset="0.79364932"
+         style="stop-color:#a8a8a8;stop-opacity:1;" />
+      <stop
+         id="stop4109-2"
+         offset="0.9386161"
+         style="stop-color:#d2d2d2;stop-opacity:1;" />
+      <stop
+         id="stop4107-8"
+         offset="1"
+         style="stop-color:#a8a8a8;stop-opacity:1;" />
+    </linearGradient>
+    <radialGradient
+       r="20.240932"
+       fy="240.51521"
+       fx="-98.729782"
+       cy="240.51521"
+       cx="-98.729782"
+       gradientTransform="matrix(0.98123213,-6.574037e-4,6.613949e-4,0.98718867,-2.0120224,3.0164295)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient4132"
+       xlink:href="#linearGradient3851-2"
+       inkscape:collect="always" />
+    <radialGradient
+       r="20.240932"
+       fy="240.51521"
+       fx="-98.729782"
+       cy="240.51521"
+       cx="-98.729782"
+       gradientTransform="matrix(0.98123213,-6.574037e-4,6.613949e-4,0.98718867,-2.0120224,3.0164295)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient4086-5"
+       xlink:href="#linearGradient3851-4"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient3851-4">
+      <stop
+         style="stop-color:#979797;stop-opacity:1;"
+         offset="0"
+         id="stop3853-5" />
+      <stop
+         id="stop4111-3"
+         offset="0.79364932"
+         style="stop-color:#a8a8a8;stop-opacity:1;" />
+      <stop
+         id="stop4109-23"
+         offset="0.9386161"
+         style="stop-color:#d2d2d2;stop-opacity:1;" />
+      <stop
+         id="stop4107-9"
+         offset="1"
+         style="stop-color:#a8a8a8;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4178"
+       id="linearGradient4176"
+       x1="-98.854401"
+       y1="221.10229"
+       x2="-98.421455"
+       y2="263.47903"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4393-2"
+       id="linearGradient4212"
+       x1="-99.925041"
+       y1="284.27811"
+       x2="-99.925041"
+       y2="219.39064"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3897-5-9"
+       id="radialGradient4215"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.0684628,0,0,2.0902027,105.4891,-262.21032)"
+       cx="-98.729782"
+       cy="240.51521"
+       fx="-98.729782"
+       fy="240.51521"
+       r="20.240932" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -1058,8 +1208,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.172425"
-     inkscape:cx="81.167834"
-     inkscape:cy="848.01315"
+     inkscape:cx="-82.2888"
+     inkscape:cy="925.48284"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
      showgrid="true"
@@ -1196,6 +1346,30 @@
        id="path4089"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="csc" />
+    <rect
+       style="display:inline;color:#000000;fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;overflow:visible;enable-background:accumulate"
+       id="rect10168-2"
+       width="79.897141"
+       height="79.897141"
+       x="59.67252"
+       y="360.05771"
+       rx="0"
+       ry="0"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/dirt.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect10168-4"
+       width="74.853683"
+       height="74.853683"
+       x="62.36747"
+       y="362.60764"
+       rx="0"
+       ry="0"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/block.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -1310,27 +1484,17 @@
        inkscape:export-ydpi="90" />
     <path
        sodipodi:type="arc"
-       style="color:#000000;fill:url(#radialGradient11028);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#e2e2e2;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path10998"
        sodipodi:cx="-98.729782"
        sodipodi:cy="240.51521"
        sodipodi:rx="20.240932"
        sodipodi:ry="20.240932"
        d="m -78.48885,240.51521 a 20.240932,20.240932 0 1 1 -40.48186,0 20.240932,20.240932 0 1 1 40.48186,0 z"
-       transform="matrix(1.231441,0,0,1.231441,18.165541,-60.349673)"
+       transform="matrix(2.4658078,0,0,2.4658078,156.39595,-513.61296)"
        inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/joystickouter.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
-    <path
-       transform="matrix(0.48908299,0,0,0.48908299,-8.2045053,120.52946)"
-       sodipodi:type="arc"
-       style="color:#000000;fill:url(#radialGradient11051);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="path10998-7"
-       sodipodi:cx="-98.729782"
-       sodipodi:cy="240.51521"
-       sodipodi:rx="20.240932"
-       sodipodi:ry="20.240932"
-       d="m -78.48885,240.51521 a 20.240932,20.240932 0 1 1 -40.48186,0 20.240932,20.240932 0 1 1 40.48186,0 z" />
     <path
        sodipodi:type="star"
        style="color:#000000;fill:url(#radialGradient3208);fill-opacity:1;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
@@ -1350,6 +1514,128 @@
        inkscape:transform-center-y="3.2046048"
        transform="matrix(0.99962908,0.02723428,-0.02723428,0.99962908,165.89452,-60.818987)"
        inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/end.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="star"
+       style="color:#000000;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.5999999;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3989-2"
+       sodipodi:sides="3"
+       sodipodi:cx="-110"
+       sodipodi:cy="217.36218"
+       sodipodi:r1="5.9064593"
+       sodipodi:r2="2.9283707"
+       sodipodi:arg1="0.56136199"
+       sodipodi:arg2="1.6081789"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m -105,220.50643 -5.10944,-0.21792 -5.11355,-0.16832 2.74344,-4.31595 2.70254,-4.34431 2.366,4.53387 z"
+       inkscape:transform-center-x="0.033439577"
+       inkscape:transform-center-y="2.7843319"
+       transform="matrix(-2.0004886,0.0869169,-0.0869169,-2.0004886,-288.67083,560.09387)"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/joystickouter.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="star"
+       style="color:#000000;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.5999999;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3989-2-2"
+       sodipodi:sides="3"
+       sodipodi:cx="-110"
+       sodipodi:cy="217.36218"
+       sodipodi:r1="5.9064593"
+       sodipodi:r2="2.9283707"
+       sodipodi:arg1="0.56136199"
+       sodipodi:arg2="1.6081789"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m -105,220.50643 -5.10944,-0.21792 -5.11355,-0.16832 2.74344,-4.31595 2.70254,-4.34431 2.366,4.53387 z"
+       inkscape:transform-center-x="-0.033441704"
+       inkscape:transform-center-y="-2.7843277"
+       transform="matrix(2.0004886,-0.0869169,0.0869169,2.0004886,113.7466,-400.1893)"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/joystickouter.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="star"
+       style="color:#000000;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.5999999;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3989-2-9"
+       sodipodi:sides="3"
+       sodipodi:cx="-110"
+       sodipodi:cy="217.36218"
+       sodipodi:r1="5.9064593"
+       sodipodi:r2="2.9283707"
+       sodipodi:arg1="0.56136199"
+       sodipodi:arg2="1.6081789"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m -105,220.50643 -5.10944,-0.21792 -5.11355,-0.16832 2.74344,-4.31595 2.70254,-4.34431 2.366,4.53387 z"
+       inkscape:transform-center-x="-2.7843224"
+       inkscape:transform-center-y="0.033427791"
+       transform="matrix(0.0869169,2.0004886,-2.0004886,0.0869169,392.53756,281.04655)"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/joystickouter.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="star"
+       style="color:#000000;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.5999999;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3989-2-9-2"
+       sodipodi:sides="3"
+       sodipodi:cx="-110"
+       sodipodi:cy="217.36218"
+       sodipodi:r1="5.9064593"
+       sodipodi:r2="2.9283707"
+       sodipodi:arg1="0.56136199"
+       sodipodi:arg2="1.6081789"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m -105,220.50643 -5.10944,-0.21792 -5.11355,-0.16832 2.74344,-4.31595 2.70254,-4.34431 2.366,4.53387 z"
+       inkscape:transform-center-x="2.784341"
+       inkscape:transform-center-y="-0.033444073"
+       transform="matrix(-0.0869169,-2.0004886,2.0004886,-0.0869169,-567.57687,-121.28178)"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/joystickouter.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       transform="matrix(1.0837268,0,0,1.0837268,83.853942,-246.636)"
+       sodipodi:type="arc"
+       style="color:#000000;fill:url(#radialGradient4086);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path10998-7-1"
+       sodipodi:cx="-98.729782"
+       sodipodi:cy="240.51521"
+       sodipodi:rx="20.240932"
+       sodipodi:ry="20.240932"
+       d="m -78.48885,240.51521 a 20.240932,20.240932 0 1 1 -40.48186,0 20.240932,20.240932 0 1 1 40.48186,0 z"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/joystickinner.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="arc"
+       style="color:#000000;fill:#e2e2e2;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.5999999;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path4113"
+       sodipodi:cx="-4.5095038"
+       sodipodi:cy="14.315577"
+       sodipodi:rx="0.49049622"
+       sodipodi:ry="0.039402034"
+       d="m -4.0190076,14.315577 a 0.49049622,0.03940203 0 1 1 -0.9809925,0 0.49049622,0.03940203 0 1 1 0.9809925,0 z"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/joystickinner.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       transform="matrix(0.86180856,0,0,0.86180856,61.944003,-193.26125)"
+       sodipodi:type="arc"
+       style="color:#000000;fill:url(#linearGradient4176);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;opacity:1"
+       id="path10998-7-1-6"
+       sodipodi:cx="-98.729782"
+       sodipodi:cy="240.51521"
+       sodipodi:rx="20.240932"
+       sodipodi:ry="20.240932"
+       d="m -78.48885,240.51521 a 20.240932,20.240932 0 1 1 -40.48186,0 20.240932,20.240932 0 1 1 40.48186,0 z"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/joystickinner.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>
@@ -1403,18 +1689,6 @@
        d="m 466.69047,533.64886 a 98.489876,88.388351 0 1 1 -196.97975,0 98.489876,88.388351 0 1 1 196.97975,0 z"
        transform="matrix(0.1156549,0,0,0.12823448,-341.4904,33.943981)"
        inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/eye.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <rect
-       style="color:#000000;fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect10168-2"
-       width="74.853683"
-       height="74.853683"
-       x="60.302952"
-       y="363.20987"
-       rx="0"
-       ry="0"
-       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/dirt.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>

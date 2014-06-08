@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+import com.badlogic.gdx.math.MathUtils;
+
 import com.morejesuslessme.tnelsond.unmutate.genome.*;
 
 public class Creature extends Rectangle {
@@ -138,8 +140,8 @@ public class Creature extends Rectangle {
 	}
 
 	public void moveToward(float cx, float cy) {
-		cx = (cx > 1) ? 1 : (cx < -1) ? -1 : cx;
-		cy = (cy < -1) ? -1 : cy;
+		cx = MathUtils.clamp(cx, -1, 1);
+		cy = MathUtils.clamp(cy, -1, 1);
 		vx += cx * accel * (onGround ? 1 : .5);
 		
 		if(cy > 0 && onGround) // Jump
@@ -226,7 +228,6 @@ public class Creature extends Rectangle {
 			Titer row = new Titer(r1, r2);
 			while(row.hasNext()) {
 				r = (Integer) row.next();
-				//batch.draw(level.yellowRegion, c*level.tile, r*level.tile);
 				int b = level.blocks[r][c];
 				if(b == Level.END){
 					ascend = true;

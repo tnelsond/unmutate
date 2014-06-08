@@ -21,7 +21,7 @@ import java.lang.Character;
 import com.morejesuslessme.tnelsond.unmutate.genome.*;
 
 public class Level implements Json.Serializable{
-	public AtlasRegion dirt, slant, grass, end;
+	public AtlasRegion dirt, slant, grass, end, block;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
@@ -51,7 +51,7 @@ public class Level implements Json.Serializable{
 	public final static int DEATH = 4;
 	public final static int END = 5;
 	public static int chapter = 0;
-	public static int part = 0;
+	public static int part = 1;
 	public static int currentgenome = 0;
 	public static String prefix = "unmutatelevel";
 	public static int[] levels = {1};
@@ -63,10 +63,10 @@ public class Level implements Json.Serializable{
 				switch(Level.part){
 					case 1:
 						if(c != null)
-							return new Genome01(c);
+							return new Genome(c);
 						else if(j != null)
-							return j.fromJson(Genome01.class, s);
-						return new Genome01(f);
+							return j.fromJson(Genome.class, s);
+						return new Genome(f);
 					default:
 						if(c != null)
 							return new Genome0(c);
@@ -260,6 +260,7 @@ public class Level implements Json.Serializable{
 		slant = atlas.findRegion("dirtslant");
 		grass = atlas.findRegion("grass");
 		end = atlas.findRegion("end");
+		block = atlas.findRegion("block");
 	}
 
 	// For reflection
@@ -301,6 +302,7 @@ public class Level implements Json.Serializable{
 					tex = dirt;
 					if(isSpecial(blocks[r][c])){
 						batch.setColor(getSpecial(blocks[r][c]).outside);
+						tex = block;
 					}
 					else if(blocks[r][c] == Level.END){
 						tex = end;

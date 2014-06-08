@@ -23,6 +23,8 @@ import com.badlogic.gdx.Preferences;
 
 import java.lang.Math;
 
+import com.badlogic.gdx.graphics.FPSLogger;
+
 import com.morejesuslessme.tnelsond.unmutate.genome.Genome;
 
 public class GameScreen implements Screen {
@@ -48,6 +50,9 @@ public class GameScreen implements Screen {
 	Creature creatures[];
 	Creature selectedCreature = null;
 	AtlasRegion halo;
+
+	// Debug
+	FPSLogger fps = new FPSLogger();
 
 	public final void breed(){
 		int index = -1;
@@ -218,8 +223,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		double time = Math.min(delta, 0.25);
-
+		double time = Math.min(delta, 0.2);
 		accumulator += time;
 		while(accumulator >= physicsStep){ // Physics loop
 			control.update();
@@ -253,6 +257,9 @@ public class GameScreen implements Screen {
 		}
 		final float alpha = (float)(accumulator / physicsStep);
 		draw(alpha);
+
+		// DEBUG
+		fps.log();
 	}
 
 	@Override

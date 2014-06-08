@@ -1,9 +1,16 @@
 
 gamegdx.png
-size: 1014,252
+size: 996,252
 format: RGBA8888
 filter: MipMapLinearNearest,Linear
 repeat: none
+block
+  rotate: false
+  xy: 842, 177
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: -1
 bonefoot
   rotate: false
   xy: 4, 53
@@ -13,14 +20,14 @@ bonefoot
   index: -1
 bow
   rotate: false
-  xy: 203, 4
+  xy: 465, 4
   size: 70, 42
   orig: 70, 42
   offset: 0, 0
   index: -1
 button_normal
   rotate: false
-  xy: 981, 190
+  xy: 698, 91
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -29,7 +36,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 630, 95
+  xy: 731, 121
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
@@ -45,72 +52,72 @@ circlebody
   index: -1
 dirt
   rotate: false
-  xy: 823, 177
+  xy: 921, 177
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 dirtslant
   rotate: false
-  xy: 902, 177
+  xy: 386, 45
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 end
   rotate: false
-  xy: 386, 50
+  xy: 465, 50
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 524, 65
+  xy: 539, 8
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 eyewhite
   rotate: false
-  xy: 739, 172
+  xy: 758, 172
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 grass
   rotate: false
-  xy: 652, 139
+  xy: 652, 120
   size: 75, 26
   orig: 75, 26
   offset: 0, 0
   index: -1
 halo
   rotate: false
-  xy: 460, 67
+  xy: 539, 67
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
   index: -1
 horn
   rotate: false
-  xy: 583, 65
+  xy: 603, 65
   size: 43, 55
   orig: 43, 55
   offset: 0, 0
   index: -1
 joystickinner
   rotate: false
-  xy: 981, 219
-  size: 33, 33
-  orig: 33, 33
+  xy: 650, 72
+  size: 44, 44
+  orig: 44, 44
   offset: 0, 0
   index: -1
 joystickouter
   rotate: false
-  xy: 652, 169
-  size: 83, 83
-  orig: 83, 83
+  xy: 652, 150
+  size: 102, 102
+  orig: 102, 102
   offset: 0, 0
   index: -1
 pointfoot

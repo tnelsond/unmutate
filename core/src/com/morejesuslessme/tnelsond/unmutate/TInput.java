@@ -34,8 +34,8 @@ import com.morejesuslessme.tnelsond.unmutate.genome.*;
 
 public class TInput implements InputProcessor {
 
-	float touchpadminradius = 10;
-	float touchpadmaxradius = 30;
+	float touchpadminradius = 20;
+	float touchpadmaxradius = 50;
 	AtlasRegion touchpadouter;
 	AtlasRegion touchpadinner;
 	TTouch touchpad;	
@@ -150,8 +150,11 @@ public class TInput implements InputProcessor {
 			boolean xpositive = x > 0;
 			float y = touchpad.y - touchpad.sy;
 			boolean ypositive = !(y > 0); // The ! compensates for the fact that libgdx has flipped y coordinates for the drawing
-			x = MathUtils.clamp(Math.max(0, Math.abs(x) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius;
+			x = (float) Math.sqrt(MathUtils.clamp(Math.max(0, Math.abs(x) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius);
 			y = MathUtils.clamp(Math.max(0, Math.abs(y) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius;
+			if(y > 0 && y < .2){
+				y = 0;
+			}
 			if(!xpositive)
 				x = -x;
 			if(!ypositive)
@@ -180,14 +183,16 @@ public class TInput implements InputProcessor {
 			Vector3 pos2 = touchpad.toVector3();
 			game.viewport.unproject(pos);
 			game.viewport.unproject(pos2);
-			game.game.batch.setColor(0.0f, 0, 1, .7f);
+			game.game.batch.setColor(0.4f, 0.4f, 0.4f, .6f);
 			game.game.batch.draw(touchpadouter, pos.x - touchpadmaxradius, pos.y - touchpadmaxradius, touchpadmaxradius*2, touchpadmaxradius*2);
-			game.game.batch.setColor(1.0f, 1, 0, .7f);
+			game.game.batch.setColor(0.2f, 0.2f, 0.2f, .9f);
+			float lengthx = pos2.x - pos.x;
+			float lengthy = pos2.y - pos.y;
+			float angle = MathUtils.atan2(lengthy, lengthx);
+			float hyp = Math.min(touchpadmaxradius - touchpadminradius, (float) Math.sqrt(lengthx * lengthx + lengthy * lengthy));
 			game.game.batch.draw(touchpadinner,
-					Math.min(Math.max(pos2.x,
-							pos.x - touchpadmaxradius), pos.x + touchpadmaxradius) - touchpadminradius,
-					Math.min(Math.max(pos2.y,
-							pos.y - touchpadmaxradius), pos.y + touchpadmaxradius) - touchpadminradius,
+							pos.x + MathUtils.cos(angle) * hyp - touchpadminradius,
+							pos.y + MathUtils.sin(angle) * hyp - touchpadminradius,
 					touchpadminradius*2, touchpadminradius*2);
 		}
 
