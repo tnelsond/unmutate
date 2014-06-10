@@ -1,12 +1,12 @@
 
 gamegdx.png
-size: 996,252
+size: 1019,252
 format: RGBA8888
-filter: MipMapLinearNearest,Linear
+filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 block
   rotate: false
-  xy: 842, 177
+  xy: 870, 177
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
@@ -20,14 +20,14 @@ bonefoot
   index: -1
 bow
   rotate: false
-  xy: 465, 4
+  xy: 512, 76
   size: 70, 42
   orig: 70, 42
   offset: 0, 0
   index: -1
 button_normal
   rotate: false
-  xy: 698, 91
+  xy: 949, 153
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -36,7 +36,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 731, 121
+  xy: 334, 44
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
@@ -45,79 +45,79 @@ button_pressed
   index: -1
 circlebody
   rotate: false
-  xy: 520, 124
+  xy: 654, 124
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 dirt
   rotate: false
-  xy: 921, 177
+  xy: 386, 45
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 dirtslant
   rotate: false
-  xy: 386, 45
+  xy: 786, 93
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 end
   rotate: false
-  xy: 465, 50
+  xy: 949, 182
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 539, 8
+  xy: 586, 63
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 eyewhite
   rotate: false
-  xy: 758, 172
+  xy: 786, 172
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 grass
   rotate: false
-  xy: 652, 120
+  xy: 870, 147
   size: 75, 26
   orig: 75, 26
   offset: 0, 0
   index: -1
 halo
   rotate: false
-  xy: 539, 67
+  xy: 270, 16
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
   index: -1
 horn
   rotate: false
-  xy: 603, 65
+  xy: 465, 65
   size: 43, 55
   orig: 43, 55
   offset: 0, 0
   index: -1
 joystickinner
   rotate: false
-  xy: 650, 72
-  size: 44, 44
-  orig: 44, 44
+  xy: 203, 6
+  size: 63, 63
+  orig: 63, 63
   offset: 0, 0
   index: -1
 joystickouter
   rotate: false
-  xy: 652, 150
-  size: 102, 102
-  orig: 102, 102
+  xy: 520, 122
+  size: 130, 130
+  orig: 130, 130
   offset: 0, 0
   index: -1
 pointfoot

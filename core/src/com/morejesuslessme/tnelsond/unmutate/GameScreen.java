@@ -27,6 +27,9 @@ import com.badlogic.gdx.graphics.FPSLogger;
 
 import com.morejesuslessme.tnelsond.unmutate.genome.Genome;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+
 public class GameScreen implements Screen {
 	public OrthographicCamera camera;
 	public Viewport viewport;
@@ -34,6 +37,11 @@ public class GameScreen implements Screen {
 	TParticleEffect deathFX;
 	TParticleEffect ascendFX;
 	TParticleEffect birthFX;
+
+	Music bgmusic;
+	Sound soundJump;
+	Sound soundDeath;
+	Sound soundBirth;
 
 	final Unmutate game;
 
@@ -91,6 +99,7 @@ public class GameScreen implements Screen {
 				temp.vy = 4;
 				otherparent.awake = true;
 				birthFX.addEffect(temp.x + temp.width/2, temp.y);
+				soundBirth.play(.9f);
 			}
 		}
 
@@ -110,6 +119,7 @@ public class GameScreen implements Screen {
 					}
 					else{
 						deathFX.addEffect(c.x + c.width/2, c.y + c.height/2);
+						soundDeath.play(.9f);
 					}
 	
 					break;
@@ -147,6 +157,16 @@ public class GameScreen implements Screen {
 		deathFX = new TParticleEffect("fx/death.p", game.atlas);
 		ascendFX = new TParticleEffect("fx/ascend.p", game.atlas);
 		birthFX = new TParticleEffect("fx/birth.p", game.atlas);
+
+		bgmusic = Gdx.audio.newMusic(Gdx.files.internal("deedee.ogg"));
+		bgmusic.setVolume(0.6f);
+		bgmusic.setLooping(true);
+		bgmusic.play();
+		bgmusic.play();
+
+		soundJump = Gdx.audio.newSound(Gdx.files.internal("jump.ogg"));
+		soundDeath = Gdx.audio.newSound(Gdx.files.internal("die.ogg"));
+		soundBirth = Gdx.audio.newSound(Gdx.files.internal("born.ogg"));
 	}
 
 	public void loadCreatures(){
@@ -290,5 +310,9 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		deathFX.dispose();
 		ascendFX.dispose();
+		bgmusic.dispose();
+		soundJump.dispose();
+		soundDeath.dispose();
+		soundBirth.dispose();
 	}
 }

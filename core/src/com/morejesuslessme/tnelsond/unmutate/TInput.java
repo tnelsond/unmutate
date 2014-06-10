@@ -150,7 +150,7 @@ public class TInput implements InputProcessor {
 			boolean xpositive = x > 0;
 			float y = touchpad.y - touchpad.sy;
 			boolean ypositive = !(y > 0); // The ! compensates for the fact that libgdx has flipped y coordinates for the drawing
-			x = (float) Math.sqrt(MathUtils.clamp(Math.max(0, Math.abs(x) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius);
+			x = (float) Math.pow(MathUtils.clamp(Math.max(0, Math.abs(x) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius, 2);
 			y = MathUtils.clamp(Math.max(0, Math.abs(y) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius;
 			if(y > 0 && y < .2){
 				y = 0;
