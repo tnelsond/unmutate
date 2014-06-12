@@ -10,6 +10,7 @@ public class Genome01 extends Genome{
 			1,
 			1
 		};
+		MUTATION = 0;
 	}
 
 	public Genome01(ChromosomePair[] c){

@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.MathUtils;
 public class ChromosomePair {
 	public Allele[] a;
 	public Allele[] b;
-	public static float MUTATION = 0.04f;
-	public static float CROSSOVER = 0.2f;
 
 	public ChromosomePair(Allele[] a, Allele[] b) {
 		this.a = a;
@@ -20,16 +18,16 @@ public class ChromosomePair {
 		b = null;
 	}
 
-	public Allele[] meiosis() {
+	public Allele[] meiosis(float mutation, float crossover) {
 		Allele[] chromosome = new Allele[a.length];
 		boolean cAllele = MathUtils.randomBoolean();
 		for(int i=0; i<a.length; ++i) {
 			chromosome[i] = cAllele ? a[i] : b[i];
-			if(MathUtils.randomBoolean(ChromosomePair.MUTATION)){
+			if(MathUtils.randomBoolean(mutation)){
 				System.out.println("MUTATION");
 				chromosome[i] = Allele.MUT;
 			}
-			if(MathUtils.randomBoolean(ChromosomePair.CROSSOVER) && a[0] == Allele.MALE && b[0] != Allele.MALE)
+			if(MathUtils.randomBoolean(crossover) && a[0] == Allele.MALE && b[0] != Allele.MALE)
 				cAllele = !cAllele;
 		}
 		return chromosome;

@@ -15,6 +15,9 @@ public class Genome {
 	public Allele[] femaleb;
 	public Allele[] male;
 
+	public float MUTATION = 0.00f;
+	public float CROSSOVER = 0.0f;
+
 	public void initLOCUS(){
 		LOCUS = new int[]{
 			6,
@@ -63,18 +66,18 @@ public class Genome {
 					{ Allele.REC, Allele.DOM },
 					{ Allele.DOM, Allele.REC }, },
 				{ { Allele.DOM, Allele.DOM },
-					{ Allele.DOM, Allele.MUT },
-					{ Allele.DOM, Allele.MUT },
-					{ Allele.DOM, Allele.MUT }, },
+					{ Allele.DOM, Allele.REC },
+					{ Allele.DOM, Allele.DOM },
+					{ Allele.DOM, Allele.REC }, },
 				{ { Allele.FEMALE, Allele.FEMALE },
 					{ Allele.DOM, Allele.REC }}})
 			:
 			(new Allele[][][] {
-				{ { Allele.MUT, Allele.REC },
-					{ Allele.MUT, Allele.REC },
-					{ Allele.REC, Allele.MUT },
-					{ Allele.MUT, Allele.REC },
-					{ Allele.MUT, Allele.REC },
+				{ { Allele.DOM, Allele.REC },
+					{ Allele.REC, Allele.REC },
+					{ Allele.REC, Allele.DOM },
+					{ Allele.DOM, Allele.REC },
+					{ Allele.REC, Allele.REC },
 					{ Allele.REC, Allele.DOM }, },
 				{ { Allele.REC, Allele.DOM },
 					{ Allele.REC, Allele.REC },
@@ -82,7 +85,7 @@ public class Genome {
 				{ { Allele.REC, Allele.REC },
 					{ Allele.REC, Allele.REC },
 					{ Allele.REC, Allele.REC },
-					{ Allele.REC, Allele.MUT }, },
+					{ Allele.REC, Allele.REC }, },
 				{ { Allele.MALE, Allele.FEMALE },
 					{ Allele.REC, Allele.REC }}})
 		);
@@ -91,7 +94,7 @@ public class Genome {
 	public final Genome breed(Genome other) {
 		ChromosomePair[] childc = new ChromosomePair[LOCUS.length]; 
 		for(int i=0; i<chromosomes.length; ++i) {
-			childc[i] = new ChromosomePair(chromosomes[i].meiosis(), other.chromosomes[i].meiosis());
+			childc[i] = new ChromosomePair(chromosomes[i].meiosis(MUTATION, CROSSOVER), other.chromosomes[i].meiosis(other.MUTATION, other.CROSSOVER));
 		}
 		return Level.getGenome(childc, null, null,  false);
 	}
