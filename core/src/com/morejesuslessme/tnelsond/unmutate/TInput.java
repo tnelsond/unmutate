@@ -173,6 +173,9 @@ public class TInput implements InputProcessor {
 			if(Gdx.input.isKeyPressed(Keys.S)){
 				--y;
 			}
+			if(Gdx.input.isKeyPressed(Keys.W)){
+				++y;
+			}
 			game.selectedCreature.moveToward(x, y);
 		}
 	}
@@ -218,10 +221,6 @@ public class TInput implements InputProcessor {
 				break;
 			case Keys.B:
 				breed();
-				break;
-			case Keys.W:
-				if(game.selectedCreature != null)
-					game.selectedCreature.moveToward(0, 1);				
 				break;
 			case Keys.TAB:
 				tab();
@@ -318,8 +317,10 @@ public class TInput implements InputProcessor {
 		TTouch sel = (pointer == touchpad.pointer ? touchpad : othertouch);
 		sel.update(x, y);	
 		if(game.selectedCreature == null){
-			game.camera.position.x -= sel.x - sel.ox;
-			game.camera.position.y += sel.y - sel.oy;
+			game.camera.px = game.camera.x;
+			game.camera.py = game.camera.y;
+			game.camera.x -= sel.x - sel.ox;
+			game.camera.y += sel.y - sel.oy;
 		}
 	
 		return false;

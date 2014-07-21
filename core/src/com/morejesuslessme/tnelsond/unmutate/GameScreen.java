@@ -31,7 +31,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class GameScreen implements Screen {
-	public OrthographicCamera camera;
+	public TCamera camera;
 	public Viewport viewport;
 
 	TParticleEffect deathFX;
@@ -143,9 +143,9 @@ public class GameScreen implements Screen {
 		selectedCreature = creatures[0];
 
 		// shapeRenderer = new ShapeRenderer();
-		camera = new OrthographicCamera();
+		camera = new TCamera();
 		camera.setToOrtho(false);
-		viewport = new ExtendViewport(vieww, viewh, camera);
+		viewport = new ExtendViewport(vieww, viewh, (OrthographicCamera) camera);
 
 		control = new TInput(this);
 		InputMultiplexer im = new InputMultiplexer((InputProcessor)control.stage);
@@ -190,26 +190,8 @@ public class GameScreen implements Screen {
 	}
 
 	public void draw(final float alpha) {
-		Vector3 pos = new Vector3(camera.position.x, camera.position.y, 0);
-		if (selectedCreature != null) {
-			pos.x = selectedCreature.px + alpha * (selectedCreature.x - selectedCreature.px);
-			pos.y = selectedCreature.py + alpha * (selectedCreature.y - selectedCreature.py);
-		}
-		if(pos.x - camera.viewportWidth/2 < 0)
-			pos.x = camera.viewportWidth/2;
-		if(currentlevel.w * currentlevel.tile > camera.viewportWidth){
-			if(pos.x + camera.viewportWidth/2 > currentlevel.w * currentlevel.tile)
-				pos.x = currentlevel.w * currentlevel.tile - camera.viewportWidth/2;
-		}
-		if(pos.y - camera.viewportHeight/2 < 0)
-			pos.y = camera.viewportHeight/2;
-		if(currentlevel.h * currentlevel.tile > camera.viewportHeight){
-			if(pos.y + camera.viewportHeight/2 > currentlevel.h * currentlevel.tile)
-				pos.y = currentlevel.h * currentlevel.tile - camera.viewportHeight/2;
-		}
-
-		camera.position.set(pos);
-		camera.update();
+		camera.setTarget(selectedCreature);
+		camera.update(alpha);
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -229,8 +211,10 @@ public class GameScreen implements Screen {
 		}
 
 		if(selectedCreature != null){
+			float dx = selectedCreature.px + (selectedCreature.x - selectedCreature.px) * alpha;
+			float dy = selectedCreature.py + (selectedCreature.y - selectedCreature.py) * alpha;
 			game.batch.setColor(1, 0.5f, 0, 1);
-			game.batch.draw(halo, selectedCreature.x + selectedCreature.width/2 - 16, selectedCreature.y + selectedCreature.height, 32, 32);
+			game.batch.draw(halo, dx + selectedCreature.width/2 - 16, dy + selectedCreature.height, 32, 32);
 		}
 
 		// Particle effects
@@ -246,8 +230,12 @@ public class GameScreen implements Screen {
 		double time = Math.min(delta, 0.2);
 		accumulator += time;
 		while(accumulator >= physicsStep){ // Physics loop
+			for(Creature c : creatures){
+				if(c != null && c.awake){
+					c.updateVelocity();
+				}
+			}
 			control.update();
-			currentlevel.update();
 			//control.stage.act(); //maybe don't need
 			boolean any = false;
 			for(int i = creatures.length - 1; i >= 0; --i){
@@ -273,12 +261,12 @@ public class GameScreen implements Screen {
 			if(!any){
 				currentlevel.nextLevel(this);
 			}
+			currentlevel.update();
 			accumulator -= physicsStep;
 		}
 		final float alpha = (float)(accumulator / physicsStep);
 		draw(alpha);
 
-		// DEBUG
 		fps.log();
 	}
 

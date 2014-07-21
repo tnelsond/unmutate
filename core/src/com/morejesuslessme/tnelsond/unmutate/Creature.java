@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 import com.morejesuslessme.tnelsond.unmutate.genome.*;
 
-public class Creature extends Rectangle {
+public class Creature extends Rectangle{
 	private static final long serialVersionUID = 7611724726502808151L;
 	
 	public int FLOOR = 100;
@@ -33,9 +33,9 @@ public class Creature extends Rectangle {
 
 	public Trect body, leg, eye, eyewhite, secondary;
 	
+	float ax = 0, ay = 0;
 	float px, py;
-	float vx = 0;
-	float vy = 0; // Velocity
+	float vx = 0, vy = 0; // Velocity
 	private AtlasRegion[] regions;
 	
 	public Color color;
@@ -49,6 +49,7 @@ public class Creature extends Rectangle {
 	public float speed = 1;
 	public float legThick = 1;
 	public float legLength = 1;
+
 	public float jump = 1;
 	
 	public Genome.Sex sex;
@@ -56,10 +57,6 @@ public class Creature extends Rectangle {
 	
 	// Movement flags
 	public boolean onGround = false;
-	public boolean movingUp = false;
-	public boolean movingDown = false;
-	public boolean movingRight = false;
-	public boolean movingLeft = false;
 	public boolean breedable = false;
 
 	public boolean awake = true;
@@ -73,6 +70,13 @@ public class Creature extends Rectangle {
 
 	public static Color pigmentize(Color base, Color offset){
 		return base.cpy().sub(offset.b + offset.g, offset.b + offset.r, offset.r + offset.g, 0).clamp();
+	}
+
+	public float calculateX(float alpha){
+		return px + vx*alpha + ax*alpha*alpha/2f;
+	}
+	public float calculateY(float alpha){
+		return py + vy*alpha + ay*alpha*alpha/2f;
 	}
 		
 	public Creature(float x, float y, Genome g, TextureAtlas atlas) {
@@ -98,8 +102,8 @@ public class Creature extends Rectangle {
 		}
 		secondaryColor = pigmentize(tempcolor, secondaryColor);
 		
-		accel *= .3;
-		jump *= 12;
+		accel *= .03;
+		jump *= 6;
 		width *= 64;
 		legThick *= width*7/20;
 		legLength *= Creature.TLEG.w * width * 2.0f / TLEG.w;
@@ -142,17 +146,17 @@ public class Creature extends Rectangle {
 	public void moveToward(float cx, float cy) {
 		cx = MathUtils.clamp(cx, -1, 1);
 		cy = MathUtils.clamp(cy, -1, 1);
-		vx += cx * accel * (onGround ? 1 : .5);
+
+		ax += cx * accel * (onGround ? 1 : .5);
 		
-		if(cy > 0 && onGround) // Jump
-			vy = jump;
-		else if(cy < 0)
-			vy += cy;
+		if(cy > 0){
+			if(onGround) // Jump
+				ay = jump;
+		}
+		else {
+			ay += cy;
+		}
 		
-		if(vx > speed)
-			vx = speed;
-		else if(vx < -speed)
-			vx = -speed;
 		tick = 0;
 	}
 	
@@ -162,21 +166,35 @@ public class Creature extends Rectangle {
 		breedable = false;
 		px = x;
 		py = y;
+		if(vx + ax > speed)
+			ax = speed - vx;
+		else if(vx + ax < -speed)
+			ax = -speed - vx;
+		if(ax == 0){
+			ax = -vx *.1f;
+		}
+		vx += ax;
+		vy += ay;
+
 		if(!onGround)
 			tick = 0;
+
 		onGround = false;
-		x += vx;
+		x = calculateX(1);
 		checkX(vx, Level.currentlevel);
-		vy -= Level.currentlevel.GRAVITY;
-		y += vy;
+		y = calculateY(1);
 		checkY(vy, Level.currentlevel);
-		
-		vx *= .95;
-		vy *= .98; // Air Friction
 		
 		pwalkStep = walkStep;
 		walkStep += (vx) / (legLength/2.0f);
 		++tick;
+	}
+
+	public void updateVelocity(){
+		vx += ax;
+		vy += ay;
+		ax = 0;
+		ay = -Level.currentlevel.GRAVITY;
 	}
 
 	public void checkX(float v, Level level) {

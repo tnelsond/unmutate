@@ -31,7 +31,7 @@ public class Level implements Json.Serializable{
 	public boolean male = false;
 	public boolean female = false;
 
-	public float GRAVITY = 0.4f;
+	public float GRAVITY = 0.2f;
 
 	public Special[] special = new Special[10];
 
@@ -51,7 +51,7 @@ public class Level implements Json.Serializable{
 	public final static int DEATH = 4;
 	public final static int END = 5;
 	public static int chapter = 0;
-	public static int part = 1;
+	public static int part = 0;
 	public static int currentgenome = 0;
 	public static String prefix = "unmutatelevel";
 	public static int[] levels = {1};
