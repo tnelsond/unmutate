@@ -171,7 +171,7 @@ public class Creature extends Rectangle{
 		else if(vx + ax < -speed)
 			ax = -speed - vx;
 		if(ax == 0){
-			ax = -vx *.1f;
+			ax = -vx *.03f;
 		}
 		vx += ax;
 		vy += ay;

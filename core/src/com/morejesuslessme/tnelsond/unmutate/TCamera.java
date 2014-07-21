@@ -50,9 +50,9 @@ public class TCamera extends OrthographicCamera{
 				gy = targy;
 			}
 
-			float hm = viewportHeight/6f;
-			if(targy - hm > y){
-				y = targy - hm;
+			float hm = viewportHeight/3f;
+			if(targy - hm + target.height > y){
+				y = targy - hm + target.height;
 			}
 			if(targy + hm < y){
 				y = targy + hm;

@@ -94,9 +94,9 @@ public class GameScreen implements Screen {
 			}
 			if(index != -1 && temp != null){
 				creatures[index] = temp;
-				selectedCreature.vx = 4;
-				otherparent.vx = -4;
-				temp.vy = 4;
+				selectedCreature.ax += 4;
+				otherparent.ax += -4;
+				temp.ay += 6;
 				otherparent.awake = true;
 				birthFX.addEffect(temp.x + temp.width/2, temp.y);
 				soundBirth.play(.9f);
