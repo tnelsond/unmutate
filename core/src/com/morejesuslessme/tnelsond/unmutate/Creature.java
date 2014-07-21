@@ -102,7 +102,7 @@ public class Creature extends Rectangle{
 		}
 		secondaryColor = pigmentize(tempcolor, secondaryColor);
 		
-		accel *= .03;
+		accel *= .08;
 		jump *= 6;
 		width *= 64;
 		legThick *= width*7/20;
@@ -147,6 +147,9 @@ public class Creature extends Rectangle{
 		cx = MathUtils.clamp(cx, -1, 1);
 		cy = MathUtils.clamp(cy, -1, 1);
 
+		if((cx > 0 && vx < 0) || (cx < 0 && vx > 0)){
+			ax += -vx *.06f;
+		}
 		ax += cx * accel * (onGround ? 1 : .5);
 		
 		if(cy > 0){
