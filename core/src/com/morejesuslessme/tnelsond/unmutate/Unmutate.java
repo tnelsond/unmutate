@@ -37,11 +37,17 @@ public class Unmutate extends Game {
 		skin = new Skin(Gdx.files.internal("skin.json"), atlas);
 		font = skin.getFont("regular");
 		bs = skin.get("default", TextButtonStyle.class);
+		new Thread(new Runnable(){
+			@Override
+			public void run(){
+				new TMusic();
+			}
+		}).start();
 
-		this.setScreen(new MainMenuScreen(this));
-		//this.setScreen(new GameScreen(this));
+		//this.setScreen(new LevelSelectScreen(this));
+		this.setScreen(new GameScreen(this));
 	}
-	
+
 	public void render() {
 		super.render();
 	}

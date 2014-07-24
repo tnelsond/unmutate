@@ -10,7 +10,12 @@
     com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
         default: {
             down: button_pressed, up: button_normal,
-            font: regular, fontColor: white
+            font: regular, fontColor: white,
         },
-    }
+    },
+		com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+			default: {
+				font: regular, fontColor: white,
+			},
+		}
 }

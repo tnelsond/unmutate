@@ -21,7 +21,7 @@ public class LevelSelectScreen implements Screen {
 	public Table table;
 	private Stage stage;
 	
-	public MainMenuScreen(final Unmutate game) {
+	public LevelSelectScreen(final Unmutate game) {
 		this.game = game;
 		Gdx.graphics.setContinuousRendering(false);
 		Gdx.graphics.requestRendering();
@@ -34,18 +34,21 @@ public class LevelSelectScreen implements Screen {
 		table.debugTable();
 		table.setFillParent(true);
 		Table con = new Table();
+		Label.LabelStyle labelstyle = new Label.LabelStyle(game.font, new Color(1, 1, 1, 1));
+		Label label = new Label("UNMUTATE 0.1", game.skin);
 		con.add(label).fill().expand();
 		con.row();
-		TextButton chapter1 = new TextButton("CHAPTER 1", game.bs);
-		start.addListener(new ClickListener()
+		TextButton chapter1 = new TextButton("1", game.bs);
+		chapter1.setColor(1, 1, 0, 1);
+		chapter1.addListener(new ClickListener()
 		{
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				game.setScreen(new GameScreen(game));
+				game.setScreen(new MainMenuScreen(game));
 				dispose();
 			}
 		});
-		con.add(start);
+		con.add(chapter1);
 		ScrollPane scroll = new ScrollPane(con);
 		table.add(scroll).fill().expand();
 
@@ -53,7 +56,7 @@ public class LevelSelectScreen implements Screen {
 		table.layout();
 		stage.addActor(table);
 
-		Gdx.gl.glClearColor(0.0f, 0.0f, 0.2f, 1);
+		Gdx.gl.glClearColor(0.1f, 0.3f, 0.0f, 1);
 	}
 
 	@Override

@@ -55,8 +55,8 @@ public class TInput implements InputProcessor {
 		table = new Table();
 		table.align(Align.right | Align.top);
 		table.setFillParent(true);
-		table.debug();
-		table.debugTable();
+		//table.debug();
+		//table.debugTable();
 		stage.addActor(table);
 		TextButton b = new TextButton("DESELECT", game.game.bs);
 		TextButton b2 = new TextButton("BREED", game.game.bs);
@@ -211,7 +211,7 @@ public class TInput implements InputProcessor {
 		game.game.batch.end();
 		
 		stage.draw();
-		table.drawDebug(stage);
+		//table.drawDebug(stage);
 	}
 
 	public boolean keyDown (int keycode) {

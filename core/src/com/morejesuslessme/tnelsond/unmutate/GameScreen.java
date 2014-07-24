@@ -38,7 +38,6 @@ public class GameScreen implements Screen {
 	TParticleEffect ascendFX;
 	TParticleEffect birthFX;
 
-	Music bgmusic;
 	Sound soundJump;
 	Sound soundDeath;
 	Sound soundBirth;
@@ -96,7 +95,7 @@ public class GameScreen implements Screen {
 				creatures[index] = temp;
 				selectedCreature.ax += 4;
 				otherparent.ax += -4;
-				temp.ay += 6;
+				temp.ay += 4;
 				otherparent.awake = true;
 				birthFX.addEffect(temp.x + temp.width/2, temp.y);
 				soundBirth.play(.9f);
@@ -152,17 +151,9 @@ public class GameScreen implements Screen {
 		im.addProcessor(control);
 		Gdx.input.setInputProcessor(im);
 
-		Gdx.gl.glClearColor(currentlevel.skyColor.r, currentlevel.skyColor.g, currentlevel.skyColor.b, 1);
-
 		deathFX = new TParticleEffect("fx/death.p", game.atlas);
 		ascendFX = new TParticleEffect("fx/ascend.p", game.atlas);
 		birthFX = new TParticleEffect("fx/birth.p", game.atlas);
-
-		bgmusic = Gdx.audio.newMusic(Gdx.files.internal("deedee.ogg"));
-		bgmusic.setVolume(0.6f);
-		bgmusic.setLooping(true);
-		bgmusic.play();
-		bgmusic.play();
 
 		soundJump = Gdx.audio.newSound(Gdx.files.internal("jump.ogg"));
 		soundDeath = Gdx.audio.newSound(Gdx.files.internal("die.ogg"));
@@ -193,6 +184,7 @@ public class GameScreen implements Screen {
 		camera.setTarget(selectedCreature);
 		camera.update(alpha);
 
+		Gdx.gl.glClearColor(currentlevel.skyColor.r, currentlevel.skyColor.g, currentlevel.skyColor.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		game.batch.setProjectionMatrix(camera.combined);
@@ -298,7 +290,6 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		deathFX.dispose();
 		ascendFX.dispose();
-		bgmusic.dispose();
 		soundJump.dispose();
 		soundDeath.dispose();
 		soundBirth.dispose();

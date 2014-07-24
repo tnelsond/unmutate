@@ -31,7 +31,7 @@ public class Level implements Json.Serializable{
 	public boolean male = false;
 	public boolean female = false;
 
-	public float GRAVITY = 0.2f;
+	public float GRAVITY = 0.1f;
 
 	public Special[] special = new Special[10];
 

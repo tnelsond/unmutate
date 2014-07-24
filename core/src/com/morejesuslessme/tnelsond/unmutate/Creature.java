@@ -103,11 +103,11 @@ public class Creature extends Rectangle{
 		secondaryColor = pigmentize(tempcolor, secondaryColor);
 		
 		accel *= .08;
-		jump *= 6;
+		jump *= 4;
 		width *= 64;
 		legThick *= width*7/20;
 		legLength *= Creature.TLEG.w * width * 2.0f / TLEG.w;
-		speed *= Math.sqrt(legLength);
+		speed *= Math.sqrt(legLength)/2;
 		height = legLength + width * .8f - legThick;
 
 		body = (Trect) Creature.TBODY.clone();
@@ -158,6 +158,9 @@ public class Creature extends Rectangle{
 		}
 		else {
 			ay += cy;
+			if(vy > 0){
+				ay = -vy/2;
+			}
 		}
 		
 		tick = 0;
