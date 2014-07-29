@@ -9,7 +9,7 @@ import java.util.Random;
 // 0.5*sqrt(2)
 
 public class TMusic implements Runnable{
-	private int samplerate = 44100;
+	private int samplerate = 10000;
 	private volatile boolean running = true;
 	private float samples[];
 
@@ -148,19 +148,18 @@ public class TMusic implements Runnable{
 
 	public void run(){
 		AudioDevice playbackDevice = Gdx.audio.newAudioDevice(samplerate, true);
-//		int samplesperplay = samples.length / 2;
-		//int s = samplesperplay;
+		int samplesperplay = samplerate/2;
+		int s = 0;
 		while(running){
-	//		int dur = samplesperplay;
-		//	if(s + samplesperplay > samples.length){
-		//		dur = samples.length - s;
-		//	}
-			//playbackDevice.writeSamples(samples, s, dur);
-			playbackDevice.writeSamples(samples, 0, samples.length);
-		//	s += dur;
-		//	if(s >= samples.length){
-		//		s = 0;
-		//	}
+			int dur = samplesperplay;
+			if(s + samplesperplay > samples.length){
+				dur = samples.length - s;
+			}
+			playbackDevice.writeSamples(samples, s, dur);
+			s += dur;
+			if(s >= samples.length){
+				s = 0;
+			}
 		}
 		playbackDevice.dispose();
 	}

@@ -17,7 +17,7 @@ public class TParticleEffect{
 
 	public TParticleEffect(String filename, TextureAtlas atlas){
 		prototype = new ParticleEffect();
-		prototype.load(Gdx.files.internal(filename), atlas);
+		prototype.load(Gdx.files.internal(filename), atlas, "");
 		//prototype.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		prototype.start();
 	
