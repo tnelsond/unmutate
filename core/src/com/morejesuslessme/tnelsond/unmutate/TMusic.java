@@ -54,30 +54,6 @@ public class TMusic implements Runnable{
 		running = false;
 	}
 
-	public float beat[] = {
-		C[4], 1,
-		F[3], 3/8f,
-		G[3], 1/8f,
-		A[3], 1/4f,
-		A[3], 1/4f,
-		G[3], 3/8f,
-		F[3], 1/16f,
-		G[3], 3/8f,
-		A[3], 1/16f,
-		F[3], 1/4f,
-		C[3], 1/4f,
-
-		F[3], 3/8f,
-		G[3], 1/8f,
-		A[3], 1/4f,
-		A[3], 1/4f,
-		G[3], 3/8f,
-		F[3], 1/16f,
-		G[3], 3/8f,
-		A[3], 1/16f,
-		F[3], 1/2f,
-	};
-
 	public float notes[] = {
 		C[5], 1,
 		F[4], 3/8f,
@@ -108,41 +84,14 @@ public class TMusic implements Runnable{
 		for(int b = 1; b < notes.length; b += 2){
 			bars += notes[b];
 		}
-		int totalduration = (int)(bars * samplerate * 4 / tempo * 60) + 1;
+		TNote flute = new TNote(samplerate, notes, tempo, 0, 1/4f, 1/8f, 1/4f);
+
+		int totalduration = (int)(bars * flute.durationfactor) + 1;
 		samples = new float[totalduration]; // 10 seconds mono audio
 
-		int j = 0;
-		int b = 0;
-		float start = 0;
-		float bstart = 0;
-		TNote flute = new TNote(samplerate, tempo, 0, 1/4f, 1/8f, 1/4f);
-		TNote drum = new TNote(samplerate, tempo, 0, 1/4f, 0f, 1f);
-		flute.set(notes[j], notes[j+1]);
-		drum.set(beat[b], beat[b+1]);
 		for(int i = 0; i < samples.length; ++i){
-			float pos = i - start;
-			float bpos = i - bstart;
-			float f = 0;
-			if(flute.freq != 0)
-				f = flute.getValue(pos);
-				//f = (flute.getValue(pos) + 1)/2;
-			float d = 0;
-			if(drum.freq != 0)
-				d = drum.getValue(bpos);
-				//d = (drum.getValue(bpos) + 1)/2;
-			samples[i] =  (f + d) / 2;
-			//samples[i] -= (samples[i] > 0 ? 1 : -1) * f * d;
-			if(flute.isDone(pos)){
-				start = i;
-				j = (j + 2) % notes.length;
-				flute.set(notes[j], notes[j+1]);
-			}
-			if(drum.isDone(bpos)){
-				bstart = i;
-				b = (b + 2) % beat.length;
-				drum.set(beat[b], beat[b+1]);
-			}
-			//samples[i] = a + b - a * b;
+			float f = flute.getValue(i);
+			samples[i] =  f / 2;
 		}
 	}
 
