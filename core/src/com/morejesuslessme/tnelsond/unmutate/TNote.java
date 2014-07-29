@@ -9,26 +9,41 @@ public class TNote{
 	public int duration;
 	public float attack;
 	public float decay;
+	public float attackrate;
+	public float decayrate;
+	public int samplerate;
+	public float tempo;
 	//public float vibratofreq;
 	//public float vibratospeed;
 	//public float vibratoair;
 
-	public TNote(int samplerate, float freq, float duration, float attack, float decay){
-		this.freq = freq / samplerate;
-		this.duration = (int)(duration * samplerate);
-		this.attack = this.duration*attack;
-		this.decay = this.duration*decay;
+	public TNote(int samplerate, int tempo, float freq, float duration, float attack, float decay){
+		this.tempo = tempo;
+		this.samplerate = samplerate;
+		set(freq, duration, attack, decay);
+		this.decayrate = decay;
+		this.attackrate = attack;
 		//this.vibratospeed = 80f/samplerate;
 		//this.vibratofreq = 0.000001f;
 		//this.vibratoair = 0.05f;
 	}
 
-	public TNote(int samplerate, float freq){
-		this(samplerate, freq, 1/2f, 1/16f, 1/8f);
+	public void set(float freq, float duration, float attackrate, float decayrate){
+		this.freq = freq / samplerate;
+		this.duration = (int)(duration * samplerate * 4 * 60 / tempo);
+		this.attack = this.duration*attackrate;
+		this.decay = this.duration*decayrate;
 	}
 
-	public TNote(int samplerate, float freq, float duration){
-		this(samplerate, freq, duration, 1/8f, 1/4f);
+	public void set(float freq, float duration){
+		this.freq = freq / samplerate;
+		this.duration = (int)(duration * samplerate * 4 * 60 / tempo);
+		this.attack = this.duration * attackrate;
+		this.decay = this.duration * decayrate;
+	}
+
+	public void set(float freq){
+		this.freq = freq / samplerate;
 	}
 
 	//public float getVibrato(float pos){

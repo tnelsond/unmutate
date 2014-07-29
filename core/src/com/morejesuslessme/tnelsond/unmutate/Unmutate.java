@@ -25,6 +25,8 @@ public class Unmutate extends Game {
 	public TextButtonStyle bs;
 	public Json json = new Json();
 	public Skin skin;
+	public Thread musicthread;
+	public TMusic bgmusic;
 
 	public static String tag = "***UNMUTATE";
 
@@ -37,15 +39,12 @@ public class Unmutate extends Game {
 		skin = new Skin(Gdx.files.internal("skin.json"), atlas);
 		font = skin.getFont("regular");
 		bs = skin.get("default", TextButtonStyle.class);
-		new Thread(new Runnable(){
-			@Override
-			public void run(){
-				new TMusic();
-			}
-		}).start();
+		bgmusic = new TMusic();
+		musicthread = new Thread(bgmusic);
+		musicthread.start();
 
-		//this.setScreen(new LevelSelectScreen(this));
-		this.setScreen(new GameScreen(this));
+		this.setScreen(new LevelSelectScreen(this));
+		//this.setScreen(new GameScreen(this));
 	}
 
 	public void render() {
@@ -56,5 +55,15 @@ public class Unmutate extends Game {
 		super.dispose();
 		batch.dispose();
 		font.dispose();
+		if(bgmusic != null){
+			try{
+				musicthread.interrupt();
+				Gdx.app.log(Unmutate.tag, "STOPPING MUSIC THREAD...");
+				bgmusic.terminate();
+				musicthread.join();
+			} catch(InterruptedException e){
+			}
+			Gdx.app.log(Unmutate.tag, "MUSIC THREAD STOPPED");
+		}
 	}
 }

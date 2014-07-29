@@ -63,16 +63,22 @@ public class Level implements Json.Serializable{
 				switch(Level.part){
 					case 1:
 						if(c != null)
+							return new Genome01(c);
+						else if(j != null)
+							return j.fromJson(Genome01.class, s);
+						return new Genome01(f);
+					case 2:
+						if(c != null)
 							return new Genome(c);
 						else if(j != null)
 							return j.fromJson(Genome.class, s);
 						return new Genome(f);
 					default:
 						if(c != null)
-							return new Genome0(c);
+							return new Genome00(c);
 						else if(j != null)
-							return j.fromJson(Genome0.class, s);
-						return new Genome0(f);
+							return j.fromJson(Genome00.class, s);
+						return new Genome00(f);
 				}
 		}
 	}

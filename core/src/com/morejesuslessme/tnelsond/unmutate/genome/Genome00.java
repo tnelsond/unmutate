@@ -2,7 +2,7 @@ package com.morejesuslessme.tnelsond.unmutate.genome;
 
 import com.morejesuslessme.tnelsond.unmutate.*;
 
-public class Genome01 extends Genome{
+public class Genome00 extends Genome{
 	public void initLOCUS(){
 		LOCUS = new int[]{
 			1,
@@ -10,15 +10,15 @@ public class Genome01 extends Genome{
 		};
 	}
 
-	public Genome01(ChromosomePair[] c){
+	public Genome00(ChromosomePair[] c){
 		super(c);
 	}
 	
-	public Genome01(){
+	public Genome00(){
 		super();
 	}
 
-	public Genome01(boolean female){
+	public Genome00(boolean female){
 		super(female ?
 		(new Allele[][][] {
 			{ {Allele.DOM, Allele.REC}},
@@ -31,7 +31,6 @@ public class Genome01 extends Genome{
 	}
 
 	public void express(Creature c){
-		c.legLength *= .5;
 		c.width *= .8;
 		c.color.r = 0.4f;
 		c.eyeColor.b = 0.6f;
@@ -39,7 +38,7 @@ public class Genome01 extends Genome{
 		int i = 0;
 		int j = 0;
 		// Chromosome 1
-		c.color.b = phenotype(i, j, true, 1, 0, 0);
+		c.legLength *= phenotype(i, j, false, 1, .25f, .25f);
 		// Chromosome 2
 		++i; j = 0;
 		setupSex(i, j, c);
