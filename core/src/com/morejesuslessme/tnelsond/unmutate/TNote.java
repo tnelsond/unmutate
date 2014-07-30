@@ -63,11 +63,18 @@ public class TNote{
 		String s = sc.next();
 		float dur = 0;
 		boolean half = false;
+		int oct = this.oct;
 		for(int j = 0; j < s.length(); ++j){
 			char c = s.charAt(j);
 			if(Character.isDigit(c)){
 				dur *= 10;
 				dur += c - '0';
+			}
+			else if(c == '\''){
+				++oct;
+			}
+			else if(c == ','){
+				--oct;	
 			}
 			else if(c == '.'){
 				half = true;
