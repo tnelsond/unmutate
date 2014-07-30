@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.*;
 import com.badlogic.gdx.Input.Peripheral;
 	
 import java.util.Random;
+import java.util.Scanner;
 
 // 0.5*sqrt(2)
 
@@ -54,7 +55,8 @@ public class TMusic implements Runnable{
 		running = false;
 	}
 
-	public float notes[] = {
+	public float notes[];
+	/*public float notes[] = {
 		C[5], 1,
 		F[4], 3/8f,
 		G[4], 1/8f,
@@ -77,22 +79,13 @@ public class TMusic implements Runnable{
 		A[4], 1/16f,
 		F[4], 1/2f,
 	};
+	*/
 
 	public TMusic(){
-		int tempo = 120;
-		float bars = 0;
-		for(int b = 1; b < notes.length; b += 2){
-			bars += notes[b];
-		}
-		TNote flute = new TNote(samplerate, notes, tempo, 0, 1/4f, 1/8f, 1/4f);
+		Random ran = new Random();
+		TNote flute = new TNote(samplerate, new Scanner(Gdx.files.internal("songs/00.tly").read()), 0, 1/4f, 1/8f, 1/4f);
+		samples = flute.write();
 
-		int totalduration = (int)(bars * flute.durationfactor) + 1;
-		samples = new float[totalduration]; // 10 seconds mono audio
-
-		for(int i = 0; i < samples.length; ++i){
-			float f = flute.getValue(i);
-			samples[i] =  f / 2;
-		}
 	}
 
 	public void run(){
