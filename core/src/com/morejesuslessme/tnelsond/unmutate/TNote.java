@@ -6,8 +6,6 @@ import java.lang.Math;
 import java.util.Scanner;
 
 public class TNote{
-	public float freq;
-	public float freq2;
 	public int duration;
 	public float dur;
 	public float attack;
@@ -16,9 +14,13 @@ public class TNote{
 	public float decayrate;
 	public int samplerate;
 	public float durationfactor;
-	public int index = 0;
 	public int start = 0;
 	public int oct = 4;
+	public float step = 0;
+	public float goalstep = 0;
+	public float stepchange = 0;
+	public float input = 0;
+	public boolean blend = false;
 	public Scanner sc;
 	//public float vibratofreq;
 	//public float vibratospeed;
@@ -57,13 +59,15 @@ public class TNote{
 
 	public void set(){
 		if(!sc.hasNext()){
-			freq = 0;
+			step = 0;
 			return;
 		}
 		String s = sc.next();
 		float dur = 0;
 		boolean half = false;
+		boolean tie = false;
 		int oct = this.oct;
+		float freq = step * samplerate / MathUtils.PI2;
 		for(int j = 0; j < s.length(); ++j){
 			char c = s.charAt(j);
 			if(Character.isDigit(c)){
@@ -78,6 +82,9 @@ public class TNote{
 			}
 			else if(c == '.'){
 				half = true;
+			}
+			else if(c == '~'){
+				tie = true;
 			}
 		}
 		if(dur == 0){
@@ -116,21 +123,43 @@ public class TNote{
 		else if(s.startsWith("g"))
 			freq = TMusic.G[oct];
 
-		set(freq, dur);
+		if(blend){
+			goalstep = MathUtils.PI2 * freq / samplerate;
+			stepchange = (goalstep - step) / attack;
+		}
+		else{
+			step = freq * MathUtils.PI2 / samplerate;
+			stepchange = 0;
+			goalstep = step;
+			//input = 0;
+		}
+		set(dur, tie ? 0 : 1/8f);
+		blend = tie;
 		
 		System.out.println(s + " " + dur);
 	}
 
 	public void set(float freq, float dur, float attackrate, float decayrate){
-		this.freq = freq / samplerate;
+		this.step = MathUtils.PI2 * freq / samplerate;
 		this.dur = dur;
 		this.duration = (int)(duration * durationfactor);
 		this.attack = this.duration*attackrate;
 		this.decay = this.duration*decayrate;
 	}
+	
+	public void set(float dur, float decayrate){
+		this.dur = dur;
+		this.duration = (int)(dur * durationfactor);
+		this.attack = this.duration * attackrate;
+		this.decay = this.duration * decayrate;
+	}
 
-	public void set(float freq, float dur){
-		this.freq = freq / samplerate;
+	//public void set(float freq, float dur){
+	//	set(freq, dur, decayrate);
+	//}
+
+	public void set(float freq, float dur, float decayrate){
+		this.step = MathUtils.PI2 * freq / samplerate;
 		this.dur = dur;
 		this.duration = (int)(dur * durationfactor);
 		this.attack = this.duration * attackrate;
@@ -138,7 +167,7 @@ public class TNote{
 	}
 
 	public void set(float freq){
-		this.freq = freq / samplerate;
+		this.step = MathUtils.PI2 * freq / samplerate;
 	}
 
 	//public float getVibrato(float pos){
@@ -146,7 +175,7 @@ public class TNote{
 	//}
 
 	public float getValue(int i){
-		if(freq == 0){
+		if(step == 0){
 			return 0;
 		}
 		int pos = i - start;
@@ -162,15 +191,23 @@ public class TNote{
 	}
 
 	public float wave(int pos){
-		return MathUtils.sin(pos*MathUtils.PI2*(freq));// + getVibrato(pos) * vibratofreq)) * vol;
+		if(step != goalstep && pos > attack){
+			stepchange = 0;
+			step = goalstep;
+		}
+		else{
+			step += stepchange;
+		}
+		input += step;
+		return MathUtils.sin(input);// + getVibrato(pos) * vibratofreq)) * vol;
 		//return (pos%freq)/(freq2) - 1;// + getVibrato(pos) * vibratofreq)) * vol;
 	}
 
 	public float getVolume(int pos){
-		if(pos < attack){
+		if(pos < attack && stepchange == 0){
 			return (float)Math.sqrt(pos / attack);
 		}
-		if(pos < duration - decay){
+		if(pos <= duration - decay){
 			return 1f;
 		}
 		return (float)Math.sqrt((duration - pos) / decay);
