@@ -12,6 +12,7 @@ public class TNote{
 	public float decay;
 	public float attackrate;
 	public float decayrate;
+	public float defaultdecay;
 	public int samplerate;
 	public float durationfactor;
 	public int start = 0;
@@ -33,6 +34,7 @@ public class TNote{
 		this.attackrate = attack;
 		this.sc = sc;
 		setTempo(sc.nextInt());
+		this.defaultdecay = decayrate;
 		//this.vibratospeed = 80f/samplerate;
 		//this.vibratofreq = 0.000001f;
 		//this.vibratoair = 0.05f;
@@ -128,12 +130,12 @@ public class TNote{
 			stepchange = (goalstep - step) / attack;
 		}
 		else{
-			step = freq * MathUtils.PI2 / samplerate;
+			step = MathUtils.PI2 * freq / samplerate;
 			stepchange = 0;
 			goalstep = step;
 			//input = 0;
 		}
-		set(dur, tie ? 0 : 1/8f);
+		set(dur, tie ? 0 : defaultdecay);
 		blend = tie;
 		
 		System.out.println(s + " " + dur);
@@ -191,12 +193,10 @@ public class TNote{
 	}
 
 	public float wave(int pos){
-		if(step != goalstep && pos > attack){
+		step += stepchange;
+		if(step != goalstep && pos >= attack){
 			stepchange = 0;
 			step = goalstep;
-		}
-		else{
-			step += stepchange;
 		}
 		input += step;
 		return MathUtils.sin(input);// + getVibrato(pos) * vibratofreq)) * vol;

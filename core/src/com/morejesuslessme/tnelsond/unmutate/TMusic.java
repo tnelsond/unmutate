@@ -83,7 +83,7 @@ public class TMusic implements Runnable{
 
 	public TMusic(){
 		Random ran = new Random();
-		TNote flute = new TNote(samplerate, new Scanner(Gdx.files.internal("songs/00.tly").read()), 0, 1/4f, 1/8f, 1/4f);
+		TNote flute = new TNote(samplerate, new Scanner(Gdx.files.internal("songs/02.tly").read()), 0, 1/4f, 1/8f, 1/4f);
 		samples = flute.write();
 
 	}
