@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
@@ -103,6 +104,10 @@ public class TInput implements InputProcessor {
 		table.row();
 		table.add(b4);
 		table.layout();
+	/*	stage.clear();
+		Label tutorial = new Label("HELLO, BLAH, BLAH, BLAH, BLAH, BLAH, WHATTEDY? WHAT WHAT?\nHOLD ON!", game.game.tutst);
+		stage.addActor(tutorial);
+*/
 	}
 
 	public final void deselect(){

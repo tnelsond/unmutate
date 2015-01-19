@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
@@ -23,6 +24,8 @@ public class Unmutate extends Game {
 	public BitmapFont font;
 	public TextureAtlas atlas;
 	public TextButtonStyle bs;
+	public LabelStyle tutst;
+
 	public Json json = new Json();
 	public Skin skin;
 	public Thread musicthread;
@@ -38,6 +41,7 @@ public class Unmutate extends Game {
 		atlas = new TextureAtlas(Gdx.files.internal("gamegdx.atlas"));
 		skin = new Skin(Gdx.files.internal("skin.json"), atlas);
 		font = skin.getFont("regular");
+		tutst = skin.get("tutorial", LabelStyle.class);
 		bs = skin.get("default", TextButtonStyle.class);
 		bgmusic = new TMusic();
 		musicthread = new Thread(bgmusic);

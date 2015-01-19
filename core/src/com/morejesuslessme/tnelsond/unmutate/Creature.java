@@ -49,6 +49,7 @@ public class Creature extends Rectangle{
 	public float speed = 1;
 	public float legThick = 1;
 	public float legLength = 1;
+	public float hipWidth = 1;
 
 	public float jump = 1;
 	
@@ -64,7 +65,6 @@ public class Creature extends Rectangle{
 	public float pwalkStep = 0;
 	public float walkStep = 0;
 	public int tick = 0;
-	public float stretchfactor = 0;
 
 	public int grassc = -1;
 	public int grassr = -1;
@@ -103,12 +103,13 @@ public class Creature extends Rectangle{
 		}
 		secondaryColor = pigmentize(tempcolor, secondaryColor);
 		
+		hipWidth = 1 - hipWidth;
 		accel *= .08;
-		jump *= 4;
+		jump *= 7 * Math.sqrt(hipWidth);
 		width *= 64;
 		legThick *= width*7/20;
 		legLength *= Creature.TLEG.w * width * 2.0f / TLEG.w;
-		speed *= Math.sqrt(legLength)/2;
+		speed *= Math.sqrt(legLength)/4/hipWidth;
 		height = legLength + width * .8f - legThick;
 
 		body = (Trect) Creature.TBODY.clone();
@@ -370,35 +371,28 @@ public class Creature extends Rectangle{
 		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25) + legLength - width/3 - legThick;//height - width;
 		float tempy = (float) (dy + (Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + legLength - legLength/3.2f - legThick) - 3;
 		float lefta = 180 - righta;
-		stretchfactor += .001;
-		if(stretchfactor > width/300)
-			stretchfactor = 0;
-		float stretch = width * (stretchfactor < width/600 ? stretchfactor : width/600 - (stretchfactor % (width/600)));
-		float twidth = width - stretch;
-		dx += stretch / 2;
 		float yleg = width * .3f + tempy;
 		
 		batch.setColor(color);
-		batch.draw(regions[Creature.LEG], dx + twidth/4 - legPivot, yleg - legThick, // Left
+		batch.draw(regions[Creature.LEG], dx + width/2 * hipWidth - legPivot, yleg - legThick, // Left
 				legPivot, legPivot, // originX, originY
 				legLength, legThick, // width, height
 				1, 1, // scaleX, scaleY
 				lefta/2 + 135); // rotation
-		//batch.draw(regions[Creature.LEG], x + width/4 - legPivot, yleg - legThick); // Left debug
-		batch.draw(regions[Creature.LEG], dx + twidth - legThick - twidth/4 + legPivot, yleg - legThick, // Right
+		batch.draw(regions[Creature.LEG], dx + width - legThick - width/2 * hipWidth + legPivot, yleg - legThick,
 				legPivot, legPivot, // originX, originY
 				legLength, legThick, // width, height
 				1, 1, // scaleX, scaleY
 				righta/2 - 45); // rotation
-		batch.draw(regions[Creature.BODY], dx, tempy, twidth, body.w + stretch);
+		batch.draw(regions[Creature.BODY], dx, tempy, width, body.w);
 		batch.setColor(eyeColor);
-		float ex = ((int)vx) == 0 ? 0 : (vx > 0 ? twidth/9 : -twidth/9);
-		batch.draw(regions[Creature.EYE], dx + twidth/2 - eye.w/2 + ex, tempy + eye.y, eye.w/2, eye.h/2, eye.w, eye.h, 1, 1, 0);
+		float ex = ((int)vx) == 0 ? 0 : (vx > 0 ? width/9 : -width/9);
+		batch.draw(regions[Creature.EYE], dx + width/2 - eye.w/2 + ex, tempy + eye.y, eye.w/2, eye.h/2, eye.w, eye.h, 1, 1, 0);
 		batch.setColor(Color.WHITE);
-		batch.draw(regions[Creature.EYEWHITE], dx + twidth/2 - eyewhite.w/2 + ex, tempy + eyewhite.y, eyewhite.w/2, eyewhite.h/2, eyewhite.w, eyewhite.h, 1, 1, 0);
+		batch.draw(regions[Creature.EYEWHITE], dx + width/2 - eyewhite.w/2 + ex, tempy + eyewhite.y, eyewhite.w/2, eyewhite.h/2, eyewhite.w, eyewhite.h, 1, 1, 0);
 		if(regions[Creature.SECONDARY] != null){
 			batch.setColor(secondaryColor);
-			batch.draw(regions[Creature.SECONDARY], dx + twidth/2 - secondary.w/2, tempy + secondary.y + width - twidth, secondary.w/2, secondary.h/2, secondary.w, secondary.h, 1, 1, 0);
+			batch.draw(regions[Creature.SECONDARY], dx + width/2 - secondary.w/2, tempy + secondary.y, secondary.w/2, secondary.h/2, secondary.w, secondary.h, 1, 1, 0);
 		}
 	}
 	

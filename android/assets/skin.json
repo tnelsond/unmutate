@@ -2,7 +2,8 @@
 	com.badlogic.gdx.graphics.Color: {
         white: { r: 1, g: 1, b: 1, a: 1 },
         red: { r: 1, g: 0, b: 0, a: 1 },
-        yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+        yellow: { r: 0.5, g: 0.5, b: 0, a: 1 },
+        black: { r: 0.0, g: 0.0, b: 0, a: 1 },
     },
     com.badlogic.gdx.graphics.g2d.BitmapFont: {
         regular: { file: sans.fnt }
@@ -16,6 +17,12 @@
 		com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 			default: {
 				font: regular, fontColor: white,
+			},
+		},
+		com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+			tutorial: {
+				font: regular, fontColor: black,
+				background: box,
 			},
 		}
 }

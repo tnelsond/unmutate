@@ -23,7 +23,7 @@ public class Genome {
 			6,
 			3,
 			4,
-			2,
+			3,
 		};
 	}
 
@@ -70,7 +70,8 @@ public class Genome {
 					{ Allele.DOM, Allele.DOM },
 					{ Allele.DOM, Allele.REC }, },
 				{ { Allele.FEMALE, Allele.FEMALE },
-					{ Allele.DOM, Allele.REC }}})
+					{ Allele.REC, Allele.DOM },
+					{ Allele.DOM, Allele.DOM }}})
 			:
 			(new Allele[][][] {
 				{ { Allele.DOM, Allele.REC },
@@ -87,6 +88,7 @@ public class Genome {
 					{ Allele.REC, Allele.REC },
 					{ Allele.REC, Allele.REC }, },
 				{ { Allele.MALE, Allele.FEMALE },
+					{ Allele.DOM, Allele.REC },
 					{ Allele.REC, Allele.REC }}})
 		);
 	}
@@ -209,6 +211,8 @@ public class Genome {
 			c.secondaryColor.r = phenotypeSex(j, true, .9f, .4f, .1f);
 		}
 		// Unisex
+		j = 2;
+		c.hipWidth = phenotypeSex(j, false, .8f, .2f, 1);
 	}
 
 	public final void setupSex(int i, int j, Creature c){
