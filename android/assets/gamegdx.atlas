@@ -33,9 +33,18 @@ box
   orig: 31, 33
   offset: 0, 0
   index: -1
+button_locked
+  rotate: false
+  xy: 949, 149
+  size: 25, 29
+  split: 13, 11, 16, 10
+  pad: 12, 10, 16, 12
+  orig: 25, 29
+  offset: 0, 0
+  index: -1
 button_normal
   rotate: false
-  xy: 949, 153
+  xy: 978, 153
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -44,7 +53,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 978, 153
+  xy: 865, 118
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11

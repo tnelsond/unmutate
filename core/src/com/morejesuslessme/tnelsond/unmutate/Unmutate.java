@@ -24,6 +24,7 @@ public class Unmutate extends Game {
 	public BitmapFont font;
 	public TextureAtlas atlas;
 	public TextButtonStyle bs;
+	public TextButtonStyle bs_locked;
 	public LabelStyle tutst;
 
 	public Json json = new Json();
@@ -43,11 +44,12 @@ public class Unmutate extends Game {
 		font = skin.getFont("regular");
 		tutst = skin.get("tutorial", LabelStyle.class);
 		bs = skin.get("default", TextButtonStyle.class);
+		bs_locked = skin.get("locked", TextButtonStyle.class);
 		bgmusic = new TMusic();
 		musicthread = new Thread(bgmusic);
 		musicthread.start();
 
-		this.setScreen(new LevelSelectScreen(this));
+		this.setScreen(new ChapterSelectScreen(this));
 		//this.setScreen(new GameScreen(this));
 	}
 

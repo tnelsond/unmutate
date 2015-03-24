@@ -7,21 +7,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-public class LevelSelectScreen implements Screen {
+public class ChapterSelectScreen implements Screen {
 	
 	final Unmutate game;
 	
 	public int vieww = 500;
-	public int viewh = 300;
+	public int viewh = 400;
 	public Table table;
 	private Stage stage;
 	
-	public LevelSelectScreen(final Unmutate game) {
+	public ChapterSelectScreen(final Unmutate game) {
 		this.game = game;
 		Gdx.graphics.setContinuousRendering(false);
 		Gdx.graphics.requestRendering();
@@ -33,26 +33,33 @@ public class LevelSelectScreen implements Screen {
 		table.debug();
 		table.debugTable();
 		table.setFillParent(true);
-		Table con = new Table();
 		Label.LabelStyle labelstyle = new Label.LabelStyle(game.font, new Color(1, 1, 1, 1));
 		Label label = new Label("UNMUTATE 0.1", game.skin);
-		con.add(label).fill().expand();
-		con.row();
-		TextButton chapter1 = new TextButton("1", game.bs);
-		chapter1.setColor(1, 1, 0, 1);
-		chapter1.addListener(new ClickListener()
-		{
-			@Override
-			public void clicked(InputEvent event, float x, float y){
-				game.setScreen(new MainMenuScreen(game));
-				dispose();
+		table.add(label).colspan(6);//.fill().expand();
+		table.row();
+		for(int chapter = 0; chapter < Level.levels.length; ++chapter){
+			final TextButton chapterb = new TextButton("" + chapter, chapter > 1 ? game.bs_locked : game.bs);
+			if(chapter > 1){
+				chapterb.setDisabled(true);
+				chapterb.setColor(.2f, .2f, .2f, 1);
 			}
-		});
-		con.add(chapter1);
-		ScrollPane scroll = new ScrollPane(con);
-		table.add(scroll).fill().expand();
-
-		//scroll.setFillParent(true);
+			else{
+				chapterb.setColor(0, 1, 0, 1);
+			}
+			chapterb.addListener(new ChangeListener()
+			{
+				@Override
+				public void changed(ChangeListener.ChangeEvent event, Actor a){
+					Level.chapter = Integer.parseInt(chapterb.getText().toString());
+					Level.part = 0;
+					game.setScreen(new PartSelectScreen(game));
+					dispose();
+				}
+			});
+			table.add(chapterb).uniform();
+			if(chapter % 6 == 0 && chapter != 0)
+				table.row();
+		}
 		table.layout();
 		stage.addActor(table);
 

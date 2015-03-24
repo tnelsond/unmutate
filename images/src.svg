@@ -14,10 +14,38 @@
    height="1052.3622047"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="src.svg">
   <defs
      id="defs4">
+    <inkscape:path-effect
+       effect="skeletal"
+       id="path-effect4415"
+       is_visible="true"
+       pattern="M 0,5 C 0,2.24 2.24,0 5,0 7.76,0 10,2.24 10,5 10,7.76 7.76,10 5,10 2.24,10 0,7.76 0,5 Z"
+       copytype="single_stretched"
+       prop_scale="1"
+       scale_y_rel="false"
+       spacing="0"
+       normal_offset="0"
+       tang_offset="0"
+       prop_units="false"
+       vertical_pattern="false"
+       fuse_tolerance="0" />
+    <inkscape:path-effect
+       effect="skeletal"
+       id="path-effect4412"
+       is_visible="true"
+       pattern="M 0,5 C 0,2.24 2.24,0 5,0 7.76,0 10,2.24 10,5 10,7.76 7.76,10 5,10 2.24,10 0,7.76 0,5 Z"
+       copytype="single_stretched"
+       prop_scale="1"
+       scale_y_rel="false"
+       spacing="0"
+       normal_offset="0"
+       tang_offset="0"
+       prop_units="false"
+       vertical_pattern="false"
+       fuse_tolerance="0" />
     <linearGradient
        id="linearGradient4178">
       <stop
@@ -1219,15 +1247,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.172425"
-     inkscape:cx="70.504387"
-     inkscape:cy="1003.4637"
+     inkscape:zoom="12.6897"
+     inkscape:cx="-44.775334"
+     inkscape:cy="702.12177"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
      showgrid="true"
-     inkscape:window-width="922"
-     inkscape:window-height="1030"
-     inkscape:window-x="0"
+     inkscape:window-width="1598"
+     inkscape:window-height="880"
+     inkscape:window-x="1680"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      showguides="true"
@@ -1252,7 +1280,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1673,6 +1701,43 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        ry="10.551567" />
+    <rect
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;enable-background:accumulate;stroke-opacity:1"
+       id="rect4391-0"
+       width="24.977072"
+       height="25.061029"
+       x="-56.18486"
+       y="346.49203"
+       rx="9.6359806"
+       ry="10.878377"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/button_normal.9.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#b6b6b6;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.89238375;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="m -50,342.08463 a 3.9393503,5.0538081 0 0 0 -3.93935,5.05381 3.9393503,5.0538081 0 0 0 3.93935,5.05381 3.9393503,5.0538081 0 0 0 3.93935,-5.05381 A 3.9393503,5.0538081 0 0 0 -50,342.08463 Z m 0.144648,2.27422 a 2.3428993,3.0057149 0 0 1 2.343606,3.00662 2.3428993,3.0057149 0 0 1 -2.343606,3.00464 2.3428993,3.0057149 0 0 1 -2.342066,-3.00464 2.3428993,3.0057149 0 0 1 2.342066,-3.00662 z"
+       id="path4417"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#979797;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       id="rect4411"
+       width="10"
+       height="10"
+       x="-55"
+       y="347.36218"
+       rx="0.80323404"
+       ry="6.15095"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="m -50.192442,349.52866 a 1.7970632,1.7274096 0 0 0 -1.796875,1.72851 1.7970632,1.7274096 0 0 0 1.058594,1.57227 l -0.640625,2.83008 3.064453,0.082 -0.925781,-2.92188 a 1.7970632,1.7274096 0 0 0 1.037109,-1.5625 1.7970632,1.7274096 0 0 0 -1.796875,-1.72851 z"
+       id="path4436"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
   <g
      inkscape:groupmode="layer"

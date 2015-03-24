@@ -105,7 +105,7 @@ public class Creature extends Rectangle{
 		
 		hipWidth = 1 - hipWidth;
 		accel *= .08;
-		jump *= 7 * Math.sqrt(hipWidth);
+		jump *= 7 * Math.sqrt((hipWidth + .2f));
 		width *= 64;
 		legThick *= width*7/20;
 		legLength *= Creature.TLEG.w * width * 2.0f / TLEG.w;
@@ -374,12 +374,12 @@ public class Creature extends Rectangle{
 		float yleg = width * .3f + tempy;
 		
 		batch.setColor(color);
-		batch.draw(regions[Creature.LEG], dx + width/2 * hipWidth - legPivot, yleg - legThick, // Left
+		batch.draw(regions[Creature.LEG], dx + width/4 + width/3 * hipWidth - legPivot, yleg - legThick, // Left
 				legPivot, legPivot, // originX, originY
 				legLength, legThick, // width, height
 				1, 1, // scaleX, scaleY
 				lefta/2 + 135); // rotation
-		batch.draw(regions[Creature.LEG], dx + width - legThick - width/2 * hipWidth + legPivot, yleg - legThick,
+		batch.draw(regions[Creature.LEG], dx - width/4 + width - legThick - width/3 * hipWidth + legPivot, yleg - legThick,
 				legPivot, legPivot, // originX, originY
 				legLength, legThick, // width, height
 				1, 1, // scaleX, scaleY

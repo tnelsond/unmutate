@@ -96,14 +96,15 @@ public class TInput implements InputProcessor {
 		b2.setColor(.3f, .5f, .0f, 1);
 		b3.setColor(.9f, .0f, .0f, 1);
 		b4.setColor(.0f, .2f, .4f, 1);
+		table.add(b3).expandX().align(Align.left);
 		table.add(b);
 		table.row();
+		table.add();
 		table.add(b2);
 		table.row();
-		table.add(b3);
-		table.row();
+		table.add();
 		table.add(b4);
-		table.layout();
+		//table.layout();
 	/*	stage.clear();
 		Label tutorial = new Label("HELLO, BLAH, BLAH, BLAH, BLAH, BLAH, WHATTEDY? WHAT WHAT?\nHOLD ON!", game.game.tutst);
 		stage.addActor(tutorial);
@@ -232,6 +233,9 @@ public class TInput implements InputProcessor {
 				break;
 			case Keys.DEL:
 				kill();
+				break;
+			case Keys.ESCAPE:
+				game.game.setScreen(new PartSelectScreen(game.game));
 				break;
 			case Keys.P:
 				if(game.selectedCreature != null)

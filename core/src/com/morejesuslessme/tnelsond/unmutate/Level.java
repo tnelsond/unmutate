@@ -41,6 +41,7 @@ public class Level implements Json.Serializable{
 	public Color skyColor = new Color(.4f, .8f, 1, 1);
 
 	public static Json json;
+	public static Preferences latest;
 	public static Preferences pref;
 	public static Preferences prefNext;
 
@@ -51,11 +52,15 @@ public class Level implements Json.Serializable{
 	public final static int DEATH = 4;
 	public final static int END = 5;
 	public static int chapter = 0;
-	public static int part = 2;
+	public static int part = 0;
 	public static int currentgenome = 0;
 	public static String prefix = "unmutatelevel";
-	public static int[] levels = {1};
+	public static int[] levels = {2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	public static Level currentlevel = null;
+
+	public static void initLatest(){
+		Preferences latest = Gdx.app.getPreferences("main.pref");
+	}
 
 	public static Genome getGenome(ChromosomePair[] c, Json j, String s, boolean f){
 		switch(Level.chapter){
@@ -290,7 +295,11 @@ public class Level implements Json.Serializable{
 				part = 0;
 			}
 		}
-		game.game.setScreen(new MainMenuScreen(game.game));
+		if(part == 0)
+			game.game.setScreen(new ChapterSelectScreen(game.game));
+		else
+			game.game.setScreen(new PartSelectScreen(game.game));
+
 		game.dispose();
 	}
 
