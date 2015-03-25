@@ -21,7 +21,7 @@ import java.lang.Character;
 import com.morejesuslessme.tnelsond.unmutate.genome.*;
 
 public class Level implements Json.Serializable{
-	public AtlasRegion dirt, slant, grass, end, block;
+	public AtlasRegion dirt, slant, grass, end, block, hint;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
@@ -31,14 +31,18 @@ public class Level implements Json.Serializable{
 	public boolean male = false;
 	public boolean female = false;
 
+	public int disphint = -1;
+	public String[] hints;
+
 	public float GRAVITY = 0.1f;
 
-	public Special[] special = new Special[10];
+	public Special[] special = new Special[26];
 
 	public Color dirtColor = new Color(.4f, 0.2f, 0, 1);
 	public Color dirtColor2 = new Color(.3f, 0.16f, 0, 1);
 	public Color grassColor = new Color(.2f, .5f, 0, 1);
 	public Color skyColor = new Color(.4f, .8f, 1, 1);
+	public Color hintColor = new Color(.6f, .6f, 0, 1);
 
 	public static Json json;
 	public static Preferences latest;
@@ -51,6 +55,8 @@ public class Level implements Json.Serializable{
 	public final static int GRASS = 3;
 	public final static int DEATH = 4;
 	public final static int END = 5;
+	public final static int HINT_FIRST = 6;
+	public final static int HINT_LAST = HINT_FIRST + 26;
 	public static int chapter = 0;
 	public static int part = 0;
 	public static int currentgenome = 0;
@@ -172,6 +178,12 @@ public class Level implements Json.Serializable{
 				skyColor.g = colors[1];
 				skyColor.b = colors[2];
 			}
+			else if(js.name().equals("hint")){
+				float[] colors = js.asFloatArray();
+				hintColor.r = colors[0];
+				hintColor.g = colors[1];
+				hintColor.b = colors[2];
+			}
 			else if(js.name().equals("special")){
 				JsonValue js2 = js.child();
 				int i = 0;
@@ -180,6 +192,9 @@ public class Level implements Json.Serializable{
 					special[i] = new Special(new Color(colors[0], colors[1], colors[2], 1), null);
 					++i;
 				}while((js2 = js2.next) != null);
+			}
+			else if(js.name().equals("hints")){
+				hints = js.asStringArray();
 			}
 			else if(js.name().equals("map")){
 				String[] btext = js.asStringArray();
@@ -197,7 +212,7 @@ public class Level implements Json.Serializable{
 						if(ch == '#'){
 							blocks[row][col] = Level.DIRT;
 						}
-						else if(ch == 'o'){
+						else if(ch == '^'){
 							blocks[row][col] = Level.GRASS;
 						}
 						else if(ch == '*'){
@@ -212,6 +227,9 @@ public class Level implements Json.Serializable{
 						}
 						else if(Character.isDigit(ch)){
 							blocks[row][col] = -ch + '0';
+						}
+						else if(ch >= 'a' && ch <= 'z'){
+							blocks[row][col] = ch - 'a' + Level.HINT_FIRST;
 						}
 						else
 							blocks[row][col] = Level.NONE;
@@ -272,6 +290,7 @@ public class Level implements Json.Serializable{
 		grass = atlas.findRegion("grass");
 		end = atlas.findRegion("end");
 		block = atlas.findRegion("block");
+		hint = atlas.findRegion("hint");
 	}
 
 	// For reflection
@@ -315,7 +334,11 @@ public class Level implements Json.Serializable{
 			for(int c=c1; c<c2; ++c){
 				if(blocks[r][c] != Level.NONE){
 					tex = dirt;
-					if(isSpecial(blocks[r][c])){
+					if(blocks[r][c] >= Level.HINT_FIRST && blocks[r][c] <= Level.HINT_LAST){
+						batch.setColor(hintColor);
+						tex = hint;
+					}
+					else if(isSpecial(blocks[r][c])){
 						batch.setColor(getSpecial(blocks[r][c]).outside);
 						tex = block;
 					}

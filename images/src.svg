@@ -1247,11 +1247,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="12.6897"
-     inkscape:cx="-44.775334"
-     inkscape:cy="702.12177"
+     inkscape:zoom="0.79310625"
+     inkscape:cx="22.643706"
+     inkscape:cy="741.16135"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer5"
      showgrid="true"
      inkscape:window-width="1598"
      inkscape:window-height="880"
@@ -1288,6 +1288,38 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="Blocks">
+    <rect
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;enable-background:accumulate"
+       id="rect10168-9"
+       width="74.853683"
+       height="74.853683"
+       x="145.39331"
+       y="254.98695"
+       rx="0"
+       ry="0"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/hint.png/hint"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;enable-background:accumulate"
+       id="rect10168-0-4"
+       width="68.589783"
+       height="68.589783"
+       x="148.58791"
+       y="258.58878"
+       rx="14.349327"
+       ry="11.766448"
+       inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/dirt.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#000000;fill-opacity:0.20574163;stroke:none"
+       d="m 145.36429,329.58066 74.69739,-74.70029 0.005,74.73964 z"
+       id="path10209-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:url(#linearGradient3892);fill-opacity:1;stroke:none"
        d="m -321.74355,23.855032 21.65886,-50.537332 21.65885,50.537332 c -25.89933,9.55007 -34.55078,2.393502 -43.31771,0 z"
@@ -1410,6 +1442,23 @@
        inkscape:export-filename="/home/tnelsond/libgdx/unmutate/images/block.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <path
+       style="font-style:normal;font-weight:normal;font-size:89.60916138px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 183.88477,258.23633 c -7.13654,0.20047 -14.14045,2.15396 -20.57032,5.20312 2.72578,3.15124 2.082,14.18273 7.5,11.0293 5.96255,-2.03998 13.96185,-5.52731 19.51563,-1.11328 3.01754,5.04742 -1.8337,10.12025 -6.64844,11.33984 -4.27563,1.91386 -8.6616,3.56545 -12.95117,5.44727 1.06876,6.53053 2.1368,13.06118 3.20508,19.5918 4.33351,-1.99828 14.06737,0.57722 14.10742,-5.05469 -0.002,-4.23855 -1.37389,-9.30159 4.11795,-9.99755 8.14565,-3.04927 16.08404,-10.20857 14.88791,-19.70558 0.1989,-9.85367 -9.30414,-16.50833 -18.45703,-16.61133 -1.56487,-0.13391 -3.13724,-0.17249 -4.70703,-0.1289 z m -3.44922,52.45117 c -7.28376,-0.0794 -10.70341,10.30597 -4.74805,14.54688 5.49956,4.9211 14.97868,-0.9819 13.11133,-8.06836 -0.69642,-3.89541 -4.41313,-6.77492 -8.36328,-6.47852 z"
+       id="text4729-7"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:89.60916138px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="160.03397"
+       y="324.12228"
+       id="text4729"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4731"
+         x="160.03397"
+         y="324.12228"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Alef;-inkscape-font-specification:'Alef Bold'">?</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"

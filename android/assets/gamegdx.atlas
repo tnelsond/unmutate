@@ -20,17 +20,18 @@ bonefoot
   index: -1
 bow
   rotate: false
-  xy: 512, 76
+  xy: 865, 101
   size: 70, 42
   orig: 70, 42
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 334, 36
-  size: 31, 33
-  split: 16, 14, 15, 17
-  orig: 31, 33
+  xy: 363, 51
+  size: 18, 18
+  split: 4, 6, 3, 3
+  pad: 8, 9, 8, 9
+  orig: 18, 18
   offset: 0, 0
   index: -1
 button_locked
@@ -44,7 +45,7 @@ button_locked
   index: -1
 button_normal
   rotate: false
-  xy: 978, 153
+  xy: 334, 44
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -53,7 +54,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 865, 118
+  xy: 978, 153
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
@@ -90,7 +91,7 @@ end
   index: -1
 eye
   rotate: false
-  xy: 586, 63
+  xy: 591, 63
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
@@ -114,6 +115,13 @@ halo
   xy: 270, 16
   size: 60, 53
   orig: 60, 53
+  offset: 0, 0
+  index: -1
+hint
+  rotate: false
+  xy: 512, 43
+  size: 75, 75
+  orig: 75, 75
   offset: 0, 0
   index: -1
 horn

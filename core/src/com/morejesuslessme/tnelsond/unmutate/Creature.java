@@ -323,8 +323,12 @@ public class Creature extends Rectangle{
 					ascend = true;
 				}
 				if(b != Level.NONE && level.isSolid(b, this)){
-					if(v < 0)
+					if(v < 0){
 						onGround = true;
+					}
+					else if(b >= Level.HINT_FIRST && b <= Level.HINT_LAST){
+						level.disphint = b - Level.HINT_FIRST;
+					}
 					y = r*level.tile + cor;
 					vy = 0;
 					done = true;

@@ -220,45 +220,46 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		double time = Math.min(delta, 0.2);
-		accumulator += time;
-		while(accumulator >= physicsStep){ // Physics loop
-			for(Creature c : creatures){
-				if(c != null && c.awake){
-					c.updateVelocity();
-				}
-			}
-			control.update();
-			//control.stage.act(); //maybe don't need
-			boolean any = false;
-			for(int i = creatures.length - 1; i >= 0; --i){
-				Creature c = creatures[i];
-				if(c != null && c.awake) {
-					if(c != selectedCreature && c.onGround && Math.abs(c.vx) < .0001 && c.vy > -0.0001 && c.tick > 3){
-						c.awake = false;
-						c.vy = 0;
-						c.tick = 0;
-					}
-					else{
-						c.update();
+		if(!game.paused){
+			accumulator += time;
+			while(accumulator >= physicsStep){ // Physics loop
+				for(Creature c : creatures){
+					if(c != null && c.awake){
+						c.updateVelocity();
 					}
 				}
-				if(c != null){
-					any = true;
-					if(c.ascend){
-						currentlevel.ascend(c);	
-						kill(c);
+				control.update();
+				//control.stage.act(); //maybe don't need
+				boolean any = false;
+				for(int i = creatures.length - 1; i >= 0; --i){
+					Creature c = creatures[i];
+					if(c != null && c.awake) {
+						if(c != selectedCreature && c.onGround && Math.abs(c.vx) < .0001 && c.vy > -0.0001 && c.tick > 3){
+							c.awake = false;
+							c.vy = 0;
+							c.tick = 0;
+						}
+						else{
+							c.update();
+						}
+					}
+					if(c != null){
+						any = true;
+						if(c.ascend){
+							currentlevel.ascend(c);	
+							kill(c);
+						}
 					}
 				}
+				if(!any){
+					currentlevel.nextLevel(this);
+				}
+				currentlevel.update();
+				accumulator -= physicsStep;
 			}
-			if(!any){
-				currentlevel.nextLevel(this);
-			}
-			currentlevel.update();
-			accumulator -= physicsStep;
+			final float alpha = (float)(accumulator / physicsStep);
+			draw(alpha);
 		}
-		final float alpha = (float)(accumulator / physicsStep);
-		draw(alpha);
-
 		fps.log();
 	}
 

@@ -54,9 +54,19 @@ public class PartSelectScreen implements Screen {
 				}
 			});
 			table.add(partb).uniform();
-			if(part % 9 == 0)
+			if(part % 9 == 0 && part > 0)
 				table.row();
 		}
+		table.row();
+		TextButton backb = new TextButton("BACK", game.bs);
+		backb.addListener(new ChangeListener(){
+			@Override
+			public void changed(ChangeListener.ChangeEvent event, Actor a){
+				game.setScreen(new ChapterSelectScreen(game));
+				dispose();
+			}
+		});
+		table.add(backb);
 		table.layout();
 		stage.addActor(table);
 

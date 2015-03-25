@@ -25,12 +25,14 @@ public class Unmutate extends Game {
 	public TextureAtlas atlas;
 	public TextButtonStyle bs;
 	public TextButtonStyle bs_locked;
-	public LabelStyle tutst;
+	public LabelStyle hintst;
 
 	public Json json = new Json();
 	public Skin skin;
 	public Thread musicthread;
 	public TMusic bgmusic;
+
+	public boolean paused = false;
 
 	public static String tag = "***UNMUTATE";
 
@@ -42,7 +44,7 @@ public class Unmutate extends Game {
 		atlas = new TextureAtlas(Gdx.files.internal("gamegdx.atlas"));
 		skin = new Skin(Gdx.files.internal("skin.json"), atlas);
 		font = skin.getFont("regular");
-		tutst = skin.get("tutorial", LabelStyle.class);
+		hintst = skin.get("tutorial", LabelStyle.class);
 		bs = skin.get("default", TextButtonStyle.class);
 		bs_locked = skin.get("locked", TextButtonStyle.class);
 		bgmusic = new TMusic();

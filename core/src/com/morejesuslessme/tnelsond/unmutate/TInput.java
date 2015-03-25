@@ -45,8 +45,10 @@ public class TInput implements InputProcessor {
 	GameScreen game;
 	Stage stage;
 	ExtendViewport viewport;
+	Label hint;
 
 	public TInput(GameScreen game){
+		hint = new Label("", game.game.hintst);
 		touchpadouter = game.game.atlas.findRegion("joystickouter");
 		touchpadinner = game.game.atlas.findRegion("joystickinner");
 		touchpad = new TTouch();
@@ -104,10 +106,14 @@ public class TInput implements InputProcessor {
 		table.row();
 		table.add();
 		table.add(b4);
+
+
+		hint.setWrap(true);
+		hint.setFillParent(true);
+		hint.setVisible(false);
+		stage.addActor(hint);
 		//table.layout();
 	/*	stage.clear();
-		Label tutorial = new Label("HELLO, BLAH, BLAH, BLAH, BLAH, BLAH, WHATTEDY? WHAT WHAT?\nHOLD ON!", game.game.tutst);
-		stage.addActor(tutorial);
 */
 	}
 
@@ -150,39 +156,59 @@ public class TInput implements InputProcessor {
 		}
 	}
 
+	public void unpause(){
+		Gdx.graphics.setContinuousRendering(true);
+		game.game.paused = false;
+		hint.setVisible(false);
+	}
+
+	public void pause(){
+		Gdx.graphics.setContinuousRendering(false);
+		Gdx.graphics.requestRendering();
+		game.game.paused = true;
+	}
+
 	public void update(){
-		if(touchpad.pointer >= 0 && game.selectedCreature != null){
-			float x = touchpad.x - touchpad.sx;
-			boolean xpositive = x > 0;
-			float y = touchpad.y - touchpad.sy;
-			boolean ypositive = !(y > 0); // The ! compensates for the fact that libgdx has flipped y coordinates for the drawing
-			x = (float) Math.pow(MathUtils.clamp(Math.max(0, Math.abs(x) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius, 2);
-			y = MathUtils.clamp(Math.max(0, Math.abs(y) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius;
-			if(y > 0 && y < .2){
-				y = 0;
-			}
-			if(!xpositive)
-				x = -x;
-			if(!ypositive)
-				y = -y;
-			game.selectedCreature.moveToward(x, y);
+		if(Level.currentlevel.disphint >= 0){
+			hint.setText(Level.currentlevel.hints[Level.currentlevel.disphint]);
+			hint.setVisible(true);
+			Level.currentlevel.disphint = -1;
+			pause();
 		}
-		else if(game.selectedCreature != null){
-			int x = 0;
-			int y = 0;
-			if(Gdx.input.isKeyPressed(Keys.A)){
-				--x;
+		else{
+			if(touchpad.pointer >= 0 && game.selectedCreature != null){
+				float x = touchpad.x - touchpad.sx;
+				boolean xpositive = x > 0;
+				float y = touchpad.y - touchpad.sy;
+				boolean ypositive = !(y > 0); // The ! compensates for the fact that libgdx has flipped y coordinates for the drawing
+				x = (float) Math.pow(MathUtils.clamp(Math.max(0, Math.abs(x) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius, 2);
+				y = MathUtils.clamp(Math.max(0, Math.abs(y) - touchpadminradius), 0, touchpadmaxradius)/touchpadmaxradius;
+				if(y > 0 && y < .2){
+					y = 0;
+				}
+				if(!xpositive)
+					x = -x;
+				if(!ypositive)
+					y = -y;
+				game.selectedCreature.moveToward(x, y);
 			}
-			if(Gdx.input.isKeyPressed(Keys.D)){
-				++x;
-			}
-			if(Gdx.input.isKeyPressed(Keys.S)){
-				--y;
-			}
-			if(Gdx.input.isKeyPressed(Keys.W)){
+			else if(game.selectedCreature != null){
+				int x = 0;
+				int y = 0;
+				if(Gdx.input.isKeyPressed(Keys.A)){
+					--x;
+				}
+				if(Gdx.input.isKeyPressed(Keys.D)){
+					++x;
+				}
+				if(Gdx.input.isKeyPressed(Keys.S)){
+					--y;
+				}
+				if(Gdx.input.isKeyPressed(Keys.W)){
 				++y;
+				}
+				game.selectedCreature.moveToward(x, y);
 			}
-			game.selectedCreature.moveToward(x, y);
 		}
 	}
 
@@ -223,6 +249,10 @@ public class TInput implements InputProcessor {
 	public boolean keyDown (int keycode) {
 		switch(keycode){
 			case Keys.ENTER:
+				if(game.game.paused){
+					unpause();
+					return false;
+				}
 				game.selectedCreature = null;
 				break;
 			case Keys.B:
@@ -237,20 +267,7 @@ public class TInput implements InputProcessor {
 			case Keys.ESCAPE:
 				game.game.setScreen(new PartSelectScreen(game.game));
 				break;
-			case Keys.P:
-				if(game.selectedCreature != null)
-					System.out.println(String.format("color: (%f, %f, %f) eyeColor: (%f, %f, %f)",
-							game.selectedCreature.color.r,
-							game.selectedCreature.color.g,
-							game.selectedCreature.color.b,
-							game.selectedCreature.eyeColor.r,
-							game.selectedCreature.eyeColor.g,
-							game.selectedCreature.eyeColor.b
-							));
-				break;
 		}
-			
-			
 		return false;
 	}
 
@@ -292,18 +309,24 @@ public class TInput implements InputProcessor {
 	}
 
 	public boolean touchDown (int x, int y, int pointer, int button) {
-		if(game.selectedCreature == null){
-			if(!clickCreature(x, y))
-				clickEnd(x, y);
-			return true;
+		if(!game.game.paused){
+			if(game.selectedCreature == null){
+				if(!clickCreature(x, y))
+					clickEnd(x, y);
+				return true;
+			}
+			if(touchpad.pointer < 0){
+				touchpad.pointer = pointer;
+				touchpad.update(x, y);
+			}
+			else{
+				othertouch.pointer = pointer;
+				othertouch.update(x, y);
+			}
+			return false;
 		}
-		if(touchpad.pointer < 0){
-			touchpad.pointer = pointer;
-			touchpad.update(x, y);
-		}
-		else{
-			othertouch.pointer = pointer;
-			othertouch.update(x, y);
+		else if(touchpad.pointer < 0){
+			unpause();
 		}
 		return false;
 	}
