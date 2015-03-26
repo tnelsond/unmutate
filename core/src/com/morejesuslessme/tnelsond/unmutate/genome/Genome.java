@@ -98,7 +98,7 @@ public class Genome {
 		for(int i=0; i<chromosomes.length; ++i) {
 			childc[i] = new ChromosomePair(chromosomes[i].meiosis(MUTATION, CROSSOVER), other.chromosomes[i].meiosis(other.MUTATION, other.CROSSOVER));
 		}
-		return Level.getGenome(childc, null, null,  false);
+		return Level.currentlevel.getGenome(childc, null, null,  false);
 	}
 	
 	// Master inheritance function

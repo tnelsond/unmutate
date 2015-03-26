@@ -21,7 +21,7 @@ public class PartSelectScreen implements Screen {
 	public Table table;
 	private Stage stage;
 	
-	public PartSelectScreen(final Unmutate game) {
+	public PartSelectScreen(final Unmutate game, final int chapter) {
 		this.game = game;
 		Gdx.graphics.setContinuousRendering(false);
 		Gdx.graphics.requestRendering();
@@ -33,29 +33,34 @@ public class PartSelectScreen implements Screen {
 		table.debug();
 		table.debugTable();
 		table.setFillParent(true);
-		Label.LabelStyle labelstyle = new Label.LabelStyle(game.font, new Color(1, 1, 1, 1));
-		for(int part = 0; part < Level.levels[Level.chapter]; ++part){
-			final TextButton partb = new TextButton("" + part, game.bs);
-			/*if(part > 2){
+		boolean completed = false;
+		boolean prevcompleted = true;
+		for(int part = 0; part <= Level.levels[chapter]; ++part){
+			completed = Gdx.app.getPreferences(Level.getLevelName(".json", chapter, part + 1)).getBoolean("c", false);
+			final TextButton partb = new TextButton("" + part, prevcompleted ? game.bs : game.bs_locked);
+			if(!prevcompleted){
 				partb.setDisabled(true);
 				partb.setColor(.2f, .2f, .2f, 1);
 			}
-			*/
-		//	else{
-			partb.setColor(0, 1, 0, 1);
-		//	}
+			else if(completed){
+				partb.setColor(1, 1, 0, 1);
+			}
+			else{
+				partb.setColor(0, 1, 0, 1);
+			}
 			partb.addListener(new ChangeListener()
 			{
 				@Override
 				public void changed(ChangeListener.ChangeEvent event, Actor a){
-					Level.part = Integer.parseInt(partb.getText().toString());
-					game.setScreen(new MainMenuScreen(game));
+					int part = Integer.parseInt(partb.getText().toString());
+					game.setScreen(new GameScreen(game, chapter, part));
 					dispose();
 				}
 			});
 			table.add(partb).uniform();
 			if(part % 9 == 0 && part > 0)
 				table.row();
+			prevcompleted = completed;
 		}
 		table.row();
 		TextButton backb = new TextButton("BACK", game.bs);

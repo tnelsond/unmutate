@@ -265,7 +265,7 @@ public class TInput implements InputProcessor {
 				kill();
 				break;
 			case Keys.ESCAPE:
-				game.game.setScreen(new PartSelectScreen(game.game));
+				game.game.setScreen(new PartSelectScreen(game.game, Level.currentlevel.chapter));
 				break;
 		}
 		return false;

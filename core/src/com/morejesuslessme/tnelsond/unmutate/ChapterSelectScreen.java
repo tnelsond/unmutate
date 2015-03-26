@@ -27,32 +27,34 @@ public class ChapterSelectScreen implements Screen {
 		Gdx.graphics.requestRendering();
 		stage = new Stage(new ExtendViewport(vieww, viewh), game.batch);
 		Gdx.input.setInputProcessor(stage);
-
+		Level.initPrefLatest();
 
 		table = new Table();
 		table.debug();
 		table.debugTable();
 		table.setFillParent(true);
 		Label.LabelStyle labelstyle = new Label.LabelStyle(game.font, new Color(1, 1, 1, 1));
-		Label label = new Label("UNMUTATE 0.1", game.skin);
+		Label label = new Label("UNMUTATE 0.2", game.skin);
 		table.add(label).colspan(6);//.fill().expand();
 		table.row();
 		for(int chapter = 0; chapter < Level.levels.length; ++chapter){
-			final TextButton chapterb = new TextButton("" + chapter, chapter > 1 ? game.bs_locked : game.bs);
-			if(chapter > 1){
+			final TextButton chapterb = new TextButton("" + chapter, chapter > Level.newchapter ? game.bs_locked : game.bs);
+			if(chapter == Level.newchapter){
+				chapterb.setColor(0, 1, 0, 1);
+			}
+			else if(chapter > Level.newchapter){
 				chapterb.setDisabled(true);
 				chapterb.setColor(.2f, .2f, .2f, 1);
 			}
 			else{
-				chapterb.setColor(0, 1, 0, 1);
+				chapterb.setColor(1, 1, 0, 1);
 			}
 			chapterb.addListener(new ChangeListener()
 			{
 				@Override
 				public void changed(ChangeListener.ChangeEvent event, Actor a){
-					Level.chapter = Integer.parseInt(chapterb.getText().toString());
-					Level.part = 0;
-					game.setScreen(new PartSelectScreen(game));
+					int chapter = Integer.parseInt(chapterb.getText().toString());
+					game.setScreen(new PartSelectScreen(game, chapter));
 					dispose();
 				}
 			});

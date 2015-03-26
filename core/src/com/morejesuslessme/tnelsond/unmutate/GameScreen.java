@@ -127,14 +127,14 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	public GameScreen(final Unmutate game) {
+	public GameScreen(final Unmutate game, int chapter, int part) {
 		this.game = game;
 
 		Gdx.graphics.setContinuousRendering(true);
 
 		halo = game.atlas.findRegion("halo");
 
-		currentlevel = Level.makeLevel(game);
+		currentlevel = Level.makeLevel(game, chapter, part);
 
 		creatures = new Creature[10];
 
@@ -166,11 +166,11 @@ public class GameScreen implements Screen {
 			String str = currentlevel.pref.getString(key, "null");
 			if(str.equals("null") || !currentlevel.carryover){
 				if(i <= 1){
-					creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, Level.getGenome(null, null, null, (i % 2 == 0) ? false : true), game.atlas);
+					creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, currentlevel.getGenome(null, null, null, (i % 2 == 0) ? false : true), game.atlas);
 				}
 			}
 			else{
-				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, Level.getGenome(null, game.json, str, false), game.atlas);
+				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, currentlevel.getGenome(null, game.json, str, false), game.atlas);
 			}
 		}
 	}

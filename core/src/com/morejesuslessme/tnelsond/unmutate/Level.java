@@ -45,7 +45,7 @@ public class Level implements Json.Serializable{
 	public Color hintColor = new Color(.6f, .6f, 0, 1);
 
 	public static Json json;
-	public static Preferences latest;
+	public static Preferences prefLatest;
 	public static Preferences pref;
 	public static Preferences prefNext;
 
@@ -57,21 +57,23 @@ public class Level implements Json.Serializable{
 	public final static int END = 5;
 	public final static int HINT_FIRST = 6;
 	public final static int HINT_LAST = HINT_FIRST + 26;
-	public static int chapter = 0;
-	public static int part = 0;
+	public int chapter = 0;
+	public int part = 0;
+	public static int newchapter = 0;
 	public static int currentgenome = 0;
 	public static String prefix = "unmutatelevel";
-	public static int[] levels = {2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	public static int[] levels = {1, 0, 3};
 	public static Level currentlevel = null;
 
-	public static void initLatest(){
-		Preferences latest = Gdx.app.getPreferences("main.pref");
+	public static void initPrefLatest(){
+		prefLatest = Gdx.app.getPreferences("main.pref");
+		Level.newchapter = prefLatest.getInteger("chapter", 0);
 	}
 
-	public static Genome getGenome(ChromosomePair[] c, Json j, String s, boolean f){
-		switch(Level.chapter){
+	public Genome getGenome(ChromosomePair[] c, Json j, String s, boolean f){
+		switch(chapter){
 			default:
-				switch(Level.part){
+				switch(part){
 					case 1:
 						if(c != null)
 							return new Genome01(c);
@@ -125,24 +127,17 @@ public class Level implements Json.Serializable{
 		prefNext.flush();
 	}
 
-	public static String getLevelName(String extension, boolean next){
-		return String.format("%s-%d-%d%s", Level.prefix, Level.chapter, next ? Level.part + 1 : Level.part, extension);
+	public static String getLevelName(String extension, int chapter, int part){
+		return String.format("%s-%d-%d%s", Level.prefix, chapter, part, extension);
 	}	
 
-	public static String getLevelName(boolean next){
-		return Level.getLevelName("", next);
-	}	
-
-	public static Level makeLevel(Unmutate game){
-		Level.currentlevel = json.fromJson(Level.class, Gdx.files.internal(Level.getLevelName(".json", false)));
+	public static Level makeLevel(Unmutate game, int chapter, int part){
+		Level.currentlevel = json.fromJson(Level.class, Gdx.files.internal(Level.getLevelName(".json", chapter, part)));
+		Level.currentlevel.chapter = chapter;
+		Level.currentlevel.part = part;
 		Level.currentlevel.setupTextures(game.atlas);
 		return currentlevel;
 	}
-
-	public static String getLevelIntro(){
-		return Gdx.files.internal(Level.getLevelName(".txt", false)).readString();
-	}
-	// END Static
 
 	public void write(Json json){
 		// Levels shouldn't be saved in this way
@@ -295,8 +290,8 @@ public class Level implements Json.Serializable{
 
 	// For reflection
 	public Level(){
-		pref = Gdx.app.getPreferences(Level.getLevelName(".json", false));
-		prefNext = Gdx.app.getPreferences(Level.getLevelName(".json", true));
+		pref = Gdx.app.getPreferences(Level.getLevelName(".json", chapter, part));
+		prefNext = Gdx.app.getPreferences(Level.getLevelName(".json", chapter, part + 1));
 		prefNext.clear();
 	}
 
@@ -305,19 +300,22 @@ public class Level implements Json.Serializable{
 	}
 
 	public void nextLevel(GameScreen game){	
+		boolean finishedchapter = false;
 		if(!prefNext.getString("male0", "null").equals("null") && !prefNext.getString("female0", "null").equals("null")){
-			if(part < levels[chapter]){
-				++part;
-			}
-			else if(chapter < levels.length - 1){
-				++chapter;
-				part = 0;
+			if(part >= levels[chapter]){
+				finishedchapter = true;
 			}
 		}
-		if(part == 0)
+		prefNext.putBoolean("c", true);
+		prefNext.flush();
+		if(finishedchapter){
+			Level.newchapter = chapter + 1;
+			prefLatest.putInteger("chapter", Level.newchapter);
+			prefLatest.flush();
 			game.game.setScreen(new ChapterSelectScreen(game.game));
+		}
 		else
-			game.game.setScreen(new PartSelectScreen(game.game));
+			game.game.setScreen(new PartSelectScreen(game.game, chapter));
 
 		game.dispose();
 	}
