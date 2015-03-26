@@ -36,17 +36,18 @@ public class PartSelectScreen implements Screen {
 		boolean completed = false;
 		boolean prevcompleted = true;
 		for(int part = 0; part <= Level.levels[chapter]; ++part){
-			completed = Gdx.app.getPreferences(Level.getLevelName(".json", chapter, part + 1)).getBoolean("c", false);
+			completed = Gdx.app.getPreferences(Level.getLevelName(".pref", chapter, part + 1)).getBoolean("c", false);
+			System.out.println("Completed: " + completed);
 			final TextButton partb = new TextButton("" + part, prevcompleted ? game.bs : game.bs_locked);
 			if(!prevcompleted){
 				partb.setDisabled(true);
 				partb.setColor(.2f, .2f, .2f, 1);
 			}
 			else if(completed){
-				partb.setColor(1, 1, 0, 1);
+				partb.setColor(0, 1, 0, 1);
 			}
 			else{
-				partb.setColor(0, 1, 0, 1);
+				partb.setColor(1, 0, 0, 1);
 			}
 			partb.addListener(new ChangeListener()
 			{

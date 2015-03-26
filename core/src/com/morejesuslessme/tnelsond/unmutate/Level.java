@@ -62,7 +62,7 @@ public class Level implements Json.Serializable{
 	public static int newchapter = 0;
 	public static int currentgenome = 0;
 	public static String prefix = "unmutatelevel";
-	public static int[] levels = {1, 0, 3};
+	public static int[] levels = {2, 0, 3};
 	public static Level currentlevel = null;
 
 	public static void initPrefLatest(){
@@ -136,6 +136,7 @@ public class Level implements Json.Serializable{
 		Level.currentlevel.chapter = chapter;
 		Level.currentlevel.part = part;
 		Level.currentlevel.setupTextures(game.atlas);
+		Level.currentlevel.setupPrefs();
 		return currentlevel;
 	}
 
@@ -290,8 +291,11 @@ public class Level implements Json.Serializable{
 
 	// For reflection
 	public Level(){
-		pref = Gdx.app.getPreferences(Level.getLevelName(".json", chapter, part));
-		prefNext = Gdx.app.getPreferences(Level.getLevelName(".json", chapter, part + 1));
+	}
+
+	public void setupPrefs(){
+		pref = Gdx.app.getPreferences(Level.getLevelName(".pref", chapter, part));
+		prefNext = Gdx.app.getPreferences(Level.getLevelName(".pref", chapter, part + 1));
 		prefNext.clear();
 	}
 
@@ -301,13 +305,13 @@ public class Level implements Json.Serializable{
 
 	public void nextLevel(GameScreen game){	
 		boolean finishedchapter = false;
-		if(!prefNext.getString("male0", "null").equals("null") && !prefNext.getString("female0", "null").equals("null")){
+		if(done()){
 			if(part >= levels[chapter]){
 				finishedchapter = true;
 			}
+			prefNext.putBoolean("c", true);
+			prefNext.flush();
 		}
-		prefNext.putBoolean("c", true);
-		prefNext.flush();
 		if(finishedchapter){
 			Level.newchapter = chapter + 1;
 			prefLatest.putInteger("chapter", Level.newchapter);
