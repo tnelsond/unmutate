@@ -99,14 +99,13 @@ public class TInput implements InputProcessor {
 		b3.setColor(.9f, .0f, .0f, 1);
 		b4.setColor(.0f, .2f, .4f, 1);
 		table.add(b3).expandX().align(Align.left);
-		table.add(b);
+		table.add(b).align(Align.right);
 		table.row();
 		table.add();
-		table.add(b2);
+		table.add(b2).align(Align.right);
 		table.row();
 		table.add();
-		table.add(b4);
-
+		table.add(b4).align(Align.right);
 
 		hint.setWrap(true);
 		hint.setFillParent(true);
@@ -157,15 +156,14 @@ public class TInput implements InputProcessor {
 	}
 
 	public void unpause(){
-		Gdx.graphics.setContinuousRendering(true);
 		game.game.paused = false;
 		hint.setVisible(false);
+		Gdx.graphics.setContinuousRendering(true);
 	}
 
 	public void pause(){
-		Gdx.graphics.setContinuousRendering(false);
-		Gdx.graphics.requestRendering();
 		game.game.paused = true;
+		Gdx.graphics.setContinuousRendering(false);
 	}
 
 	public void update(){
@@ -175,7 +173,7 @@ public class TInput implements InputProcessor {
 			Level.currentlevel.disphint = -1;
 			pause();
 		}
-		else{
+		else if(!game.game.paused){
 			if(touchpad.pointer >= 0 && game.selectedCreature != null){
 				float x = touchpad.x - touchpad.sx;
 				boolean xpositive = x > 0;
@@ -213,7 +211,7 @@ public class TInput implements InputProcessor {
 	}
 
 	public void render(){
-		if(touchpad.pointer >= 0) {
+		if(touchpad.pointer >= 0 && game.selectedCreature != null && !game.game.paused) {
 			Vector3 pos = touchpad.oldToVector3();
 			Vector3 pos2 = touchpad.toVector3();
 			game.viewport.unproject(pos);
@@ -231,19 +229,12 @@ public class TInput implements InputProcessor {
 					touchpadminradius*2, touchpadminradius*2);
 		}
 
-		/*
-		if(othertouch.pointer >= 0) {
-			Vector3 pos = othertouch.toVector3();
-			//game.viewport.unproject(pos);
-			//game.shapeRenderer.setColor(1, 0.4f, 0, .5f);
-			//game.shapeRenderer.circle(pos.x, pos.y, 20);
-		}
-		*/
-
 		game.game.batch.end();
 		
 		stage.draw();
-		//table.drawDebug(stage);
+		if(game.game.paused){
+			Gdx.graphics.requestRendering();
+		}
 	}
 
 	public boolean keyDown (int keycode) {

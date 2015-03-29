@@ -10,7 +10,7 @@ import java.util.Scanner;
 // 0.5*sqrt(2)
 
 public class TMusic implements Runnable{
-	private int samplerate = 20000;
+	private int samplerate = 10000;
 	private volatile boolean running = true;
 	private float samples[];
 
@@ -85,11 +85,13 @@ public class TMusic implements Runnable{
 		Random ran = new Random();
 		TNote flute = new TNote(samplerate, new Scanner(Gdx.files.internal("songs/02.tly").read()), 0, 1/4f, 1/8f, 1/4f);
 		samples = flute.write();
+		/* Eccho
 		for(int i = 0; i < samples.length - samplerate/6; ++i){
 			samples[i + samplerate/12] += samples[i]/4;
 			samples[i + samplerate/7] += samples[i]/8;
 			samples[i + samplerate/6] += samples[i]/10;
 		}
+		*/
 	}
 
 	public void run(){

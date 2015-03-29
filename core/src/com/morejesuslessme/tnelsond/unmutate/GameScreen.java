@@ -213,13 +213,14 @@ public class GameScreen implements Screen {
 		deathFX.render(game.batch);
 		ascendFX.render(game.batch);
 		birthFX.render(game.batch);
-	
+		
 		control.render();
 	}
 
 	@Override
 	public void render(float delta) {
 		double time = Math.min(delta, 0.2);
+		float alpha = 0;
 		if(!game.paused){
 			accumulator += time;
 			while(accumulator >= physicsStep){ // Physics loop
@@ -257,10 +258,10 @@ public class GameScreen implements Screen {
 				currentlevel.update();
 				accumulator -= physicsStep;
 			}
-			final float alpha = (float)(accumulator / physicsStep);
-			draw(alpha);
+			alpha = (float)(accumulator / physicsStep);
 		}
-		fps.log();
+		draw(alpha);
+		Gdx.graphics.requestRendering();
 	}
 
 	@Override
