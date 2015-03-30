@@ -20,8 +20,17 @@ public class ChromosomePair {
 
 	public Allele[] meiosis(float mutation, float crossover) {
 		Allele[] chromosome = new Allele[a.length];
-		int crossover_count = 0;
-		boolean anycrossover = MathUtils.randomBoolean();
+		int crossover_a = -1;
+		int crossover_b = -1;
+		boolean anycrossover = MathUtils.randomBoolean(); // Only 50% of chromosomes have crossover in diploids.
+		if(anycrossover){
+			if(MathUtils.randomBoolean(crossover)){
+				crossover_a = MathUtils.random(a.length);
+			}
+			if(MathUtils.randomBoolean(crossover)){
+				crossover_b = MathUtils.random(a.length);
+			}
+		}
 		boolean cAllele = MathUtils.randomBoolean();
 		for(int i=0; i<a.length; ++i) {
 			chromosome[i] = cAllele ? a[i] : b[i];
@@ -29,12 +38,8 @@ public class ChromosomePair {
 				System.out.println("MUTATION");
 				chromosome[i] = Allele.MUT;
 			}
-			if(anycrossover){
-				if(MathUtils.randomBoolean(crossover) && crossover_count < 2 && a[0] == Allele.MALE && b[0] != Allele.MALE){
-					++crossover_count;
-					cAllele = !cAllele;
-				}
-			}
+			if(i == crossover_a || i == crossover_b)
+				cAllele = !cAllele;
 		}
 		return chromosome;
 	}
