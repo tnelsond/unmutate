@@ -1,33 +1,33 @@
 
 gamegdx.png
-size: 1024,256
+size: 1024,1024
 format: RGBA8888
 filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 block
   rotate: false
-  xy: 870, 177
+  xy: 4, 142
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 bonefoot
   rotate: false
-  xy: 4, 53
+  xy: 4, 353
   size: 193, 67
   orig: 193, 67
   offset: 0, 0
   index: -1
 bow
   rotate: false
-  xy: 865, 101
+  xy: 400, 378
   size: 70, 42
   orig: 70, 42
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 363, 51
+  xy: 201, 353
   size: 18, 18
   split: 4, 6, 3, 3
   pad: 8, 9, 8, 9
@@ -36,7 +36,7 @@ box
   index: -1
 button_locked
   rotate: false
-  xy: 949, 149
+  xy: 83, 188
   size: 25, 29
   split: 13, 11, 16, 10
   pad: 12, 10, 16, 12
@@ -45,7 +45,7 @@ button_locked
   index: -1
 button_normal
   rotate: false
-  xy: 334, 44
+  xy: 807, 860
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -54,7 +54,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 978, 153
+  xy: 520, 547
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
@@ -63,106 +63,106 @@ button_pressed
   index: -1
 circlebody
   rotate: false
-  xy: 654, 124
+  xy: 4, 221
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 dirt
   rotate: false
-  xy: 386, 45
+  xy: 654, 810
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 dirtslant
   rotate: false
-  xy: 786, 93
+  xy: 520, 643
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 end
   rotate: false
-  xy: 949, 182
+  xy: 733, 815
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 591, 63
+  xy: 4, 4
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 eyewhite
   rotate: false
-  xy: 786, 172
+  xy: 520, 722
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 grass
   rotate: false
-  xy: 870, 147
+  xy: 839, 910
   size: 75, 26
   orig: 75, 26
   offset: 0, 0
   index: -1
 halo
   rotate: false
-  xy: 270, 16
+  xy: 136, 296
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
   index: -1
 hint
   rotate: false
-  xy: 512, 43
+  xy: 4, 63
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 horn
   rotate: false
-  xy: 465, 65
+  xy: 604, 747
   size: 43, 55
   orig: 43, 55
   offset: 0, 0
   index: -1
 joystickinner
   rotate: false
-  xy: 203, 6
+  xy: 520, 576
   size: 63, 63
   orig: 63, 63
   offset: 0, 0
   index: -1
 joystickouter
   rotate: false
-  xy: 520, 122
+  xy: 520, 806
   size: 130, 130
   orig: 130, 130
   offset: 0, 0
   index: -1
 pointfoot
   rotate: false
-  xy: 4, 4
+  xy: 201, 375
   size: 195, 45
   orig: 195, 45
   offset: 0, 0
   index: -1
 roundrectfoot
   rotate: false
-  xy: 201, 73
+  xy: 654, 889
   size: 181, 47
   orig: 181, 47
   offset: 0, 0
   index: -1
 sans
   rotate: false
-  xy: 4, 124
-  size: 512, 128
-  orig: 512, 128
+  xy: 4, 424
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1

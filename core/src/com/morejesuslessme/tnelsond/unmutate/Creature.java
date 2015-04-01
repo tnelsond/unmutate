@@ -103,13 +103,12 @@ public class Creature extends Rectangle{
 		}
 		secondaryColor = pigmentize(tempcolor, secondaryColor);
 		
-		hipWidth = 1 - hipWidth;
-		accel *= .08;
-		jump *= 7 * Math.sqrt((hipWidth + .2f));
+		accel *= .2;
+		jump *= 4 + Math.sqrt((1 - hipWidth)*2);
 		width *= 64;
 		legThick *= width*7/20;
 		legLength *= Creature.TLEG.w * width * 2.0f / TLEG.w;
-		speed *= Math.sqrt(legLength)/4/hipWidth;
+		speed *= (Math.sqrt(legLength) + hipWidth/2)/2;
 		height = legLength + width * .8f - legThick;
 
 		body = (Trect) Creature.TBODY.clone();
@@ -377,13 +376,14 @@ public class Creature extends Rectangle{
 		float lefta = 180 - righta;
 		float yleg = width * .3f + tempy;
 		
+		float ihipWidth = 1 - hipWidth;
 		batch.setColor(color);
-		batch.draw(regions[Creature.LEG], dx + width/4 + width/3 * hipWidth - legPivot, yleg - legThick, // Left
+		batch.draw(regions[Creature.LEG], dx + width/4 + width/3 * ihipWidth - legPivot, yleg - legThick, // Left
 				legPivot, legPivot, // originX, originY
 				legLength, legThick, // width, height
 				1, 1, // scaleX, scaleY
 				lefta/2 + 135); // rotation
-		batch.draw(regions[Creature.LEG], dx - width/4 + width - legThick - width/3 * hipWidth + legPivot, yleg - legThick,
+		batch.draw(regions[Creature.LEG], dx - width/4 + width - legThick - width/3 * ihipWidth + legPivot, yleg - legThick,
 				legPivot, legPivot, // originX, originY
 				legLength, legThick, // width, height
 				1, 1, // scaleX, scaleY

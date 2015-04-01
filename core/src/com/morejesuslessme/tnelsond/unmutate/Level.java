@@ -42,7 +42,7 @@ public class Level implements Json.Serializable{
 	public Color dirtColor2 = new Color(.3f, 0.16f, 0, 1);
 	public Color grassColor = new Color(.2f, .5f, 0, 1);
 	public Color skyColor = new Color(.4f, .8f, 1, 1);
-	public Color hintColor = new Color(.6f, .6f, 0, 1);
+	public Color hintColor = new Color(0f, .3f, 1, 1);
 
 	public static Json json;
 	public static Preferences prefLatest;
@@ -72,27 +72,18 @@ public class Level implements Json.Serializable{
 
 	public Genome getGenome(ChromosomePair[] c, Json j, String s, boolean f){
 		switch(chapter){
+			case 0:
+				if(c != null)
+					return new Genome00(c);
+				else if(j != null)
+					return j.fromJson(Genome00.class, s);
+				return new Genome00(f);
 			default:
-				switch(part){
-					case 1:
-						if(c != null)
-							return new Genome01(c);
-						else if(j != null)
-							return j.fromJson(Genome01.class, s);
-						return new Genome01(f);
-					case 2:
-						if(c != null)
-							return new Genome(c);
-						else if(j != null)
-							return j.fromJson(Genome.class, s);
-						return new Genome(f);
-					default:
-						if(c != null)
-							return new Genome00(c);
-						else if(j != null)
-							return j.fromJson(Genome00.class, s);
-						return new Genome00(f);
-				}
+				if(c != null)
+					return new Genome(c);
+				else if(j != null)
+					return j.fromJson(Genome.class, s);
+				return new Genome(f);
 		}
 	}
 

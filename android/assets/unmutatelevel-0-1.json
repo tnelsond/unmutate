@@ -1,4 +1,7 @@
 {
+	hints: ["The creatures are diploid. That means they have 2 copies of each gene, one from each parent.\nThe different versions of genes are called alleles and they occur at the same locus (spot).",
+					"Since the creatures carry 2 alleles per locus, they can have both an allele for pink skin and one for blue skin;\nhowever, since in this case the blue allele is dominant, the creature will be blue. And since pink is recessive, you need two copies of the pink allele to have a creature that is pink.",
+					"Creatures that have 2 blue skin alleles are indistinguishable from the creatures that only have 1. Creatures that only have blue alleles can only have blue children, but creatures with both a pink allele and a blue allele, they were able to have pink children."],
 	dirt: [.5, .4, 0],
 	dirt2: [.4, .3, 0],
 	grass: [.8, .8, 0],
@@ -13,11 +16,11 @@
 "####                     0                                   ##",
 "####      ##             0                                   ##",
 "####                     0                                   ##",
-"####                 #   0                                   ##",
-"####                     0                                   ##",
+"####                 b   0                                   ##",
+"####  a                  0                  c                ##",
 "###                      0                                   ##",
-"##             *         0                            ***    ##",
-"#              *  #      0                            ***    ##",
+"##                       0                            ***    ##",
+"#                 #      0                            ***    ##",
 "#     $ $ $ $   ####     0                            ***    ##",
 "######^^^^^^^^###################^^^^^^^^^^^^^#################"
 	]
