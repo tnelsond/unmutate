@@ -252,6 +252,11 @@ public class TInput implements InputProcessor {
 			case Keys.TAB:
 				tab();
 				break;
+			case Keys.P:
+				if(game.selectedCreature != null){
+					System.out.println(String.format("Color: (%f, %f, %f), (%f, %f, %f)", game.selectedCreature.color.r, game.selectedCreature.color.g, game.selectedCreature.color.b, game.selectedCreature.eyeColor.r, game.selectedCreature.eyeColor.g, game.selectedCreature.eyeColor.b));
+				}	
+				break;
 			case Keys.DEL:
 				kill();
 				break;

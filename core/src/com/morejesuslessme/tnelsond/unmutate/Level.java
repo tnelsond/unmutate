@@ -21,7 +21,7 @@ import java.lang.Character;
 import com.morejesuslessme.tnelsond.unmutate.genome.*;
 
 public class Level implements Json.Serializable{
-	public AtlasRegion dirt, slant, grass, end, block, hint;
+	public AtlasRegion dirt, slant, grass, end, block, hint, eye;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
@@ -176,7 +176,7 @@ public class Level implements Json.Serializable{
 				int i = 0;
 				do{
 					float[] colors = js2.asFloatArray();
-					special[i] = new Special(new Color(colors[0], colors[1], colors[2], 1), null);
+					special[i] = new Special(new Color(colors[0], colors[1], colors[2], 1), colors[3]);
 					++i;
 				}while((js2 = js2.next) != null);
 			}
@@ -277,6 +277,7 @@ public class Level implements Json.Serializable{
 		grass = atlas.findRegion("grass");
 		end = atlas.findRegion("end");
 		block = atlas.findRegion("block");
+		eye = atlas.findRegion("eye");
 		hint = atlas.findRegion("hint");
 	}
 
@@ -332,8 +333,12 @@ public class Level implements Json.Serializable{
 						tex = hint;
 					}
 					else if(isSpecial(blocks[r][c])){
-						batch.setColor(getSpecial(blocks[r][c]).outside);
-						tex = block;
+						Special spec = getSpecial(blocks[r][c]);
+						batch.setColor(spec.color);
+						if(spec.eye)
+							tex = eye;
+						else
+							tex = block;
 					}
 					else if(blocks[r][c] == Level.END){
 						tex = end;
