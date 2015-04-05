@@ -372,7 +372,8 @@ public class Creature extends Rectangle{
 		float righta = angle > 180 ? 180 - (angle) : angle - 180;
 		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25 + legLength/4.25);//width/2;
 		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25) + legLength - width/3 - legThick;//height - width;
-		float tempy = (float) (dy + (Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + legLength - legLength/3.2f - legThick) - 3;
+		//float tempy = (float) (dy + (Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + legLength - legLength/3.2f - legThick) - 3;
+		float tempy = (float) (dy + Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + (legLength - legPivot)*.4f + legLength*.32f - width*.2f;//width/2;
 		float lefta = 180 - righta;
 		float yleg = width * .3f + tempy;
 		

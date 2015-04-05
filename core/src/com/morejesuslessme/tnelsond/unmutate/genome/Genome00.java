@@ -25,7 +25,7 @@ public class Genome00 extends Genome{
 		super(female ?
 		(new Allele[][][] {
 			{ {Allele.DOM, Allele.DOM}},
-			{ {Allele.DOM, Allele.REC}},
+			{ {Allele.REC, Allele.DOM}},
 			{ {Allele.DOM, Allele.REC}},
 			{ {Allele.FEMALE, Allele.FEMALE}}})
 		:
