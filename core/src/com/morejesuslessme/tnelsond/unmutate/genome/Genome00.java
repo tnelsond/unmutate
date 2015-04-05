@@ -26,13 +26,13 @@ public class Genome00 extends Genome{
 		(new Allele[][][] {
 			{ {Allele.DOM, Allele.DOM}},
 			{ {Allele.DOM, Allele.REC}},
-			{ {Allele.REC, Allele.REC}},
+			{ {Allele.DOM, Allele.REC}},
 			{ {Allele.FEMALE, Allele.FEMALE}}})
 		:
 		(new Allele[][][] {
 			{ {Allele.REC, Allele.REC}},
 			{ {Allele.DOM, Allele.REC}},
-			{ {Allele.DOM, Allele.DOM}},
+			{ {Allele.DOM, Allele.REC}},
 			{ {Allele.MALE, Allele.FEMALE}}})
 		);
 	}
@@ -49,7 +49,7 @@ public class Genome00 extends Genome{
 		c.color.b = phenotype(i, j, false, 0.9f, 0.0f, 0);
 		// Chromosome 2
 		++i; j = 0;
-		c.legLength = phenotype(i, j, true, .6f, .3f, .1f);
+		c.legLength = phenotype(i, j, false, .6f, .3f, .1f);
 		// Chromosome 3
 		++i; j = 0;
 		c.eyeColor.g = phenotype(i, j, true, .7f, .3f, 0);

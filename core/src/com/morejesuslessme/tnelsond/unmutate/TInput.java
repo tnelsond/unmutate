@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -347,8 +348,13 @@ public class TInput implements InputProcessor {
 		if(game.selectedCreature == null){
 			game.camera.px = game.camera.x;
 			game.camera.py = game.camera.y;
-			game.camera.x -= sel.x - sel.ox;
-			game.camera.y += sel.y - sel.oy;
+			Vector2 pos1 = new Vector2(sel.x, sel.y);
+			pos1 = game.viewport.unproject(pos1);
+			Vector2 pos2 = new Vector2(sel.ox, sel.oy);
+			pos2 = game.viewport.unproject(pos2);
+			game.camera.x -= (pos1.x - pos2.x);
+			game.camera.y -= (pos1.y - pos2.y);
+
 		}
 	
 		return false;

@@ -41,7 +41,6 @@ public class TCamera extends OrthographicCamera{
 	public void update(float alpha){
 		px = x;
 		py = y;
-		float pvy = vy;
 		if(target != null){
 			float targy = target.calculateY(alpha);
 			x = target.calculateX(alpha) + target.width/2;
@@ -50,7 +49,7 @@ public class TCamera extends OrthographicCamera{
 				gy = targy;
 			}
 
-			float hm = viewportHeight/3f;
+			float hm = viewportHeight*.27f;
 			if(targy - hm + target.height > y){
 				y = targy - hm + target.height;
 			}
@@ -78,31 +77,22 @@ public class TCamera extends OrthographicCamera{
 		}
 
 		y += vy;
-		float dx = x;
-		float dy = y;
 		vy *= slowdown;
 
-/*
-		if(dx - viewportWidth/2 < 0){
-			dx = viewportWidth/2;
+		if(x - viewportWidth/2 <= 0 || viewportWidth > Level.currentlevel.w * Level.currentlevel.tile){
+			x = viewportWidth/2;	
 		}
-		else if(Level.currentlevel.w * Level.currentlevel.tile > viewportWidth
-					&& dx + viewportWidth/2 > Level.currentlevel.w * Level.currentlevel.tile){
-			dx = Level.currentlevel.w * Level.currentlevel.tile - viewportWidth;
+		else if(x + viewportWidth/2 >= Level.currentlevel.tile * Level.currentlevel.w){
+			x = Level.currentlevel.w * Level.currentlevel.tile - viewportWidth/2;	
 		}
-*/
+		if(y - viewportHeight/2 <= 0 || viewportHeight > Level.currentlevel.h * Level.currentlevel.tile){
+			y = viewportHeight/2;	
+		}
+		else if(y + viewportHeight/2 >= Level.currentlevel.tile * Level.currentlevel.h){
+			y = Level.currentlevel.h * Level.currentlevel.tile - viewportHeight/2;	
+		}
 
-/*
-		if(dy - viewportHeight/2 < 0){
-			dy = viewportHeight/2;
-		}
-		else if(Level.currentlevel.h * Level.currentlevel.tile > viewportHeight
-					&& dy + viewportHeight/2 > Level.currentlevel.h * Level.currentlevel.tile){
-			dy = Level.currentlevel.h * Level.currentlevel.tile - viewportHeight;
-		}
-*/
-
-		position.set(new Vector3(dx, dy, 0));
+		position.set(new Vector3(px + (x - px) * alpha, py + (y - py) * alpha, 0));
 
 		super.update();
 	}

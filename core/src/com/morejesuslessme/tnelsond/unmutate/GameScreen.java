@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.Preferences;
 
@@ -33,6 +34,7 @@ import com.badlogic.gdx.audio.Sound;
 public class GameScreen implements Screen {
 	public TCamera camera;
 	public Viewport viewport;
+	public ShapeRenderer shapeRenderer;
 
 	TParticleEffect deathFX;
 	TParticleEffect ascendFX;
@@ -141,7 +143,7 @@ public class GameScreen implements Screen {
 		loadCreatures();
 		selectedCreature = creatures[0];
 
-		// shapeRenderer = new ShapeRenderer();
+		shapeRenderer = new ShapeRenderer();
 		camera = new TCamera();
 		camera.setToOrtho(false);
 		viewport = new ExtendViewport(vieww, viewh, (OrthographicCamera) camera);
@@ -184,8 +186,14 @@ public class GameScreen implements Screen {
 		camera.setTarget(selectedCreature);
 		camera.update(alpha);
 
-		Gdx.gl.glClearColor(currentlevel.skyColor.r, currentlevel.skyColor.g, currentlevel.skyColor.b, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		shapeRenderer.setProjectionMatrix(camera.combined);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.setColor(currentlevel.skyColor.r, currentlevel.skyColor.g, currentlevel.skyColor.b, 1);
+		shapeRenderer.rect(0, 0, currentlevel.w * currentlevel.tile, currentlevel.h * currentlevel.tile);
+		shapeRenderer.end();
 
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
