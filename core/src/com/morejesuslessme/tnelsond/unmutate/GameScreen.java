@@ -213,7 +213,7 @@ public class GameScreen implements Screen {
 		if(selectedCreature != null){
 			float dx = selectedCreature.px + (selectedCreature.x - selectedCreature.px) * alpha;
 			float dy = selectedCreature.py + (selectedCreature.y - selectedCreature.py) * alpha;
-			game.batch.setColor(1, 0.5f, 0, 1);
+			game.batch.setColor(0.2f, 1f, 0, 1);
 			game.batch.draw(halo, dx + selectedCreature.width/2 - 16, dy + selectedCreature.height, 32, 32);
 		}
 
@@ -242,6 +242,9 @@ public class GameScreen implements Screen {
 				boolean any = false;
 				for(int i = creatures.length - 1; i >= 0; --i){
 					Creature c = creatures[i];
+					if(c != null && c.dead){
+						kill(c);
+					}
 					if(c != null && c.awake) {
 						if(c != selectedCreature && c.onGround && Math.abs(c.vx) < .0001 && c.vy > -0.0001 && c.tick > 3){
 							c.awake = false;

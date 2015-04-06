@@ -62,6 +62,7 @@ public class Creature extends Rectangle{
 
 	public boolean awake = true;
 	public boolean ascend = false;
+	public boolean dead = false;
 	public float pwalkStep = 0;
 	public float walkStep = 0;
 	public int tick = 0;
@@ -280,8 +281,10 @@ public class Creature extends Rectangle{
 			return;
 		if(r2 >= level.h)
 			r2 = level.h - 1;
-		if(r2 < 0)
+		if(r2 < 0){
+			dead = true;
 			return;
+		}
 		
 		if(v < 0) {
 			int temp = r1;
@@ -370,10 +373,7 @@ public class Creature extends Rectangle{
 		float legPivot = legThick/2 + 1;
 		float angle = Math.abs(dwalkStep*70) % (360);
 		float righta = angle > 180 ? 180 - (angle) : angle - 180;
-		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25 + legLength/4.25);//width/2;
-		//float tempy = (float) (y + Math.sin(righta/180*Math.PI + Math.PI)*legLength/4.25) + legLength - width/3 - legThick;//height - width;
-		//float tempy = (float) (dy + (Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + legLength - legLength/3.2f - legThick) - 3;
-		float tempy = (float) (dy + Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + (legLength - legPivot)*.4f + legLength*.32f - width*.2f;//width/2;
+		float tempy = (float) (dy + Math.sin(righta/180*Math.PI + Math.PI)*(legLength - legPivot)/3.6f) + (legLength - legPivot)*.4f + legLength*.32f - width*.2f - 2;//width/2;
 		float lefta = 180 - righta;
 		float yleg = width * .3f + tempy;
 		
