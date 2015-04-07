@@ -1,0 +1,5 @@
+Fix: Level restarts when phone falls asleep.
+Remove: Hitler reference?
+Add: Autofollow button?
+Status bar: # of breeds, 4/10 creatures.
+Add: Inspect traits button?

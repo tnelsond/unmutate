@@ -352,9 +352,9 @@ public class TInput implements InputProcessor {
 			pos1 = game.viewport.unproject(pos1);
 			Vector2 pos2 = new Vector2(sel.ox, sel.oy);
 			pos2 = game.viewport.unproject(pos2);
-			game.camera.x -= (pos1.x - pos2.x);
-			game.camera.y -= (pos1.y - pos2.y);
-
+			game.camera.x -= (pos1.x - pos2.x) * 3;
+			game.camera.y -= (pos1.y - pos2.y) * 3;
+			game.camera.update(0);
 		}
 	
 		return false;
