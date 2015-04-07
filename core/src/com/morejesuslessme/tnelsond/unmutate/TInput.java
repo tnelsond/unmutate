@@ -46,10 +46,12 @@ public class TInput implements InputProcessor {
 	GameScreen game;
 	Stage stage;
 	ExtendViewport viewport;
-	Label hint;
+	Label hint, ncreas;
+	int tcreas = 0;
 
 	public TInput(GameScreen game){
 		hint = new Label("", game.game.hintst);
+		ncreas = new Label("Creas: 0/10", game.game.hintst);
 		touchpadouter = game.game.atlas.findRegion("joystickouter");
 		touchpadinner = game.game.atlas.findRegion("joystickinner");
 		touchpad = new TTouch();
@@ -100,11 +102,14 @@ public class TInput implements InputProcessor {
 		b3.setColor(.9f, .0f, .0f, 1);
 		b4.setColor(.0f, .2f, .4f, 1);
 		table.add(b3).expandX().align(Align.left);
+		table.add(ncreas);
 		table.add(b).align(Align.right);
 		table.row();
 		table.add();
+		table.add();
 		table.add(b2).align(Align.right);
 		table.row();
+		table.add();
 		table.add();
 		table.add(b4).align(Align.right);
 
@@ -115,6 +120,11 @@ public class TInput implements InputProcessor {
 		//table.layout();
 	/*	stage.clear();
 */
+	}
+
+	public final void updatencreas(int num){
+		tcreas += num;
+		ncreas.setText(String.format("%d/10 creas", tcreas));
 	}
 
 	public final void deselect(){

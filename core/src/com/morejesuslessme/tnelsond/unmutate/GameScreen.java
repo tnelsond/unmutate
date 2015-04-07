@@ -101,6 +101,7 @@ public class GameScreen implements Screen {
 				otherparent.awake = true;
 				birthFX.addEffect(temp.x + temp.width/2, temp.y);
 				soundBirth.play(.9f);
+				control.updatencreas(1);
 			}
 		}
 
@@ -115,6 +116,7 @@ public class GameScreen implements Screen {
 						selectedCreature = null;
 
 					// Particle effect
+					control.updatencreas(-1);
 					if(c.ascend){
 						ascendFX.addEffect(c.x + c.width/2, c.y + c.height/2);
 					}
@@ -140,8 +142,6 @@ public class GameScreen implements Screen {
 
 		creatures = new Creature[10];
 
-		loadCreatures();
-		selectedCreature = creatures[0];
 
 		shapeRenderer = new ShapeRenderer();
 		camera = new TCamera();
@@ -152,6 +152,9 @@ public class GameScreen implements Screen {
 		InputMultiplexer im = new InputMultiplexer((InputProcessor)control.stage);
 		im.addProcessor(control);
 		Gdx.input.setInputProcessor(im);
+
+		loadCreatures();
+		selectedCreature = creatures[0];
 
 		deathFX = new TParticleEffect("fx/death.p", game.atlas);
 		ascendFX = new TParticleEffect("fx/ascend.p", game.atlas);
@@ -169,10 +172,12 @@ public class GameScreen implements Screen {
 			if(str.equals("null") || !currentlevel.carryover){
 				if(i <= 1){
 					creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, currentlevel.getGenome(null, null, null, (i % 2 == 0) ? false : true), game.atlas);
+					control.updatencreas(1);
 				}
 			}
 			else{
 				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, currentlevel.getGenome(null, game.json, str, false), game.atlas);
+				control.updatencreas(1);
 			}
 		}
 	}
