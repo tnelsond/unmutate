@@ -48,8 +48,8 @@ public class Unmutate extends Game {
 		bs = skin.get("default", TextButtonStyle.class);
 		bs_locked = skin.get("locked", TextButtonStyle.class);
 		bgmusic = new TMusic();
-		//musicthread = new Thread(bgmusic);
-		//musicthread.start();
+		musicthread = new Thread(bgmusic);
+		musicthread.start();
 
 		this.setScreen(new ChapterSelectScreen(this));
 		//this.setScreen(new GameScreen(this));
@@ -63,7 +63,6 @@ public class Unmutate extends Game {
 		super.dispose();
 		batch.dispose();
 		font.dispose();
-		/*
 		if(bgmusic != null){
 			try{
 				musicthread.interrupt();
@@ -74,6 +73,5 @@ public class Unmutate extends Game {
 			}
 			Gdx.app.log(Unmutate.tag, "MUSIC THREAD STOPPED");
 		}
-		*/
 	}
 }

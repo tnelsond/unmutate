@@ -23,7 +23,7 @@ public class TNote{
 	public float input = 0;
 	public boolean blend = false;
 	public Scanner sc;
-	//public float vibratofreq;
+	public float vibratofact;
 	//public float vibratospeed;
 	//public float vibratoair;
 
@@ -36,7 +36,7 @@ public class TNote{
 		setTempo(sc.nextInt());
 		this.defaultdecay = decayrate;
 		//this.vibratospeed = 80f/samplerate;
-		//this.vibratofreq = 0.000001f;
+		this.vibratofact = 20f/samplerate;
 		//this.vibratoair = 0.05f;
 	}
 
@@ -186,30 +186,30 @@ public class TNote{
 			pos = 0;
 			set();
 		}
-		float vol = getVolume(pos);// + getVibrato(pos) * vibratoair;
-		//if(vol < 0)
-			//vol = 0;
-		return wave(pos) * vol;
+		float vol = getVolume(pos);
+		return wave(pos)*0.8f * vol;
 	}
 
 	public float wave(int pos){
+		float vibrato = MathUtils.sin(pos*vibratofact) * 0.003f + 1f;
 		step += stepchange;
 		if(step != goalstep && pos >= attack){
 			stepchange = 0;
 			step = goalstep;
 		}
-		input += step;
-		return MathUtils.sin(input);// + getVibrato(pos) * vibratofreq)) * vol;
+		input += step*vibrato;
+		return MathUtils.sin(input) + MathUtils.sin(input/2)/8f + MathUtils.sin(input/4)/32f + MathUtils.sin(input*2)/32f;// + getVibrato(pos) * vibratofreq)) * vol;
 		//return (pos%freq)/(freq2) - 1;// + getVibrato(pos) * vibratofreq)) * vol;
 	}
 
 	public float getVolume(int pos){
+		float tremolo = (MathUtils.sin(pos*vibratofact) + 1) / 8f + 1 - 1/4f;
 		if(pos < attack && stepchange == 0){
-			return (float)Math.sqrt(pos / attack);
+			return (float)Math.sqrt(pos / attack)*tremolo;
 		}
 		if(pos <= duration - decay){
-			return 1f;
+			return tremolo;
 		}
-		return (float)Math.sqrt((duration - pos) / decay);
+		return (float)Math.sqrt((duration - pos) / decay)*tremolo;
 	}
 }

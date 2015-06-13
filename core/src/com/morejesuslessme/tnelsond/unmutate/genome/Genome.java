@@ -16,7 +16,7 @@ public class Genome {
 	public Allele[] male;
 
 	public float MUTATION = 0.00f;
-	public float CROSSOVER = 0.0f;
+	public float CROSSOVER = 0.3f;
 
 	public void initLOCUS(){
 		LOCUS = new int[]{
