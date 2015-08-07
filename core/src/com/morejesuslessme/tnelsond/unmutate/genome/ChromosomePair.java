@@ -4,10 +4,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.math.MathUtils;
 
 public class ChromosomePair {
-	public Allele[] a;
-	public Allele[] b;
+	public int[] a;
+	public int[] b;
 
-	public ChromosomePair(Allele[] a, Allele[] b) {
+	public ChromosomePair(int[] a, int[] b) {
 		this.a = a;
 		this.b = b;
 	}
@@ -18,8 +18,8 @@ public class ChromosomePair {
 		b = null;
 	}
 
-	public Allele[] meiosis(float mutation, float crossover) {
-		Allele[] chromosome = new Allele[a.length];
+	public int[] meiosis(float mutation, float crossover) {
+		int[] chromosome = new int[a.length];
 		int crossover_a = -1;
 		int crossover_b = -1;
 		boolean anycrossover = MathUtils.randomBoolean(); // Only 50% of chromosomes have crossover in diploids.

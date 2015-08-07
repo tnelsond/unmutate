@@ -166,19 +166,9 @@ public class GameScreen implements Screen {
 	}
 
 	public void loadCreatures(){
-		for(int i = 0; i < currentlevel.spawns.length; ++i){
-			String key = ((i % 2 == 0) ? "male" : "female") + i/2;
-			String str = currentlevel.pref.getString(key, "null");
-			if(str.equals("null") || !currentlevel.carryover){
-				if(i <= 1){
-					creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, currentlevel.getGenome(null, null, null, (i % 2 == 0) ? false : true), game.atlas);
-					control.updatestatus(1, 0);
-				}
-			}
-			else{
-				creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, currentlevel.getGenome(null, game.json, str, false), game.atlas);
-				control.updatestatus(1, 0);
-			}
+		for(int i = 0; i < currentlevel.chromosomes.length; ++i){
+			creatures[i] = new Creature(currentlevel.spawns[i].c * currentlevel.tile, currentlevel.spawns[i].r * currentlevel.tile, currentlevel.getGenome(i, null), game.atlas);
+			control.updatestatus(1, 0);
 		}
 	}
 

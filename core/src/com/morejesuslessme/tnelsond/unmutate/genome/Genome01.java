@@ -17,44 +17,6 @@ public class Genome01 extends Genome{
 		super(c);
 	}
 	
-	public Genome01(){
-		super();
-	}
-
-	public Genome01(boolean female){
-		super(female ?
-		(new Allele[][][] {
-			{{Allele.DOM, Allele.DOM},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM}},
-			{{Allele.DOM, Allele.DOM},
-			 {Allele.REC, Allele.DOM}},
-			{{Allele.DOM, Allele.DOM},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM}},
-			{{Allele.FEMALE, Allele.FEMALE},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM}}})
-		:
-		(new Allele[][][] {
-			{{Allele.DOM, Allele.DOM},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM}},
-			{{Allele.DOM, Allele.DOM},
-			 {Allele.REC, Allele.DOM}},
-			{{Allele.DOM, Allele.DOM},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM}},
-			{{Allele.MALE, Allele.FEMALE},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM},
-			 {Allele.REC, Allele.DOM}}})
-		);
-	}
-
 	public void express(Creature c){
 		int i = 0;
 		int j = 0;

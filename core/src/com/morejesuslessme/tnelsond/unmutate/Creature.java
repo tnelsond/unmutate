@@ -53,7 +53,7 @@ public class Creature extends Rectangle{
 
 	public float jump = 1;
 	
-	public Genome.Sex sex;
+	public int sex;
 	public Genome g;
 	
 	// Movement flags

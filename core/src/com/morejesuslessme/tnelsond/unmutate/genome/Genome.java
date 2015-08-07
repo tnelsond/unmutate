@@ -5,15 +5,15 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.morejesuslessme.tnelsond.unmutate.*;
 
 public class Genome {
-	public enum Sex {
-		MALE, FEMALE, STERILE
+	public class Sex {
+		public static final int MALE = 4, FEMALE = 2, STERILE = 1;
 	}
 	public final ChromosomePair[] chromosomes;
 	public int[] LOCUS;
 
-	public Allele[] femalea;
-	public Allele[] femaleb;
-	public Allele[] male;
+	public int[] femalea;
+	public int[] femaleb;
+	public int[] male;
 
 	public float MUTATION = 0.00f;
 	public float CROSSOVER = 0.3f;
@@ -27,13 +27,13 @@ public class Genome {
 		};
 	}
 
-	public Genome(Allele[][][] c) {
+	public Genome(int[][][] c) {
 		initLOCUS();
 		chromosomes = new ChromosomePair[LOCUS.length];
 		for(int i=0; i<LOCUS.length; ++i){
 			int size = c[i].length;
-			Allele[] tempa = new Allele[size];
-			Allele[] tempb = new Allele[size];
+			int[] tempa = new int[size];
+			int[] tempb = new int[size];
 			for(int j=0; j<size; ++j) {
 				tempa[j] = c[i][j][0];
 				tempb[j] = c[i][j][1];
@@ -53,52 +53,12 @@ public class Genome {
 		chromosomes = null;
 	}
 	
-	public Genome(boolean female){
-		this(female ?
-			(new Allele[][][] {
-				{ { Allele.DOM, Allele.DOM },
-					{ Allele.DOM, Allele.REC },
-					{ Allele.DOM, Allele.DOM },
-					{ Allele.REC, Allele.DOM },
-					{ Allele.REC, Allele.DOM },
-					{ Allele.REC, Allele.DOM }, },
-				{ { Allele.REC, Allele.DOM },
-					{ Allele.REC, Allele.DOM },
-					{ Allele.DOM, Allele.REC }, },
-				{ { Allele.DOM, Allele.DOM },
-					{ Allele.DOM, Allele.REC },
-					{ Allele.DOM, Allele.DOM },
-					{ Allele.DOM, Allele.REC }, },
-				{ { Allele.FEMALE, Allele.FEMALE },
-					{ Allele.REC, Allele.DOM },
-					{ Allele.DOM, Allele.DOM }}})
-			:
-			(new Allele[][][] {
-				{ { Allele.DOM, Allele.REC },
-					{ Allele.REC, Allele.REC },
-					{ Allele.REC, Allele.DOM },
-					{ Allele.DOM, Allele.REC },
-					{ Allele.REC, Allele.REC },
-					{ Allele.REC, Allele.DOM }, },
-				{ { Allele.REC, Allele.DOM },
-					{ Allele.REC, Allele.REC },
-					{ Allele.REC, Allele.REC }, },
-				{ { Allele.REC, Allele.REC },
-					{ Allele.REC, Allele.REC },
-					{ Allele.REC, Allele.REC },
-					{ Allele.REC, Allele.REC }, },
-				{ { Allele.MALE, Allele.FEMALE },
-					{ Allele.DOM, Allele.REC },
-					{ Allele.REC, Allele.REC }}})
-		);
-	}
-	
 	public final Genome breed(Genome other) {
 		ChromosomePair[] childc = new ChromosomePair[LOCUS.length]; 
 		for(int i=0; i<chromosomes.length; ++i) {
 			childc[i] = new ChromosomePair(chromosomes[i].meiosis(MUTATION, CROSSOVER), other.chromosomes[i].meiosis(other.MUTATION, other.CROSSOVER));
 		}
-		return Level.currentlevel.getGenome(childc, null, null,  false);
+		return Level.currentlevel.getGenome(0, childc);
 	}
 	
 	// Master inheritance function
@@ -140,14 +100,14 @@ public class Genome {
 				: mut );
 	}
 
-	public final boolean phenotypeSex(int i, int j, boolean homo, Allele flag){
+	public final boolean phenotypeSex(int i, int j, boolean homo, int flag){
 		if(homo)
 			return femalea[j] == flag && femaleb[j] == flag;
 		return femalea[j] == flag || femaleb[j] == flag;
 	}
 
 
-	public final boolean phenotype(int i, int j, boolean homo, Allele flag){
+	public final boolean phenotype(int i, int j, boolean homo, int flag){
 		if(homo)
 			return chromosomes[i].a[j] == flag && chromosomes[i].b[j] == flag;
 		return chromosomes[i].a[j] == flag || chromosomes[i].b[j] == flag;
@@ -216,8 +176,8 @@ public class Genome {
 	}
 
 	public final void setupSex(int i, int j, Creature c){
-		Allele ca = chromosomes[i].a[j];
-		Allele cb = chromosomes[i].b[j];
+		int ca = chromosomes[i].a[j];
+		int cb = chromosomes[i].b[j];
 		if(ca == cb && ca == Allele.FEMALE){
 			femalea = chromosomes[i].a;
 			femaleb = chromosomes[i].b;
