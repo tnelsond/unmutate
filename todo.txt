@@ -1,6 +1,7 @@
 Fix: Level restarts when phone falls asleep.
 Remove: Hitler reference?
-Add: Autofollow button?
-Status bar: # of breeds, 4/10 creatures.
+Finish: Levels and help text;
+Finish: Genomes;
+Add: Lava blocks;
 Add: Inspect traits button?
 Change: Make the music be based off the genome of the currently selected creature.
