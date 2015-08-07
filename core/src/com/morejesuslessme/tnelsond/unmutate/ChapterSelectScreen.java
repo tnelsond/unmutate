@@ -39,10 +39,10 @@ public class ChapterSelectScreen implements Screen {
 		table.row();
 		for(int chapter = 0; chapter < Level.levels.length; ++chapter){
 			final TextButton chapterb = new TextButton("" + chapter, chapter > Level.newchapter ? game.bs_locked : game.bs);
-			if(chapter == Level.newchapter){
+			if(chapter == Level.latestChapter){
 				chapterb.setColor(1, 0, 0, 1);
 			}
-			else if(chapter > Level.newchapter){
+			else if(chapter > Level.latestChapter){
 				chapterb.setDisabled(true);
 				chapterb.setColor(.2f, .2f, .2f, 1);
 			}

@@ -12,29 +12,9 @@ public class Genome00 extends Genome{
 		};
 		MUTATION = 0;
 	}
-
+	
 	public Genome00(ChromosomePair[] c){
 		super(c);
-	}
-	
-	public Genome00(){
-		super();
-	}
-
-	public Genome00(boolean female){
-		super(female ?
-		(new Allele[][][] {
-			{ {Allele.DOM, Allele.DOM}},
-			{ {Allele.REC, Allele.DOM}},
-			{ {Allele.DOM, Allele.REC}},
-			{ {Allele.FEMALE, Allele.FEMALE}}})
-		:
-		(new Allele[][][] {
-			{ {Allele.REC, Allele.REC}},
-			{ {Allele.DOM, Allele.REC}},
-			{ {Allele.DOM, Allele.REC}},
-			{ {Allele.MALE, Allele.FEMALE}}})
-		);
 	}
 
 	public void express(Creature c){

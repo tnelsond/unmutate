@@ -3,3 +3,4 @@ Remove: Hitler reference?
 Add: Autofollow button?
 Status bar: # of breeds, 4/10 creatures.
 Add: Inspect traits button?
+Change: Make the music be based off the genome of the currently selected creature.

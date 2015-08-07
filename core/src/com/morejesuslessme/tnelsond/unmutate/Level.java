@@ -26,7 +26,6 @@ public class Level implements Json.Serializable{
 	public int h = 16;
 	public int tile = 32;
 	public int blocks[][];
-	public boolean carryover = false;
 	public Index[] spawns = new Index[4];
 	public boolean male = false;
 	public boolean female = false;
@@ -43,11 +42,10 @@ public class Level implements Json.Serializable{
 	public Color grassColor = new Color(.2f, .5f, 0, 1);
 	public Color skyColor = new Color(.4f, .8f, 1, 1);
 	public Color hintColor = new Color(0f, .3f, 1, 1);
+	public ChromosomePair[][] chromosomes;
 
 	public static Json json;
 	public static Preferences prefLatest;
-	public static Preferences pref;
-	public static Preferences prefNext;
 
 	// START Static Stuff
 	public final static int NONE = 1;
@@ -59,63 +57,47 @@ public class Level implements Json.Serializable{
 	public final static int HINT_LAST = HINT_FIRST + 26;
 	public int chapter = 0;
 	public int part = 0;
+	public int finishgoal = Genome.Sex.MALE | Genome.Sex.FEMALE;
+	public int finish = 0;
+	public static int latestChapter = 0;
+	public static int latestPart = 0;
 	public static int newchapter = 0;
 	public static int currentgenome = 0;
 	public static String prefix = "unmutatelevel";
-	public static int[] levels = {3};
+	public static int[] levels = {3, 0};
 	public static Level currentlevel = null;
 
 	public static void initPrefLatest(){
 		prefLatest = Gdx.app.getPreferences("main.pref");
-		Level.newchapter = prefLatest.getInteger("chapter", 0);
+		Level.latestChapter = prefLatest.getInteger("chapter", 0);
+		Level.latestPart = prefLatest.getInteger("part", 0);
+		Gdx.app.log(Unmutate.tag, " " + Level.latestChapter + " - " +  Level.latestPart);
 	}
 
-	public Genome getGenome(ChromosomePair[] c, Json j, String s, boolean f){
+	public Genome getGenome(int index, ChromosomePair[] c){
+		if(index >= chromosomes.length){
+			index = chromosomes.length - 1;
+		}
+		if(c == null){
+			if(chromosomes != null){
+				c = chromosomes[index];
+			}
+			else{
+				Gdx.app.log(Unmutate.tag, "ERROR! No genotypes specified for level.");
+			}
+		}
+		Gdx.app.log(Unmutate.tag, " " + c);
 		switch(chapter){
 			case 0:
-				if(c != null)
-					return new Genome00(c);
-				else if(j != null)
-					return j.fromJson(Genome00.class, s);
-				return new Genome00(f);
-			default:
-				if(c != null)
-					return new Genome(c);
-				else if(j != null)
-					return j.fromJson(Genome.class, s);
-				return new Genome(f);
+				return new Genome00(c);
+			case 1:
+				return new Genome01(c);
 		}
+		return null;
 	}
 
 	public void ascend(Creature c){
-		for(int i = 0; i < 2; ++i){
-			String value;
-			String key;
-			if(c.sex == Genome.Sex.MALE){
-				key = "male" + i;
-				value = prefNext.getString(key, "null");
-			}
-			else if(c.sex == Genome.Sex.FEMALE){
-				key = "female" + i;
-				value = prefNext.getString(key, "null");
-			}
-			else{
-				return;
-			}
-			if(value.equals("null")){
-				String str = json.toJson(c.g);
-				prefNext.putString(key, str);
-				if(c.sex == Genome.Sex.MALE){
-					male = true;
-				}
-				else if(c.sex == Genome.Sex.FEMALE){
-					female = true;
-				}
-
-				break;
-			}
-		}
-		prefNext.flush();
+		finish |= c.sex;
 	}
 
 	public static String getLevelName(String extension, int chapter, int part){
@@ -127,7 +109,6 @@ public class Level implements Json.Serializable{
 		Level.currentlevel.chapter = chapter;
 		Level.currentlevel.part = part;
 		Level.currentlevel.setupTextures(game.atlas);
-		Level.currentlevel.setupPrefs();
 		return currentlevel;
 	}
 
@@ -143,9 +124,6 @@ public class Level implements Json.Serializable{
 				dirtColor.r = colors[0];
 				dirtColor.g = colors[1];
 				dirtColor.b = colors[2];
-			}
-			else if(js.name().equals("carryover")){
-				carryover = js.asBoolean();	
 			}
 			else if(js.name().equals("dirt2")){
 				float[] colors = js.asFloatArray();
@@ -172,7 +150,7 @@ public class Level implements Json.Serializable{
 				hintColor.b = colors[2];
 			}
 			else if(js.name().equals("special")){
-				JsonValue js2 = js.child();
+				JsonValue js2 = js.child;
 				int i = 0;
 				do{
 					float[] colors = js2.asFloatArray();
@@ -182,6 +160,24 @@ public class Level implements Json.Serializable{
 			}
 			else if(js.name().equals("hints")){
 				hints = js.asStringArray();
+			}
+			else if(js.name().equals("crea")){
+				chromosomes = new ChromosomePair[js.size][];
+				JsonValue js2 = js.child;
+				int ci = 0;
+				do{
+					JsonValue jsa = js2.child;
+					JsonValue jsb;
+					chromosomes[ci] = new ChromosomePair[js2.size / 2];
+					int i = 0;
+					do{
+						jsb = jsa.next();
+						chromosomes[ci][i] = new ChromosomePair(jsa.asIntArray(), jsb.asIntArray());
+						//Gdx.app.log(Unmutate.tag, " " + chromosomes[ci][i]);
+						++i;
+					}while((jsa = jsb.next) != null);
+					++ci;
+				}while((js2 = js2.next) != null);
 			}
 			else if(js.name().equals("map")){
 				String[] btext = js.asStringArray();
@@ -285,34 +281,31 @@ public class Level implements Json.Serializable{
 	public Level(){
 	}
 
-	public void setupPrefs(){
-		pref = Gdx.app.getPreferences(Level.getLevelName(".pref", chapter, part));
-		prefNext = Gdx.app.getPreferences(Level.getLevelName(".pref", chapter, part + 1));
-		prefNext.clear();
-	}
-
 	public boolean done(){
-		return male && female;
+		return finish >= finishgoal;
 	}
 
 	public void nextLevel(GameScreen game){	
-		boolean finishedchapter = false;
 		if(done()){
 			if(part >= levels[chapter]){
-				finishedchapter = true;
+				if(chapter == latestChapter){
+					chapter = ++latestChapter;
+					part = latestPart = 0;
+					prefLatest.putInteger("chapter", latestChapter);
+					prefLatest.putInteger("part", latestPart);
+					prefLatest.flush();
+				}
+				game.game.setScreen(new ChapterSelectScreen(game.game));
 			}
-			prefNext.putBoolean("c", true);
-			prefNext.flush();
+			else{
+				if(latestChapter == chapter && part == latestPart){
+					part = ++latestPart;
+					prefLatest.putInteger("part", latestPart);
+					prefLatest.flush();
+				}
+				game.game.setScreen(new PartSelectScreen(game.game, chapter));
+			}
 		}
-		if(finishedchapter){
-			Level.newchapter = chapter + 1;
-			prefLatest.putInteger("chapter", Level.newchapter);
-			prefLatest.flush();
-			game.game.setScreen(new ChapterSelectScreen(game.game));
-		}
-		else
-			game.game.setScreen(new PartSelectScreen(game.game, chapter));
-
 		game.dispose();
 	}
 
