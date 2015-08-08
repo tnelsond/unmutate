@@ -6,28 +6,28 @@ filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 block
   rotate: false
-  xy: 4, 116
+  xy: 4, 179
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 bonefoot
   rotate: false
-  xy: 4, 327
+  xy: 4, 390
   size: 193, 67
   orig: 193, 67
   offset: 0, 0
   index: -1
 bow
   rotate: false
-  xy: 400, 352
+  xy: 400, 415
   size: 70, 42
   orig: 70, 42
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 201, 327
+  xy: 201, 390
   size: 18, 18
   split: 4, 6, 3, 3
   pad: 8, 9, 8, 9
@@ -36,7 +36,7 @@ box
   index: -1
 button_locked
   rotate: false
-  xy: 4, 4
+  xy: 520, 573
   size: 25, 29
   split: 13, 11, 16, 10
   pad: 12, 10, 16, 12
@@ -45,7 +45,7 @@ button_locked
   index: -1
 button_normal
   rotate: false
-  xy: 807, 834
+  xy: 4, 4
   size: 25, 25
   split: 12, 12, 10, 11
   pad: 10, 10, 12, 12
@@ -54,7 +54,7 @@ button_normal
   index: -1
 button_pressed
   rotate: false
-  xy: 520, 521
+  xy: 474, 432
   size: 25, 25
   split: 12, 12, 12, 12
   pad: 11, 11, 11, 11
@@ -63,105 +63,112 @@ button_pressed
   index: -1
 circlebody
   rotate: false
-  xy: 4, 195
+  xy: 4, 258
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 dirt
   rotate: false
-  xy: 654, 784
+  xy: 654, 847
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 dirtslant
   rotate: false
-  xy: 520, 617
+  xy: 520, 680
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 end
   rotate: false
-  xy: 733, 789
+  xy: 520, 606
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 eye
   rotate: false
-  xy: 136, 268
+  xy: 136, 331
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 eyewhite
   rotate: false
-  xy: 520, 696
+  xy: 520, 759
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 grass
   rotate: false
-  xy: 839, 884
+  xy: 839, 947
   size: 75, 26
   orig: 75, 26
   offset: 0, 0
   index: -1
 halo
   rotate: false
-  xy: 83, 161
+  xy: 83, 224
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
 hint
   rotate: false
-  xy: 4, 37
+  xy: 4, 100
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 horn
   rotate: false
-  xy: 604, 721
+  xy: 604, 784
   size: 43, 55
   orig: 43, 55
   offset: 0, 0
   index: -1
 joystickinner
   rotate: false
-  xy: 520, 550
+  xy: 4, 33
   size: 63, 63
   orig: 63, 63
   offset: 0, 0
   index: -1
 joystickouter
   rotate: false
-  xy: 520, 780
+  xy: 520, 843
   size: 130, 130
   orig: 130, 130
   offset: 0, 0
   index: -1
+lava
+  rotate: false
+  xy: 733, 847
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: -1
 pointfoot
   rotate: false
-  xy: 201, 349
+  xy: 201, 412
   size: 195, 45
   orig: 195, 45
   offset: 0, 0
   index: -1
 roundrectfoot
   rotate: false
-  xy: 654, 863
+  xy: 654, 926
   size: 181, 47
   orig: 181, 47
   offset: 0, 0
   index: -1
 sans
   rotate: false
-  xy: 4, 398
+  xy: 4, 461
   size: 512, 512
   orig: 512, 512
   offset: 0, 0

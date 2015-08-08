@@ -21,7 +21,7 @@ import java.lang.Character;
 import com.morejesuslessme.tnelsond.unmutate.genome.*;
 
 public class Level implements Json.Serializable{
-	public AtlasRegion dirt, slant, grass, end, block, hint, eye;
+	public AtlasRegion dirt, slant, grass, end, block, hint, eye, lava;
 	public int w = 12;
 	public int h = 16;
 	public int tile = 32;
@@ -40,6 +40,7 @@ public class Level implements Json.Serializable{
 	public Color dirtColor = new Color(.4f, 0.2f, 0, 1);
 	public Color dirtColor2 = new Color(.3f, 0.16f, 0, 1);
 	public Color grassColor = new Color(.2f, .5f, 0, 1);
+	public Color lavaColor = new Color(.9f, .0f, 0, 1);
 	public Color skyColor = new Color(.4f, .8f, 1, 1);
 	public Color hintColor = new Color(0f, .3f, 1, 1);
 	public ChromosomePair[][] chromosomes;
@@ -137,6 +138,12 @@ public class Level implements Json.Serializable{
 				grassColor.g = colors[1];
 				grassColor.b = colors[2];
 			}
+			else if(js.name().equals("lava")){
+				float[] colors = js.asFloatArray();
+				lavaColor.r = colors[0];
+				lavaColor.g = colors[1];
+				lavaColor.b = colors[2];
+			}
 			else if(js.name().equals("sky")){
 				float[] colors = js.asFloatArray();
 				skyColor.r = colors[0];
@@ -201,7 +208,7 @@ public class Level implements Json.Serializable{
 						else if(ch == '*'){
 							blocks[row][col] = Level.END;
 						}
-						else if(ch == '^'){
+						else if(ch == '='){
 							blocks[row][col] = Level.DEATH;
 						}
 						else if(ch == '$'){
@@ -271,6 +278,7 @@ public class Level implements Json.Serializable{
 		dirt = atlas.findRegion("dirt");
 		slant = atlas.findRegion("dirtslant");
 		grass = atlas.findRegion("grass");
+		lava = atlas.findRegion("lava");
 		end = atlas.findRegion("end");
 		block = atlas.findRegion("block");
 		eye = atlas.findRegion("eye");
@@ -332,6 +340,10 @@ public class Level implements Json.Serializable{
 							tex = eye;
 						else
 							tex = block;
+					}
+					else if(blocks[r][c] == Level.DEATH){
+						tex = lava;
+						batch.setColor(lavaColor);
 					}
 					else if(blocks[r][c] == Level.END){
 						tex = end;

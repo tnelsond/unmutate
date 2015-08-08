@@ -321,6 +321,9 @@ public class Creature extends Rectangle{
 			while(col.hasNext()) {
 				c = (Integer) col.next();
 				int b = level.blocks[r][c];
+				if(b == Level.DEATH){
+					dead = true;
+				}
 				if(b == Level.END){
 					ascend = true;
 				}
