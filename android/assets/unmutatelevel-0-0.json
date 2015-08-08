@@ -2,8 +2,7 @@
 	hints: ["To breed two creatures, you need to have a male (they have a horn) and a female (they have bows) overlapping on the same patch of grass.\nThen press the `breed' button.",
 "You can only have 10 creatures at a time, so kill the ones you don't need.\nDon't worry, you're not Hitler just because you killed some of these animals.",
 "Genes are the unit of heritable information. The creature gets two of each gene, one from each of its parents.",
-"The different ``versions'' of genes are called alleles. In these creatures, there is an allele for red skin color, and an allele for blue skin color; and if a creature has both alleles, then it'll be purple. This type of inheritance is called incomplete dominance.",
-"You need to get a male and a female to the stars.\nThen you click on the stars to finish the level."],
+"The different ``versions'' of genes are called alleles. In these creatures, there is an allele for red skin color, and an allele for blue skin color; and if a creature has both alleles, then it'll be purple. This type of inheritance is called incomplete dominance."],
 	dirt: [.5, .4, 0],
 	dirt2: [.4, .3, 0],
 	grass: [.8, .8, 0],
@@ -12,15 +11,15 @@
 	crea:
 	[
 		[
-			[1], [2],
-			[1], [2],
-			[1], [2],
+			[2], [2],
+			[2], [2],
+			[1], [1],
 			[8], [4]
 		],
 		[
-			[1], [2],
-			[1], [2],
-			[1], [2],
+			[1], [1],
+			[1], [1],
+			[2], [2],
 			[8], [8]
 		]
 	],
@@ -33,8 +32,8 @@
 "####      ##             0                                   ##",
 "####                     0                                   ##",
 "####                 b   0                                   ##",
-"####  a                  0       c                           ##",
-"###                      0               d        e          ##",
+"####  a                  0       c          d                ##",
+"###                      0                                   ##",
 "##                       0                               ****##",
 "#                 #      0                               ****##",
 "#     $ $ $ $   ####     0                               ****##",

@@ -83,15 +83,13 @@ public class TMusic implements Runnable{
 
 	public TMusic(){
 		Random ran = new Random();
-		TNote flute = new TNote(samplerate, new Scanner(Gdx.files.internal("songs/01.tly").read()), 0, 1/4f, 1/8f, 1/4f);
+		TNote flute = new TNote(samplerate, new Scanner(Gdx.files.internal("songs/00.tly").read()), 0, 1/4f, 1/8f, 1/4f);
 		samples = flute.write();
-		/* Eccho
 		for(int i = 0; i < samples.length - samplerate/6; ++i){
 			samples[i + samplerate/12] += samples[i]/4;
 			samples[i + samplerate/7] += samples[i]/8;
 			samples[i + samplerate/6] += samples[i]/10;
 		}
-		*/
 	}
 
 	public void run(){

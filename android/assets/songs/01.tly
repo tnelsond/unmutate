@@ -1,18 +1,15 @@
-70 16
-f8 f f
-d4. f8 f f g g
-eb4 g4. g8 g g
-f4. d8 f f eb 8
-d2~ d8 f f f
-d4. f8 f f g g
-eb4 g4. g8 g g
-f4. d8 f f eb 8
-d2~ d8 f8 f bb
-d4.' c'8 bb a bb8. g16
-f2~ f8 bb8 bb a
-c2~ c8 geb g f
-d2~ d8 f f bb
-d'4. c8' bb8 a bb8. g16
-f2~ f8 bb a bb
-c2'~ 8 d' eb' a
-bb2~ 8
+190 16
+b4 b c' d'
+d' c' b a
+g g a b b4. a8 2
+b4 b c' d'
+d' c' b a
+g g a b a4. g8 2
+a4 a b g
+a b8~ c' b4 g
+a b8~ c' b4 a
+g a d2
+b4 b c' d'
+d' c' b a
+g g a b
+a4. g8 2

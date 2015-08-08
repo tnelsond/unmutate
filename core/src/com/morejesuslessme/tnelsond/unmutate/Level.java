@@ -58,7 +58,7 @@ public class Level implements Json.Serializable{
 	public final static int HINT_LAST = HINT_FIRST + 26;
 	public int chapter = 0;
 	public int part = 0;
-	public int finishgoal = Genome.Sex.MALE | Genome.Sex.FEMALE;
+	public int finishgoal = Genome.Sex.STERILE;
 	public int finish = 0;
 	public static int latestChapter = 0;
 	public static int latestPart = 0;
@@ -125,6 +125,9 @@ public class Level implements Json.Serializable{
 				dirtColor.r = colors[0];
 				dirtColor.g = colors[1];
 				dirtColor.b = colors[2];
+			}
+			else if(js.name().equals("goal")){
+				finishgoal = js.asInt();
 			}
 			else if(js.name().equals("dirt2")){
 				float[] colors = js.asFloatArray();
