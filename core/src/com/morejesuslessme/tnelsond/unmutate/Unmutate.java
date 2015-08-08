@@ -49,7 +49,9 @@ public class Unmutate extends Game {
 		bs_locked = skin.get("locked", TextButtonStyle.class);
 		bgmusic = new TMusic();
 		musicthread = new Thread(bgmusic);
-		musicthread.start();
+		
+		//DISABLED FOR NOW
+		//musicthread.start();
 
 		this.setScreen(new ChapterSelectScreen(this));
 		//this.setScreen(new GameScreen(this));

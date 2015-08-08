@@ -165,6 +165,7 @@ public class Level implements Json.Serializable{
 				do{
 					float[] colors = js2.asFloatArray();
 					special[i] = new Special(new Color(colors[0], colors[1], colors[2], 1), colors[3]);
+					Gdx.app.log(Unmutate.tag, " " + colors[0] + " " + colors[1] + " " + colors[2] + " " + colors[3]);
 					++i;
 				}while((js2 = js2.next) != null);
 			}
@@ -183,7 +184,6 @@ public class Level implements Json.Serializable{
 					do{
 						jsb = jsa.next();
 						chromosomes[ci][i] = new ChromosomePair(jsa.asIntArray(), jsb.asIntArray());
-						//Gdx.app.log(Unmutate.tag, " " + chromosomes[ci][i]);
 						++i;
 					}while((jsa = jsb.next) != null);
 					++ci;

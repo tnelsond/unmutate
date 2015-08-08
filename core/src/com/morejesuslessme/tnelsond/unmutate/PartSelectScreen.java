@@ -36,7 +36,7 @@ public class PartSelectScreen implements Screen {
 		boolean completed = false;
 		boolean prevcompleted = true;
 		for(int part = 0; part <= Level.levels[chapter]; ++part){
-			completed = Level.latestChapter < chapter || Level.latestPart > part;
+			completed = Level.latestChapter > chapter || Level.latestPart > part;
 			final TextButton partb = new TextButton("" + part, prevcompleted ? game.bs : game.bs_locked);
 			if(!prevcompleted){
 				partb.setDisabled(true);

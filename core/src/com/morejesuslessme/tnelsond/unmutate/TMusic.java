@@ -56,40 +56,18 @@ public class TMusic implements Runnable{
 	}
 
 	public float notes[];
-	/*public float notes[] = {
-		C[5], 1,
-		F[4], 3/8f,
-		G[4], 1/8f,
-		A[4], 1/4f,
-		A[4], 1/4f,
-		G[4], 3/8f,
-		F[4], 1/16f,
-		G[4], 3/8f,
-		A[4], 1/16f,
-		F[4], 1/4f,
-		C[4], 1/4f,
-
-		F[4], 3/8f,
-		G[4], 1/8f,
-		A[4], 1/4f,
-		A[4], 1/4f,
-		G[4], 3/8f,
-		F[4], 1/16f,
-		G[4], 3/8f,
-		A[4], 1/16f,
-		F[4], 1/2f,
-	};
-	*/
 
 	public TMusic(){
 		Random ran = new Random();
 		TNote flute = new TNote(samplerate, new Scanner(Gdx.files.internal("songs/00.tly").read()), 0, 1/4f, 1/8f, 1/4f);
 		samples = flute.write();
+		/*
 		for(int i = 0; i < samples.length - samplerate/6; ++i){
 			samples[i + samplerate/12] += samples[i]/4;
 			samples[i + samplerate/7] += samples[i]/8;
 			samples[i + samplerate/6] += samples[i]/10;
 		}
+		*/
 	}
 
 	public void run(){

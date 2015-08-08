@@ -137,8 +137,6 @@ public class TNote{
 		}
 		set(dur, tie ? 0 : defaultdecay);
 		blend = tie;
-		
-		System.out.println(s + " " + dur);
 	}
 
 	public void set(float freq, float dur, float attackrate, float decayrate){
