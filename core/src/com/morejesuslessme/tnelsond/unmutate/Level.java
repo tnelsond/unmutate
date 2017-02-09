@@ -65,7 +65,7 @@ public class Level implements Json.Serializable{
 	public static int newchapter = 0;
 	public static int currentgenome = 0;
 	public static String prefix = "unmutatelevel";
-	public static int[] levels = {3, 0};
+	public static int[] levels = {3, 0, 0};
 	public static Level currentlevel = null;
 
 	public static void initPrefLatest(){
@@ -93,6 +93,8 @@ public class Level implements Json.Serializable{
 				return new Genome00(c);
 			case 1:
 				return new Genome01(c);
+			case 2:
+				return new Genome(c);
 		}
 		return null;
 	}

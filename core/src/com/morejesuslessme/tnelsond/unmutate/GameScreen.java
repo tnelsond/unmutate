@@ -136,7 +136,7 @@ public class GameScreen implements Screen {
 
 		Gdx.graphics.setContinuousRendering(true);
 
-		halo = game.atlas.findRegion("halo");
+		halo = game.atlas.findRegion("eyewhite");
 
 		currentlevel = Level.makeLevel(game, chapter, part);
 

@@ -7,7 +7,7 @@ public class Genome01 extends Genome{
 		LOCUS = new int[]{
 			4,
 			2,
-			3,
+			4,
 			4
 		};
 		MUTATION = 0.00f;
@@ -41,6 +41,8 @@ public class Genome01 extends Genome{
 		c.legLength = phenotype(i, j, false, .3f, .5f, .1f);
 		++j;
 		c.color.g = phenotype(i, j, true, 0.4f, 0.1f, 0.1f);
+		++j;
+		c.bodyType = (byte) phenotype(i, j, false, 2, 1, 0);
 		// Sex Chromosome (4)
 		++i; j = 0;
 		setupSex(i, j, c);

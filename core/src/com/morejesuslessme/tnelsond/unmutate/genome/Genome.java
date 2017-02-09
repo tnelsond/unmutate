@@ -15,7 +15,7 @@ public class Genome {
 	public int[] femaleb;
 	public int[] male;
 
-	public float MUTATION = 0.00f;
+	public float MUTATION = 0.01f;
 	public float CROSSOVER = 0.3f;
 
 	public void initLOCUS(){
@@ -23,7 +23,7 @@ public class Genome {
 			6,
 			3,
 			4,
-			3,
+			4,
 		};
 	}
 
@@ -159,6 +159,8 @@ public class Genome {
 		c.albino = phenotype(i, j, true, Allele.MUT);
 		j = 3;
 		c.width += phenotype(i, j, false, .5f, .2f, .1f);		
+		j = 4;
+		c.accel *= phenotype(i, j, false, 1, 2, 0.5f);
 		
 		// ---- Chromosome 4 (SEX)
 		++i; j = 0;
@@ -173,6 +175,8 @@ public class Genome {
 		// Unisex
 		j = 2;
 		c.hipWidth = phenotypeSex(j, false, .8f, .2f, 1);
+		j = 3;
+		c.bodyType = (byte) phenotypeSex(j, false, 4, 1, 0);
 	}
 
 	public final void setupSex(int i, int j, Creature c){

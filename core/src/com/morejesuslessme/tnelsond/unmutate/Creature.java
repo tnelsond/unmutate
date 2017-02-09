@@ -44,6 +44,7 @@ public class Creature extends Rectangle{
 	public boolean albino = false;
 	public boolean legConcave = false;
 	public boolean legPoint = true;
+	public byte bodyType = 0;
 	
 	public float accel = 1f;
 	public float speed = 1;
@@ -138,7 +139,7 @@ public class Creature extends Rectangle{
 		secondary.setCenter(cx, cy);
 		secondary.y += (sex == Genome.Sex.FEMALE) ? body.h/2 : body.h/2 + body.h/8;
 
-		regions[Creature.BODY] = atlas.findRegion("circlebody");
+		regions[Creature.BODY] = atlas.findRegion(bodyType == 0 ? "bodycircle" : (bodyType == 1 ? "body10" : (bodyType == 2 ? "body8" : "body6")));
 		regions[Creature.EYE] = atlas.findRegion("eye");
 		regions[Creature.EYEWHITE] = atlas.findRegion("eyewhite");
 		regions[Creature.LEG] = atlas.findRegion(legPoint ? "pointfoot" : ((legConcave) ? "bonefoot" : "roundrectfoot"));
